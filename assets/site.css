@@ -41,6 +41,9 @@ a{color:inherit}
 .meta div{background:#fff;padding:14px 20px}
 .meta dt{font-size:13px;font-weight:700;color:var(--accent-ink)}
 .meta dd{font-weight:650;font-size:15.5px}
+.meta dd small{display:block;margin-top:2px;font-size:13.5px;font-weight:500;color:var(--ink2)}
+h1,h2,h3,.lead,dd,figcaption,th{text-wrap:balance}
+p,li,td{text-wrap:pretty}
 .toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .toc a{text-decoration:none;font-size:14.5px;font-weight:700;color:var(--accent-ink);background:#fff;border:1.5px solid var(--accent);border-radius:99px;padding:5px 15px}
 .toc a:hover{background:var(--accent);color:#fff}
