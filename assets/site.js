@@ -18,11 +18,11 @@ const INK={color:C.ink,weak:'#fff'},ACC={color:C.accent,weak:C.accentW},TEAL={co
   addEventListener('scroll',()=>{if(!tick)tick=requestAnimationFrame(mark)},{passive:true});mark();
   /* 화면 묶음: 누르면 다음 장, 가만히 두면 5초마다 넘어간다 */
   document.querySelectorAll('.slides').forEach(f=>{
-    const imgs=[...f.querySelectorAll('.stage img')],cap=f.querySelector('.cap'),dots=f.querySelector('.dots');
+    const imgs=[...f.querySelectorAll('.stage img')],cap=f.querySelector('.cap'),dots=f.querySelector('.dots'),notes=[...(f.parentElement.querySelector('.notes')||f).children].filter(e=>f.parentElement.matches('.showcase'));
     dots.innerHTML=imgs.map(()=>'<i></i>').join('');
     let n=0,timer=0;
     const show=k=>{n=(k+imgs.length)%imgs.length;imgs.forEach((im,i)=>im.classList.toggle('on',i===n));
-      [...dots.children].forEach((d,i)=>d.classList.toggle('on',i===n));cap.textContent=`${n+1} / ${imgs.length} · ${imgs[n].dataset.cap}`};
+      [...dots.children].forEach((d,i)=>d.classList.toggle('on',i===n));notes.forEach((d,i)=>d.classList.toggle('on',i===n));cap.textContent=`${n+1} / ${imgs.length} · ${imgs[n].dataset.cap}`};
     const auto=()=>{clearInterval(timer);if(!matchMedia('(prefers-reduced-motion:reduce)').matches)timer=setInterval(()=>{if(!document.hidden)show(n+1)},5000)};
     f.querySelector('.stage').addEventListener('click',()=>{show(n+1);auto()});
     show(0);auto()});
