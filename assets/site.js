@@ -16,6 +16,16 @@ const INK={color:C.ink,weak:'#fff'},ACC={color:C.accent,weak:C.accentW},TEAL={co
     links.forEach(l=>l.classList.toggle('cur',l.hash==='#'+(c?c.id:'top')));
     subs.forEach(l=>l.classList.toggle('on',!!x&&l.hash==='#'+x.id))};
   addEventListener('scroll',()=>{if(!tick)tick=requestAnimationFrame(mark)},{passive:true});mark();
+  /* 화면 묶음: 누르면 다음 장, 가만히 두면 5초마다 넘어간다 */
+  document.querySelectorAll('.slides').forEach(f=>{
+    const imgs=[...f.querySelectorAll('.stage img')],cap=f.querySelector('.cap'),dots=f.querySelector('.dots');
+    dots.innerHTML=imgs.map(()=>'<i></i>').join('');
+    let n=0,timer=0;
+    const show=k=>{n=(k+imgs.length)%imgs.length;imgs.forEach((im,i)=>im.classList.toggle('on',i===n));
+      [...dots.children].forEach((d,i)=>d.classList.toggle('on',i===n));cap.textContent=`${n+1} / ${imgs.length} · ${imgs[n].dataset.cap}`};
+    const auto=()=>{clearInterval(timer);if(!matchMedia('(prefers-reduced-motion:reduce)').matches)timer=setInterval(()=>{if(!document.hidden)show(n+1)},5000)};
+    f.querySelector('.stage').addEventListener('click',()=>{show(n+1);auto()});
+    show(0);auto()});
   const foot=document.createElement('footer');foot.className='foot';
   foot.innerHTML=`<div class="in"><span>이돈휘 · 서비스 기획</span><a href="mailto:lee_don@naver.com">lee_don@naver.com</a><span>화면의 수치와 이름은 모두 예시 데이터이며, 실제 화면이 아니라 기획 구조를 다시 그린 것입니다.</span></div>`;
   document.body.append(foot);

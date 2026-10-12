@@ -62,7 +62,16 @@ a{color:inherit}
 .photo.shot{margin-top:16px;min-height:0}
 .photo.shot img{height:auto;object-fit:contain}
 .photo.shot .empty{min-height:240px}
-.photo.shot figcaption{padding:12px 20px 14px;font-size:13.5px;color:var(--ink3)}
+.photo.shot figcaption{padding:12px 20px 14px;font-size:13.5px;color:var(--ink2);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.slides .stage{position:relative;display:block;width:100%;aspect-ratio:1096/696;padding:0;border:0;background:#14151F;cursor:pointer;overflow:hidden}
+.slides .stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;transition:opacity .45s}
+.slides .stage img.on{opacity:1}
+.slides .stage:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
+.slides .dots{display:flex;gap:6px}
+.slides .dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.slides .dots i.on{background:var(--accent)}
+.hint{margin-top:10px;font-size:13.5px;color:var(--ink3)}
+@media (prefers-reduced-motion:reduce){.slides .stage img{transition:none}}
 
 /* ---------- 도식 판 ---------- */
 .canvas{margin-top:16px;background:var(--surface);border-radius:24px;overflow-x:auto;box-shadow:var(--shadow)}
