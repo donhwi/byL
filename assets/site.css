@@ -179,6 +179,7 @@ td.c,th.c{text-align:center}
 .sheet dt{color:#BDB7B1;font-weight:600;font-size:13.5px;font-variant-numeric:tabular-nums;padding-top:2px}
 .sheet dd{font-weight:700;color:#fff;font-size:16px}
 .sheet dd small{display:block;font-weight:500;font-size:13.5px;color:#BDB7B1}
+.s{display:inline-block;text-wrap:balance}
 .pcard{display:flex;flex-direction:column;text-decoration:none;background:var(--surface);border-radius:30px;padding:26px 28px 24px;min-width:0;box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s}
 .pcard:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(55,51,48,.12)}
 .pcard .row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}

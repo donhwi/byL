@@ -64,3 +64,12 @@ function flow(id,{lanes,cols,phases=[],nodes,edges}){
     ns+=`<foreignObject x="${x0}" y="${y0}" width="${NW}" height="${NH}"><div xmlns="http://www.w3.org/1999/xhtml" class="nd">${n.t}</div></foreignObject>`});
   document.getElementById(id).innerHTML=s+es+ns+ls+'</svg>';
 }
+
+/* 문장 단위 줄바꿈: 문장이 줄 끝에서 잘리면 문장 전체를 다음 줄로 내린다 */
+document.querySelectorAll('.sec>p:not(.notice),.lead,.card p,.notes li,.list li,.hint').forEach(p=>{
+  if(p.children.length)return;
+  const parts=p.textContent.trim().split(/(?<=[.?!])\s+/);
+  if(parts.length<2)return;
+  p.textContent='';
+  parts.forEach((t,i)=>{const s=document.createElement('span');s.className='s';s.textContent=t;p.append(s,i<parts.length-1?' ':'')});
+});
