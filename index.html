@@ -129,7 +129,6 @@
       <div><b>계약 만료</b></div><i>→</i>
       <div><b>정상</b></div>
     </div>
-    <a class="doclink" href="docs/elixir/01-states.md" data-doc="docs/elixir/01-states.md">01 상태값 정의 전문</a>
   </div>
 
   <div class="fig">
@@ -147,7 +146,6 @@
         <tr><td>SUPERALL로 이관</td><td class="c no">—</td><td class="c yes">O</td><td class="c no">—</td></tr>
       </tbody></table></div>
     <p class="note">이용자의 혈당 수치는 ADMIN에 표시하지 않습니다.</p>
-    <a class="doclink" href="docs/elixir/02-permissions.md" data-doc="docs/elixir/02-permissions.md">02 권한 매트릭스 전문</a>
   </div>
 
   <div class="fig">
@@ -163,7 +161,6 @@
         <tr><td>계약 종료일 경과</td><td>측정 자동 차단</td><td>30일 전부터 "종료 임박" 표시</td></tr>
         <tr><td>측정 실패</td><td>요금 미부과</td><td>실패 원인 코드와 펌웨어 버전을 기록</td></tr>
       </tbody></table></div>
-    <a class="doclink" href="docs/elixir/03-exceptions.md" data-doc="docs/elixir/03-exceptions.md">03 입력 규칙 · 예외 처리 전문</a>
   </div>
 </section>
 
@@ -172,7 +169,6 @@
   <p>VISOR가 신고하면 SUPERVISOR가 1차 접수하고, 지역에서 해결할 수 없는 건은 SUPERALL로 이관합니다.</p>
   <div class="canvas"><div id="fault-flow"></div>
     <div class="legend"><span><i style="--c:var(--ink)"></i>진행 순서</span><span><i style="--c:var(--accent)"></i>신고 · 이관</span><span><i class="dash" style="--c:var(--teal)"></i>현장에 전달되는 안내</span></div></div>
-  <a class="doclink" href="docs/elixir/04-fault-flow.md" data-doc="docs/elixir/04-fault-flow.md">04 고장 신고 → 조치 플로우 전문</a>
 </section>
 </article>
 
@@ -274,7 +270,7 @@
 <!-- ====================== 일하는 방식 ====================== -->
 <article class="chap" id="work" data-nav="일하는 방식">
 <header class="page-h">
-  <div class="eyebrow">문서 · 절차 · 도구</div>
+  <div class="eyebrow">문서 · 절차</div>
   <h2 class="ch-t">일하는 방식</h2>
   <p class="lead">정책은 문서로 분리해 변경 이력을 남기고, 작업 완료는 컨펌 절차로 확인합니다.</p>
 </header>
@@ -283,13 +279,13 @@
   <h2>정책 문서와 변경 이력 관리</h2>
   <p>상태값, 권한, 예외 처리는 화면과 분리된 Markdown 문서로 작성하고, 변경 내용은 Git 커밋으로 관리합니다. 엘릭서에서는 앱 버전별 사양을 Git으로 관리했습니다.</p>
   <div class="twrap"><table>
-    <thead><tr><th>문서</th><th>다루는 내용</th><th></th></tr></thead>
+    <thead><tr><th>문서</th><th>다루는 내용</th></tr></thead>
     <tbody>
-      <tr><td>01 상태값 정의</td><td>상태값의 종류와 정의, 표시 우선순위</td><td><a class="doclink" style="margin:0" href="docs/elixir/01-states.md" data-doc="docs/elixir/01-states.md">열기</a></td></tr>
-      <tr><td>02 권한 매트릭스</td><td>계정 단계별 조회 범위와 기능 권한</td><td><a class="doclink" style="margin:0" href="docs/elixir/02-permissions.md" data-doc="docs/elixir/02-permissions.md">열기</a></td></tr>
-      <tr><td>03 입력 규칙 · 예외 처리</td><td>입력 조건, 제한 상황별 처리와 안내</td><td><a class="doclink" style="margin:0" href="docs/elixir/03-exceptions.md" data-doc="docs/elixir/03-exceptions.md">열기</a></td></tr>
-      <tr><td>04 고장 신고 → 조치</td><td>단계별 담당자와 처리 절차</td><td><a class="doclink" style="margin:0" href="docs/elixir/04-fault-flow.md" data-doc="docs/elixir/04-fault-flow.md">열기</a></td></tr>
-      <tr><td>변경 이력</td><td>변경 일자, 내용, 사유</td><td><a class="doclink" style="margin:0" href="docs/CHANGELOG.md" data-doc="docs/CHANGELOG.md">열기</a></td></tr>
+      <tr><td>01 상태값 정의</td><td>상태값의 종류와 정의, 표시 우선순위</td></tr>
+      <tr><td>02 권한 매트릭스</td><td>계정 단계별 조회 범위와 기능 권한</td></tr>
+      <tr><td>03 입력 규칙 · 예외 처리</td><td>입력 조건, 제한 상황별 처리와 안내</td></tr>
+      <tr><td>04 고장 신고 → 조치</td><td>단계별 담당자와 처리 절차</td></tr>
+      <tr><td>변경 이력</td><td>변경 일자, 내용, 사유</td></tr>
     </tbody></table></div>
 </section>
 
@@ -302,19 +298,6 @@
     <div class="card"><h3>완료 경로 단일화</h3><p>"완료"는 컨펌 승인으로만 전환. 반려 시 사유 작성 필수</p></div>
     <div class="card"><h3>상태 전환 자동화</h3><p>PR 생성 시 컨펌 대기로 전환, 담당자 알림, PR 링크 댓글 등록</p></div>
     <div class="card"><h3>단계적 적용</h3><p>1개 스프린트에 먼저 적용하고 회고 후 4개 파트로 확대</p></div>
-  </div>
-</section>
-
-<section class="sec" id="work-ai">
-  <h2>AI Agent 활용</h2>
-  <p>제작 대상과 사실 여부는 직접 판단하고, 제작 속도를 AI Agent로 높입니다. 아래는 이 포트폴리오의 제작 과정입니다.</p>
-  <div class="card" style="margin-top:16px">
-    <ol class="steps">
-      <li><b>사실 정리</b><span>프로젝트별 기간, 역할, 결과를 지식베이스에서 확인</span></li>
-      <li><b>구조 결정</b><span>전달할 내용과 도식 형태를 직접 결정</span></li>
-      <li><b>제작</b><span>도식과 ADMIN 시안을 Claude Code로 제작</span></li>
-      <li><b>검토</b><span>출처에 없는 내용과 추정은 삭제하거나 수정</span></li>
-    </ol>
   </div>
 </section>
 </article>
@@ -363,7 +346,7 @@
 <section class="sec" id="tools">
   <h2>그 외 AI 도구</h2>
   <div class="grid g2">
-    <div class="card"><h3>LLM 지식베이스</h3><p>경력과 프로젝트 기록을 Obsidian 문서로 축적하고, Claude Code와 MCP로 연결해 조회합니다. 이 포트폴리오의 사실 확인에 사용했습니다.</p><ul class="pills"><li>Claude Code</li><li>MCP</li><li>Obsidian</li></ul></div>
+    <div class="card"><h3>LLM 지식베이스</h3><p>경력과 프로젝트 기록을 Obsidian 문서로 축적하고, Claude Code와 MCP로 연결해 조회합니다.</p><ul class="pills"><li>Claude Code</li><li>MCP</li><li>Obsidian</li></ul></div>
     <div class="card"><h3>화면 캡처 텍스트 추출 도구</h3><p>화면을 캡처해 텍스트를 추출하고, 추출한 값으로 공개 정보를 조회해 결과를 표시합니다.</p><ul class="pills"><li>C#</li><li>.NET</li></ul></div>
   </div>
 </section>

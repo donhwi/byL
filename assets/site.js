@@ -29,11 +29,6 @@ const INK={color:C.ink,weak:'#fff'},ACC={color:C.accent,weak:C.accentW},TEAL={co
   const foot=document.createElement('footer');foot.className='foot';
   foot.innerHTML=`<div class="in"><span>이돈휘 · 서비스 기획</span><a href="mailto:lee_don@naver.com">lee_don@naver.com</a><span>화면의 수치와 이름은 모두 예시 데이터이며, 실제 화면이 아니라 기획 구조를 다시 그린 것입니다.</span></div>`;
   document.body.append(foot);
-  /* GitHub Pages에서는 Markdown 문서를 저장소 화면으로 연다 (변경 이력을 함께 볼 수 있다) */
-  if(location.hostname.endsWith('.github.io')){
-    const owner=location.hostname.split('.')[0],repo=location.pathname.split('/')[1];
-    document.querySelectorAll('a[data-doc]').forEach(a=>{a.href=`https://github.com/${owner}/${repo}/blob/main/${a.dataset.doc}`;a.target='_blank';a.rel='noopener'});
-  }
 })();
 
 let uid=0;
