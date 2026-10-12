@@ -1,10 +1,10 @@
 /* 공통: 머리·꼬리, 정책 문서 링크, 플로우 도식 그리기 */
-const C={ink:'#141922',ink2:'#566070',ink3:'#8A93A2',line:'#E3E6EC',line2:'#EEF0F4',accent:'#2F3FA8',accentW:'#EEF0FB',teal:'#0E7C86',tealW:'#E4F4F5',warm:'#B86E00',warmW:'#FDF3E1'};
+const C={ink:'#373330',ink2:'#615E5B',ink3:'#857F7A',line:'#E7E4E1',line2:'#F1EFED',accent:'#F08300',accentW:'#FFF3E4',teal:'#3F6B7D',tealW:'#E9F1F4',warm:'#8A5A33',warmW:'#F6EDE4'};
 const INK={color:C.ink,weak:'#fff'},ACC={color:C.accent,weak:C.accentW},TEAL={color:C.teal,weak:C.tealW},WARM={color:C.warm,weak:C.warmW};
 
 (function(){
   const root=document.documentElement.dataset.root||'.',here=document.documentElement.dataset.page;
-  const NAV=[['home','소개',''],['elixir','엘릭서','elixir/'],['kepco','한전 VR 관제','kepco/'],['hello','헬로플래닛','hello-planet/'],['work','일하는 방식','work/']];
+  const NAV=[['home','소개',''],['elixir','엘릭서','elixir/'],['kepco','한전 VR 관제','kepco/'],['hello','헬로플래닛','hello-planet/'],['work','일하는 방식','work/'],['ai','AI 프로젝트','ai/']];
   const top=document.createElement('header');top.className='top';
   top.innerHTML=`<div class="in"><a class="me" href="${root}/">이돈휘<small>서비스 기획</small></a><nav>${NAV.map(([k,l,h])=>`<a href="${root}/${h}" ${k===here?'aria-current="page"':''}>${l}</a>`).join('')}</nav></div>`;
   document.body.prepend(top);
@@ -31,9 +31,9 @@ function flow(id,{lanes,cols,phases=[],nodes,edges}){
   phases.forEach(ph=>{const x=LW+ph.from*CW+6,w=(ph.to-ph.from+1)*CW-12;
     s+=`<rect x="${x}" y="10" width="${w}" height="22" rx="11" fill="${C.line2}"/><text x="${x+w/2}" y="25" text-anchor="middle" font-size="11.5" font-weight="650" fill="${C.ink2}">${ph.name}</text>`});
   cols.forEach((c,i)=>{const x=LW+i*CW+CW/2,y=TOP-16;
-    s+=`<circle cx="${x-NW/2+9}" cy="${y-4}" r="9" fill="${C.ink}"/><text x="${x-NW/2+9}" y="${y}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">${i+1}</text><text x="${x-NW/2+24}" y="${y}" font-size="12.5" font-weight="700" fill="${C.ink}">${c}</text>`});
+    s+=`<circle cx="${x-NW/2+9}" cy="${y-4}" r="9" fill="#FF9520"/><text x="${x-NW/2+9}" y="${y}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">${i+1}</text><text x="${x-NW/2+24}" y="${y}" font-size="12.5" font-weight="700" fill="${C.ink}">${c}</text>`});
   lanes.forEach((l,i)=>{const y=TOP+i*LH;
-    s+=`<rect x="8" y="${y+4}" width="${W-16}" height="${LH-8}" rx="10" fill="${i%2?'#fff':'#FAFBFC'}" stroke="${C.line2}"/><rect x="8" y="${y+4}" width="4" height="${LH-8}" rx="2" fill="${l.color}"/>
+    s+=`<rect x="8" y="${y+4}" width="${W-16}" height="${LH-8}" rx="10" fill="${i%2?'#fff':'#FAF9F8'}" stroke="${C.line2}"/><rect x="8" y="${y+4}" width="4" height="${LH-8}" rx="2" fill="${l.color}"/>
      <text x="24" y="${y+LH/2-(l.sub?3:-4)}" font-size="13.5" font-weight="700" fill="${C.ink}">${l.name}</text>${l.sub?`<text x="24" y="${y+LH/2+14}" font-size="11" fill="${C.ink3}">${l.sub}</text>`:''}`});
   let es='',ls='';
   edges.forEach(([a,b,k='flow',label,route])=>{const A=P(nodes[a]),B=P(nodes[b]),[col,dash]=EK[k];let d,lx,ly,anchor='start';
