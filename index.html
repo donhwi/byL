@@ -306,12 +306,12 @@
 <article class="chap" id="ai" data-nav="AI 프로젝트">
 <header class="page-h">
   <div class="eyebrow">개인 프로젝트 · AI 역량</div>
-  <h2 class="ch-t">AI 자동매매 검증 시스템</h2>
-  <p class="lead">AI가 차트와 뉴스를 분석해 내린 매매 판단을 모의투자 환경에서 검증합니다. 검증 완료 전에는 실계좌에 적용하지 않습니다.</p>
+  <h2 class="ch-t">투자봇: Claude 연동 주식 거래 봇</h2>
+  <p class="lead">한국투자증권 API로 국내 주식을 거래하는 웹 봇입니다. Claude가 뉴스와 공시를 조사하고, 봇이 제안한 주문은 계좌 주인이 승인해야 실행됩니다.</p>
   <dl class="meta">
     <div><dt>기간</dt><dd>2025 ~ 진행 중</dd></div>
-    <div><dt>구분</dt><dd>개인 프로젝트<small>기획 및 개발 단독 수행</small></dd></div>
-    <div><dt>사용 기술</dt><dd>Python · Claude<small>한국투자증권 모의투자 API</small></dd></div>
+    <div><dt>구분</dt><dd>개인 프로젝트 · 2인 사용<small>계좌 · 승인은 각자, 전략 · 검증 결과는 공유</small></dd></div>
+    <div><dt>사용 기술</dt><dd>Node · React · Claude<small>한국투자증권 Open API (모의투자 우선)</small></dd></div>
   </dl>
 </header>
 
@@ -339,9 +339,9 @@
 
 <section class="sec" id="flow">
   <h2>운영 플로우</h2>
-  <p>15분 단위로 차트와 뉴스를 분석하고, 매매 조건에 해당할 때만 모의투자 계좌로 주문합니다.</p>
+  <p>서버가 추천 후보를 정하면 Claude가 뉴스와 공시를 조사해 점수에 반영합니다. 주문은 자동으로 나가지 않고, 계좌 주인이 승인해야 실행됩니다.</p>
   <div class="canvas"><div id="bot-flow"></div>
-    <div class="legend"><span><i style="--c:var(--ink)"></i>진행 순서</span><span><i style="--c:var(--accent)"></i>분석 요청 · 주문</span><span><i class="dash" style="--c:var(--teal)"></i>주문 결과</span></div></div>
+    <div class="legend"><span><i style="--c:var(--ink)"></i>진행 순서</span><span><i style="--c:var(--accent)"></i>요청 · 주문</span><span><i class="dash" style="--c:var(--teal)"></i>결과 전달</span></div></div>
 </section>
 
 <section class="sec" id="tools">
@@ -486,19 +486,19 @@ flow('jira',{
     ['p4','j5','cmd','승인'],['p4','p5','flow','반려'],['p5','w2','flow','반려 통지 → 재작업 → 재컨펌','below']]
 });
 
-/* ---------- AI 자동매매 검증 ---------- */
+/* ---------- 투자봇 ---------- */
 flow('bot-flow',{
-  lanes:[{name:'자동매매 시스템',sub:'Python',...INK},{name:'Claude',sub:'분석 · 판단',...ACC},{name:'증권사 API',sub:'한국투자증권 모의투자',...TEAL}],
-  cols:['주기 시작','수집','분석','판단','주문','기록'],
+  lanes:[{name:'투자봇 서버',sub:'Node · React',...INK},{name:'Claude',sub:'PC 예약 작업',...ACC},{name:'계좌 주인',sub:'본인 · 지인',...WARM},{name:'증권사 API',sub:'한국투자증권',...TEAL}],
+  cols:['후보 선정','조사','추천','제안','승인','주문 · 기록'],
   nodes:{
-    t1:{c:0,l:0,t:'15분 주기<br>실행'},
-    t2:{c:1,l:0,t:'차트 · 뉴스<br>수집'},
-    c3:{c:2,l:1,t:'차트 · 뉴스 분석'},
-    c4:{c:3,l:1,t:'매매 조건에<br>해당하는가',kind:'dec'},
-    t5:{c:4,l:0,t:'관망<br>주문 없음'},a5:{c:4,l:2,t:'모의투자 계좌<br>매수 · 매도 주문'},
-    t6:{c:5,l:0,t:'판단 · 결과 기록'}},
-  edges:[['t1','t2'],['t2','c3','cmd'],['c3','c4'],['c4','t5','flow','아니오'],['c4','a5','cmd','예'],
-    ['t5','t6'],['a5','t6','data'],['t6','t1','flow','다음 주기에 반복','above']]
+    s1:{c:0,l:0,t:'추천 후보 선정<br>상위 15종목 기록'},
+    c2:{c:1,l:1,t:'뉴스 · 공시 조사<br>결과 파일 저장'},
+    s3:{c:2,l:0,t:'뉴스 점수 반영<br>추천 표시'},
+    s4:{c:3,l:0,t:'전략 조건 도달 시<br>주문 제안'},
+    u5:{c:4,l:2,t:'승인하는가',kind:'dec'},
+    a6:{c:5,l:3,t:'계좌 주문'},
+    s6:{c:5,l:0,t:'결과 기록'}},
+  edges:[['s1','c2','cmd'],['c2','s3','data'],['s3','s4'],['s4','u5','cmd'],['u5','a6','cmd','예'],['a6','s6','data']]
 });
 </script>
 </body>
