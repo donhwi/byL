@@ -62,6 +62,7 @@ a{color:inherit}
 .photo.shot{margin-top:16px;min-height:0}
 .photo.shot img{height:auto;object-fit:contain}
 .photo.shot .empty{min-height:240px}
+.photo.shot figcaption{padding:12px 20px 14px;font-size:13.5px;color:var(--ink3)}
 
 /* ---------- 도식 판 ---------- */
 .canvas{margin-top:16px;background:var(--surface);border-radius:24px;overflow-x:auto;box-shadow:var(--shadow)}
