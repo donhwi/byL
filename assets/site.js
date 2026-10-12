@@ -1,0 +1,53 @@
+/* 공통: 머리·꼬리, 정책 문서 링크, 플로우 도식 그리기 */
+const C={ink:'#141922',ink2:'#566070',ink3:'#8A93A2',line:'#E3E6EC',line2:'#EEF0F4',accent:'#2F3FA8',accentW:'#EEF0FB',teal:'#0E7C86',tealW:'#E4F4F5',warm:'#B86E00',warmW:'#FDF3E1'};
+const INK={color:C.ink,weak:'#fff'},ACC={color:C.accent,weak:C.accentW},TEAL={color:C.teal,weak:C.tealW},WARM={color:C.warm,weak:C.warmW};
+
+(function(){
+  const root=document.documentElement.dataset.root||'.',here=document.documentElement.dataset.page;
+  const NAV=[['home','소개',''],['elixir','엘릭서','elixir/'],['kepco','한전 VR 관제','kepco/'],['hello','헬로플래닛','hello-planet/'],['work','일하는 방식','work/']];
+  const top=document.createElement('header');top.className='top';
+  top.innerHTML=`<div class="in"><a class="me" href="${root}/">이돈휘<small>서비스 기획</small></a><nav>${NAV.map(([k,l,h])=>`<a href="${root}/${h}" ${k===here?'aria-current="page"':''}>${l}</a>`).join('')}</nav></div>`;
+  document.body.prepend(top);
+  const foot=document.createElement('footer');foot.className='foot';
+  foot.innerHTML=`<div class="in"><span>이돈휘 · 서비스 기획</span><a href="mailto:lee_don@naver.com">lee_don@naver.com</a><span>화면의 수치와 이름은 모두 예시 데이터이며, 실제 화면이 아니라 기획 구조를 다시 그린 것입니다.</span></div>`;
+  document.body.append(foot);
+  /* GitHub Pages에서는 Markdown 문서를 저장소 화면으로 연다 (변경 이력을 함께 볼 수 있다) */
+  if(location.hostname.endsWith('.github.io')){
+    const owner=location.hostname.split('.')[0],repo=location.pathname.split('/')[1];
+    document.querySelectorAll('a[data-doc]').forEach(a=>{a.href=`https://github.com/${owner}/${repo}/blob/main/${a.dataset.doc}`;a.target='_blank';a.rel='noopener'});
+  }
+})();
+
+let uid=0;
+function markers(p){return ['ink','accent','teal'].map(k=>`<marker id="${p}${k}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="${C[k]}"/></marker>`).join('')}
+const EK={flow:['ink',''],cmd:['accent',''],data:['teal','5 4']};
+
+/* 레인(가로줄) × 단계(세로줄) 격자에 노드를 놓고 선을 자동으로 잇는다 */
+function flow(id,{lanes,cols,phases=[],nodes,edges}){
+  const LW=124,CW=158,NW=134,NH=58,LH=108,TOP=phases.length?70:44,p='m'+(uid++);
+  const W=LW+cols.length*CW+14,H=TOP+lanes.length*LH+10;
+  const P=n=>({x:LW+n.c*CW+CW/2,y:TOP+n.l*LH+LH/2});
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" style="max-width:${W}px;min-width:${Math.min(W,920)}px"><defs>${markers(p)}</defs>`;
+  phases.forEach(ph=>{const x=LW+ph.from*CW+6,w=(ph.to-ph.from+1)*CW-12;
+    s+=`<rect x="${x}" y="10" width="${w}" height="22" rx="11" fill="${C.line2}"/><text x="${x+w/2}" y="25" text-anchor="middle" font-size="11.5" font-weight="650" fill="${C.ink2}">${ph.name}</text>`});
+  cols.forEach((c,i)=>{const x=LW+i*CW+CW/2,y=TOP-16;
+    s+=`<circle cx="${x-NW/2+9}" cy="${y-4}" r="9" fill="${C.ink}"/><text x="${x-NW/2+9}" y="${y}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">${i+1}</text><text x="${x-NW/2+24}" y="${y}" font-size="12.5" font-weight="700" fill="${C.ink}">${c}</text>`});
+  lanes.forEach((l,i)=>{const y=TOP+i*LH;
+    s+=`<rect x="8" y="${y+4}" width="${W-16}" height="${LH-8}" rx="10" fill="${i%2?'#fff':'#FAFBFC'}" stroke="${C.line2}"/><rect x="8" y="${y+4}" width="4" height="${LH-8}" rx="2" fill="${l.color}"/>
+     <text x="24" y="${y+LH/2-(l.sub?3:-4)}" font-size="13.5" font-weight="700" fill="${C.ink}">${l.name}</text>${l.sub?`<text x="24" y="${y+LH/2+14}" font-size="11" fill="${C.ink3}">${l.sub}</text>`:''}`});
+  let es='',ls='';
+  edges.forEach(([a,b,k='flow',label,route])=>{const A=P(nodes[a]),B=P(nodes[b]),[col,dash]=EK[k];let d,lx,ly,anchor='start';
+    if(route==='above'){const y0=TOP+nodes[a].l*LH+13;d=`M${A.x},${A.y-NH/2} V${y0} H${B.x} V${B.y-NH/2-2}`;lx=(A.x+B.x)/2;ly=y0+4;anchor='middle'}
+    else if(route==='below'){const yb=TOP+lanes.length*LH-13,xl=B.x-NW/2-12;d=`M${A.x},${A.y+NH/2} V${yb} H${xl} V${B.y} H${B.x-NW/2-2}`;lx=(A.x+xl)/2;ly=yb+4;anchor='middle'}
+    else if(nodes[a].c===nodes[b].c){const dir=Math.sign(B.y-A.y);d=`M${A.x},${A.y+dir*NH/2} V${B.y-dir*(NH/2+2)}`;lx=A.x+8;ly=(A.y+B.y)/2+4}
+    else if(nodes[a].l===nodes[b].l){d=`M${A.x+NW/2},${A.y} H${B.x-NW/2-2}`;lx=(A.x+B.x)/2;ly=A.y-7;anchor='middle'}
+    else{const xm=B.x-NW/2-12;d=`M${A.x+NW/2},${A.y} H${xm} V${B.y} H${B.x-NW/2-2}`;lx=xm+7;ly=(A.y+B.y)/2+4}
+    es+=`<path d="${d}" fill="none" stroke="${C[col]}" stroke-width="1.7" stroke-linejoin="round" ${dash?`stroke-dasharray="${dash}"`:''} marker-end="url(#${p}${col})"/>`;
+    if(label)ls+=`<text x="${lx}" y="${ly}" text-anchor="${anchor}" font-size="11" font-weight="600" fill="${C[col]}" stroke="#fff" stroke-width="4" paint-order="stroke">${label}</text>`});
+  let ns='';
+  Object.values(nodes).forEach(n=>{const {x,y}=P(n),l=lanes[n.l],x0=x-NW/2,y0=y-NH/2;
+    ns+=n.kind==='dec'?`<polygon points="${x0},${y} ${x0+16},${y0} ${x0+NW-16},${y0} ${x0+NW},${y} ${x0+NW-16},${y0+NH} ${x0+16},${y0+NH}" fill="#fff" stroke="${C.ink}" stroke-width="1.5"/>`
+      :`<rect x="${x0}" y="${y0}" width="${NW}" height="${NH}" rx="9" fill="${l.weak}" stroke="${l.color}" stroke-width="1.5"/>`;
+    ns+=`<foreignObject x="${x0}" y="${y0}" width="${NW}" height="${NH}"><div xmlns="http://www.w3.org/1999/xhtml" class="nd">${n.t}</div></foreignObject>`});
+  document.getElementById(id).innerHTML=s+es+ns+ls+'</svg>';
+}

@@ -1,0 +1,766 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ELIXIR 운영 관리 — 구조 재현 시안</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F5F6F8; --surface:#fff; --line:#E3E6EC; --line2:#EEF0F4;
+  --ink:#141922; --ink2:#566070; --ink3:#8A93A2;
+  --accent:#2F3FA8; --accent-weak:#EEF0FB; --accent-ink:#1F2B7A;
+  --ok:#14915F; --ok-weak:#E6F5EE; --bad:#D4353B; --bad-weak:#FCECEC;
+  --warn:#B86E00; --warn-weak:#FDF3E1; --off:#7C8594; --off-weak:#EEF0F3;
+  --r:10px; --sans:"Pretendard Variable",Pretendard,-apple-system,"Malgun Gothic",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5;
+  word-break:keep-all;overflow-wrap:anywhere;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3,p{margin:0}
+
+/* ---------- 틀 ---------- */
+.demo{display:flex;align-items:center;gap:12px;padding:8px 20px;background:#1B2030;color:#C9CFDB;font-size:12.5px}
+.demo b{color:#fff;font-weight:600}
+.demo .seg{background:#2A3146}
+.demo .seg button{color:#B5BCCB}
+.demo .seg button[aria-pressed=true]{background:#fff;color:#1B2030}
+.demo .note{margin-left:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app{display:grid;grid-template-columns:216px minmax(0,1fr);min-height:calc(100vh - 41px)}
+.side{background:var(--surface);border-right:1px solid var(--line);padding:18px 12px;display:flex;flex-direction:column;gap:4px}
+.brand{display:flex;align-items:baseline;gap:8px;padding:2px 10px 16px}
+.brand strong{font-size:17px;letter-spacing:.14em;font-weight:700}
+.brand span{font-size:11.5px;color:var(--ink3)}
+.nav button{display:flex;width:100%;align-items:center;gap:10px;padding:9px 10px;border:0;background:none;border-radius:8px;
+  color:var(--ink2);font-weight:500;text-align:left}
+.nav button:hover{background:var(--bg)}
+.nav button[aria-current=page]{background:var(--accent-weak);color:var(--accent-ink);font-weight:650}
+.nav .cnt{margin-left:auto;font-size:11.5px;font-weight:650;background:var(--bad);color:#fff;border-radius:99px;padding:0 7px;line-height:18px}
+.who{margin-top:auto;border-top:1px solid var(--line2);padding:14px 10px 2px}
+.who .tier{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--accent)}
+.who .nm{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who .sc{font-size:12px;color:var(--ink3)}
+main{padding:22px 26px 40px;min-width:0}
+.head{display:flex;align-items:flex-end;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.head h1{font-size:21px;font-weight:700;letter-spacing:-.01em}
+.head p{color:var(--ink2);font-size:13px;margin-top:2px}
+.head .sp{margin-left:auto;display:flex;gap:8px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.card>h2,.sec-h{font-size:14px;font-weight:650;padding:14px 16px 0;display:flex;align-items:center;gap:6px}
+
+/* ---------- 공통 부품 ---------- */
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 13px;font-weight:600;font-size:13px;white-space:nowrap}
+.btn:hover{border-color:#C9CFDA}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.pri:hover{background:var(--accent-ink)}
+.btn.danger{color:var(--bad);border-color:#F0C4C6}
+.btn.sm{padding:4px 10px;font-size:12.5px}
+.seg{display:inline-flex;background:var(--bg);border-radius:8px;padding:3px;gap:2px}
+.seg button{border:0;background:none;border-radius:6px;padding:4px 10px;font-size:12.5px;font-weight:550;color:var(--ink2);white-space:nowrap}
+.seg button[aria-pressed=true]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(20,25,34,.12)}
+.q{display:inline-grid;place-items:center;width:15px;height:15px;border-radius:50%;border:1px solid #C3C9D4;background:var(--surface);
+  color:var(--ink3);font-size:10px;font-weight:700;line-height:1;padding:0;cursor:help;flex:none;vertical-align:middle}
+.q:hover{border-color:var(--accent);color:var(--accent)}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.b-ok{background:var(--ok-weak);color:var(--ok)} .b-bad{background:var(--bad-weak);color:var(--bad)}
+.b-warn{background:var(--warn-weak);color:var(--warn)} .b-off{background:var(--off-weak);color:var(--off)}
+.mono{font-family:var(--mono);font-size:12.5px;letter-spacing:-.01em;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.ell{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.clamp2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.muted{color:var(--ink3)} .sub{font-size:12px;color:var(--ink3)}
+#tip{position:fixed;z-index:99;max-width:280px;background:#1B2030;color:#fff;font-size:12.5px;line-height:1.5;padding:8px 10px;border-radius:8px;
+  pointer-events:none;opacity:0;transition:opacity .12s;box-shadow:0 6px 20px rgba(20,25,34,.2)}
+#tip.on{opacity:1}
+#toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:#1B2030;color:#fff;padding:10px 16px;border-radius:10px;
+  font-size:13px;opacity:0;transition:.2s;z-index:98;max-width:min(520px,90vw)}
+#toast.on{opacity:1;transform:translateX(-50%)}
+
+/* ---------- 요약 수치 ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:12px}
+.kpi{padding:13px 16px}
+.kpi .l{font-size:12.5px;color:var(--ink2);display:flex;align-items:center;gap:5px}
+.kpi .v{font-size:24px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi .v small{font-size:13px;font-weight:550;color:var(--ink2);margin-left:3px}
+.kpi.alert .v{color:var(--bad)}
+
+/* ---------- 지도 ---------- */
+.mapcard{position:relative;overflow:hidden}
+.maptop{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line2);flex-wrap:wrap}
+.crumb{display:flex;align-items:center;gap:4px;font-size:13px;min-width:0}
+.crumb button{border:0;background:none;padding:2px 4px;border-radius:5px;color:var(--ink2);font-weight:550}
+.crumb button:hover{background:var(--bg);color:var(--ink)}
+.crumb button:last-child{color:var(--ink);font-weight:650}
+.crumb i{color:var(--ink3);font-style:normal}
+.legend{margin-left:auto;display:flex;gap:12px;font-size:12px;color:var(--ink2)}
+.legend span{display:flex;align-items:center;gap:5px}
+.legend span::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+#map{display:block;width:100%;height:auto;background:#FBFCFD;cursor:grab;touch-action:none}
+#map:active{cursor:grabbing}
+#land path{fill:#E9ECF1;stroke:#fff;stroke-width:.6;vector-effect:non-scaling-stroke}
+.bub{cursor:pointer}
+.bub text{font-family:var(--sans);text-anchor:middle;pointer-events:none}
+.bub .n{font-weight:700;fill:var(--ink);font-variant-numeric:tabular-nums}
+.bub .lb{font-size:14px;font-weight:600;fill:var(--ink2);paint-order:stroke;stroke:#FBFCFD;stroke-width:3px}
+.bub:hover .core{fill:var(--accent-weak)}
+.zoomctl{position:absolute;left:14px;bottom:14px;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.zoomctl button{border:0;background:none;width:32px;height:30px;font-size:16px;color:var(--ink2)}
+.zoomctl button+button{border-top:1px solid var(--line2)}
+.zoomctl button:hover{background:var(--bg)}
+.maphint{position:absolute;left:58px;bottom:18px;font-size:12px;color:var(--ink3)}
+
+/* 순위 패널 */
+.rank{position:absolute;right:14px;bottom:14px;width:316px;max-width:calc(100% - 28px);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:0 8px 28px rgba(20,25,34,.10)}
+.rank h3{font-size:13px;font-weight:650;padding:11px 12px 8px;display:flex;align-items:center;gap:6px}
+.rank .seg{margin:0 10px;display:flex;flex-wrap:wrap}
+.rank .seg button{flex:1 0 auto;padding:4px 7px;font-size:12px}
+.rank .range{display:flex;gap:6px;align-items:center;padding:8px 12px 0;font-size:12px;color:var(--ink2)}
+.rank .range input{border:1px solid var(--line);border-radius:6px;padding:3px 6px;font-size:12px;min-width:0;flex:1}
+.rank ol{list-style:none;margin:6px 0 0;padding:0 4px 6px;max-height:262px;overflow:auto}
+.rank li button{display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:8px;align-items:center;width:100%;border:0;background:none;
+  padding:5px 8px;border-radius:7px;text-align:left}
+.rank li button:hover,.rank li button:focus-visible{background:var(--accent-weak)}
+.rank .rk{font-size:12px;font-weight:700;color:var(--ink3);text-align:center;font-variant-numeric:tabular-nums}
+.rank li:nth-child(-n+3) .rk{color:var(--accent)}
+.rank .nm{font-weight:600;font-size:13px}
+.rank .ct{font-weight:650;font-variant-numeric:tabular-nums;font-size:13px}
+.rank .ct small{font-weight:500;color:var(--ink3);margin-left:1px}
+.rank .empty{padding:18px 12px;color:var(--ink3);font-size:12.5px;text-align:center}
+#hov{position:absolute;z-index:5;width:250px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px;
+  box-shadow:0 8px 28px rgba(20,25,34,.14);display:none;pointer-events:none}
+#hov .t{font-weight:650;margin-bottom:2px}
+#hov dl{display:grid;grid-template-columns:64px minmax(0,1fr);gap:4px 8px;margin:8px 0 0;font-size:12.5px}
+#hov dt{color:var(--ink3)} #hov dd{margin:0;text-align:right}
+
+/* ---------- 표 ---------- */
+.tools{display:flex;gap:8px;align-items:center;padding:12px 14px;flex-wrap:wrap}
+.tools input[type=search],.tools select{border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--surface);font-size:13px}
+.tools input[type=search]{width:220px}
+.tools .res{margin-left:auto;font-size:12.5px;color:var(--ink2)}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--accent-weak);color:var(--accent-ink);border-radius:99px;padding:3px 4px 3px 11px;font-size:12.5px;font-weight:600;max-width:260px}
+.chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip button{border:0;background:none;color:inherit;font-size:14px;line-height:1;padding:2px 6px;border-radius:99px}
+.twrap{overflow-x:auto;border-top:1px solid var(--line2)}
+table{border-collapse:collapse;width:100%;table-layout:fixed;min-width:900px}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line2);vertical-align:middle;overflow:hidden}
+th{font-size:12px;font-weight:600;color:var(--ink2);background:#FAFBFC;white-space:nowrap;position:sticky;top:0}
+th .q{margin-left:4px}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:#FAFBFD}
+tbody tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right}
+.notrow tbody tr{cursor:default}
+.empty-t{padding:36px 16px;text-align:center;color:var(--ink3)}
+
+/* ---------- 팝업 ---------- */
+#modal{position:fixed;inset:0;background:rgba(20,25,34,.42);display:none;place-items:center;z-index:50;padding:20px}
+#modal.on{display:grid}
+.dlg{background:var(--surface);border-radius:14px;width:min(920px,100%);max-height:calc(100vh - 40px);display:flex;flex-direction:column;box-shadow:0 24px 70px rgba(20,25,34,.3)}
+.dlg.narrow{width:min(520px,100%)}
+.dlg header{display:flex;align-items:flex-start;gap:12px;padding:18px 22px 14px;border-bottom:1px solid var(--line2)}
+.dlg header h2{font-size:17px;font-weight:700;overflow-wrap:anywhere}
+.dlg header .x{margin-left:auto;border:0;background:none;font-size:20px;line-height:1;color:var(--ink3);padding:4px 8px;border-radius:6px}
+.dlg header .x:hover{background:var(--bg)}
+.dlg .body{padding:18px 22px;overflow:auto}
+.dlg footer{display:flex;gap:8px;justify-content:flex-end;padding:14px 22px;border-top:1px solid var(--line2)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}
+.blk+.blk{margin-top:20px}
+.blk h3{font-size:12.5px;font-weight:650;color:var(--ink2);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.info{display:grid;grid-template-columns:104px minmax(0,1fr);gap:7px 12px;margin:0}
+.info dt{color:var(--ink3);font-size:13px}
+.info dd{margin:0;font-weight:550;min-width:0;overflow-wrap:anywhere}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tile{border:1px solid var(--line2);border-radius:8px;padding:9px 11px;min-width:0}
+.tile .l{font-size:12px;color:var(--ink2);display:flex;gap:4px;align-items:center}
+.tile .v{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile .v small{font-size:12px;font-weight:550;color:var(--ink3);margin-left:2px}
+.bars{display:flex;align-items:flex-end;gap:6px;height:84px;padding-top:6px}
+.bars div{flex:1;background:var(--accent);opacity:.85;border-radius:3px 3px 0 0;min-height:2px;position:relative}
+.bars div:last-child{opacity:1}
+.barlb{display:flex;gap:6px;font-size:11px;color:var(--ink3);margin-top:4px}
+.barlb span{flex:1;text-align:center}
+.hb{display:grid;grid-template-columns:150px minmax(0,1fr) 54px;gap:10px;align-items:center;font-size:13px;padding:5px 0}
+.hb.wide{grid-template-columns:minmax(0,260px) minmax(0,1fr) 54px}
+.hb .tr{height:8px;background:var(--line2);border-radius:99px;overflow:hidden}
+.hb .tr i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.hb .tr i.r{background:var(--bad)}
+.prog{height:8px;background:var(--line2);border-radius:99px;overflow:hidden;margin:6px 0 4px}
+.prog i{display:block;height:100%;background:var(--accent)}
+.serial{display:flex;gap:3px;flex-wrap:wrap;margin-top:6px}
+.serial div{border:1px solid var(--line);border-radius:6px;padding:4px 8px;text-align:center;min-width:0}
+.serial b{display:block;font-family:var(--mono);font-size:13px;font-weight:600}
+.serial span{font-size:11px;color:var(--ink3)}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.callout{background:var(--warn-weak);color:#7A4A00;border-radius:8px;padding:9px 12px;font-size:12.5px;margin-top:8px}
+.callout.red{background:var(--bad-weak);color:#8E1F24}
+.form{display:grid;gap:12px}
+.form label{display:grid;gap:5px;font-size:12.5px;font-weight:600;color:var(--ink2)}
+.form input,.form select,.form textarea{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-weight:400;color:var(--ink);background:var(--surface);width:100%}
+.form textarea{min-height:96px;resize:vertical}
+.form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form .hint{font-weight:400;color:var(--ink3);font-size:12px}
+.form .cnt{justify-self:end;font-weight:400;color:var(--ink3);font-size:12px}
+.radios{display:grid;gap:6px}
+.radios label{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-weight:550;color:var(--ink);cursor:pointer}
+.radios label:has(input:checked){border-color:var(--accent);background:var(--accent-weak)}
+.radios input{width:auto;margin-top:3px}
+.radios small{display:block;font-weight:400;color:var(--ink2)}
+.steps{display:flex;gap:0;margin:2px 0 4px}
+.steps div{flex:1;font-size:12px;color:var(--ink3);padding-top:14px;position:relative;text-align:center}
+.steps div::before{content:"";position:absolute;top:3px;left:0;right:0;height:3px;background:var(--line)}
+.steps div::after{content:"";position:absolute;top:0;left:50%;margin-left:-5px;width:9px;height:9px;border-radius:50%;background:var(--line);border:2px solid var(--surface)}
+.steps div.done{color:var(--ink);font-weight:600}
+.steps div.done::before,.steps div.done::after{background:var(--accent)}
+.quote{border-left:3px solid var(--line);padding:2px 0 2px 12px;color:var(--ink);white-space:pre-wrap}
+
+/* ---------- VISOR 내 기기 ---------- */
+.mine{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:12px}
+.mine .card{padding:18px 20px}
+.big-state{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.big-state .dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:20px;font-weight:700;flex:none}
+.big-state h2{font-size:18px;font-weight:700}
+
+@media (max-width:980px){
+  .app{grid-template-columns:1fr}
+  .side{flex-direction:row;flex-wrap:wrap;align-items:center;border-right:0;border-bottom:1px solid var(--line);padding:10px 12px}
+  .brand{padding:0 8px 0 4px} .nav{display:flex;gap:2px;flex-wrap:wrap} .who{display:none}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))} .cols,.mine{grid-template-columns:1fr}
+  main{padding:16px}
+  .maphint{display:none} .demo .note{display:none}
+}
+@media (max-width:1180px){
+  .rank{position:static;width:auto;max-width:none;margin:12px;box-shadow:none}
+  .rank ol{max-height:none} .maphint{display:none} .zoomctl{bottom:auto;top:58px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="demo">
+  <b>시안 보기</b>
+  <span>로그인 계층</span>
+  <div class="seg" id="roleSeg">
+    <button data-role="superall">SUPERALL · 본사</button>
+    <button data-role="supervisor">SUPERVISOR · 지역</button>
+    <button data-role="visor">VISOR · 단말</button>
+  </div>
+  <span class="note">구조 재현 시안 · 화면의 숫자와 이름은 모두 예시 데이터</span>
+</div>
+
+<div class="app">
+  <aside class="side">
+    <div class="brand"><strong>ELIXIR</strong><span>운영 관리</span></div>
+    <nav class="nav" id="nav"></nav>
+    <div class="who" id="who"></div>
+  </aside>
+  <main id="main"></main>
+</div>
+
+<div id="modal" role="dialog" aria-modal="true"></div>
+<div id="tip" role="tooltip"></div>
+<div id="toast" role="status"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script>
+/* ============ 예시 데이터 ============ */
+const TODAY = new Date('2026-10-12T14:32:00');
+const PRICE = 1000;
+const LATEST_FW = '2.4.1';
+function rng(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const R = rng(20241107);
+const pick = a => a[Math.floor(R()*a.length)];
+const pad = (n,l)=>String(n).padStart(l,'0');
+const ymd = d => d.getFullYear()+'.'+pad(d.getMonth()+1,2)+'.'+pad(d.getDate(),2);
+const addDays = (d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+
+const GEO = [
+ {c:'KR',name:'대한민국',ll:[127.8,36.3],regions:[
+  {name:'서울',ll:[126.99,37.56],d:[
+    {name:'서대문구',code:'11410',ll:[126.937,37.579],n:6,fix:['서대문구보건소','연희동 주민센터','신촌동 주민센터','서대문구청 민원실','홍제동 주민센터','서대문 노인종합복지관']},
+    {name:'동대문구',code:'11230',ll:[127.040,37.574],n:4},{name:'마포구',code:'11440',ll:[126.908,37.553],n:5},
+    {name:'강남구',code:'11680',ll:[127.047,37.507],n:7},{name:'노원구',code:'11350',ll:[127.056,37.654],n:3}]},
+  {name:'강원',ll:[128.2,37.75],d:[{name:'춘천시',code:'51110',ll:[127.73,37.88],n:3},{name:'원주시',code:'51130',ll:[127.92,37.34],n:4},{name:'강릉시',code:'51150',ll:[128.88,37.75],n:2}]},
+  {name:'대전',ll:[127.38,36.35],d:[{name:'유성구',code:'30200',ll:[127.356,36.362],n:3},{name:'서구',code:'30170',ll:[127.384,36.335],n:3}]},
+  {name:'부산',ll:[129.08,35.18],d:[{name:'해운대구',code:'26350',ll:[129.163,35.163],n:4},{name:'부산진구',code:'26230',ll:[129.053,35.163],n:5}]},
+  {name:'제주',ll:[126.53,33.45],d:[{name:'제주시',code:'50110',ll:[126.53,33.50],n:2}]}]},
+ {c:'US',name:'미국',ll:[-112,37],regions:[
+  {name:'캘리포니아',ll:[-118.6,34.6],d:[{name:'로스앤젤레스',code:'06037',ll:[-118.24,34.05],n:6},{name:'샌디에이고',code:'06073',ll:[-117.16,32.72],n:3}]},
+  {name:'네바다',ll:[-115.14,36.17],d:[{name:'라스베이거스',code:'32003',ll:[-115.14,36.17],n:4}]}]},
+ {c:'BR',name:'브라질',ll:[-47.5,-22.5],regions:[
+  {name:'상파울루주',ll:[-46.9,-23.2],d:[{name:'상파울루',code:'35503',ll:[-46.63,-23.55],n:8},{name:'캄피나스',code:'35095',ll:[-47.06,-22.91],n:3}]}]},
+ {c:'JP',name:'일본',ll:[139.7,35.68],regions:[
+  {name:'도쿄',ll:[139.7,35.68],d:[{name:'신주쿠구',code:'13104',ll:[139.703,35.694],n:4},{name:'시부야구',code:'13113',ll:[139.698,35.662],n:3}]}]},
+ {c:'SG',name:'싱가포르',ll:[103.82,1.35],regions:[{name:'센트럴',ll:[103.85,1.30],d:[{name:'다운타운',code:'01000',ll:[103.851,1.287],n:5}]}]},
+ {c:'DE',name:'독일',ll:[13.4,52.5],regions:[{name:'베를린',ll:[13.4,52.52],d:[{name:'미테',code:'11001',ll:[13.40,52.52],n:3}]}]}
+];
+const PLACES_KR=['보건소','구청 민원실','주민센터','종합복지관','건강검진센터','내과의원','온누리약국','시니어센터'];
+const PLACES_EX=['보건센터','시청 민원실','커뮤니티 클리닉','시니어센터','파머시','헬스케어 마트','건강검진센터','종합병원 로비'];
+const MGR_KR=['김서연','박준호','이도윤','최하은','정민재','한지우','윤서진','조현우'];
+const MGR_EX=['J. Carter','M. Silva','A. Tanaka','L. Weber','R. Lim','S. Nguyen','P. Costa','K. Sato'];
+const ERR=[['E-101','손 위치가 측정 영역을 벗어남'],['E-204','센서 신호가 약함'],['E-305','측정 중 손이 움직임'],['E-410','주변 빛이 센서에 들어옴'],['E-502','기기와 서버 연결이 끊김']];
+
+const SVS=[], DEVS=[];
+GEO.forEach(co=>co.regions.forEach(rg=>rg.d.forEach(ds=>{
+  const kr=co.c==='KR';
+  const sv={id:`SV-${co.c}-${ds.code}`,c:co.c,country:co.name,region:rg.name,district:ds.name,ll:ds.ll,rll:rg.ll,cll:co.ll,
+    nick:`${ds.name} 운영`,mgr:pick(kr?MGR_KR:MGR_EX),tel:kr?`010-****-${pad(Math.floor(R()*9000)+1000,4)}`:`+${10+Math.floor(R()*80)} ***-${pad(Math.floor(R()*9000)+1000,4)}`,
+    start:addDays(TODAY,-Math.floor(260+R()*420)),state:'정상'};
+  SVS.push(sv);
+  for(let i=0;i<ds.n;i++){
+    const place=ds.fix?ds.fix[i]:`${ds.name} ${(kr?PLACES_KR:PLACES_EX)[i%8]}`;
+    const all=Math.floor(700+R()*8200), month=Math.floor(all*(.09+R()*.07)), week=Math.floor(month/4.3*(.7+R()*.6)), day=Math.floor(week/7*(.6+R()*.8));
+    const start=addDays(sv.start,Math.floor(R()*120));
+    DEVS.push({id:`V-${co.c}-${ds.code}-${pad(i+1,3)}`,sv:sv.id,c:co.c,country:co.name,region:rg.name,district:ds.name,
+      nick:place,addr:`${co.name} ${rg.name} ${ds.name} ${kr?['중앙로','연희로','신촌로','통일로','성산로'][i%5]:['Main St','Central Ave','Park Rd','1st St','Market St'][i%5]} ${Math.floor(10+R()*280)}`,
+      ll:[ds.ll[0]+(R()-.5)*.024,ds.ll[1]+(R()-.5)*.018],
+      serial:`ELX-${co.c}-${ds.code}-24-${pad(DEVS.length+1,4)}`,fw:R()<.62?'2.4.1':R()<.6?'2.4.0':'2.3.7',sw:R()<.7?'1.9.2':'1.9.0',
+      start,end:addDays(start,365*(R()<.5?2:3)+Math.floor(R()*60)),op:'정상',fault:'정상',
+      cnt:{m10:Math.floor(R()*4),day,week,month,all},fail:.07+R()*.12});
+  }
+})));
+/* 상태 예시를 일부러 섞는다 */
+const byId = id => DEVS.find(d=>d.id===id), svById = id => SVS.find(s=>s.id===id);
+svById('SV-KR-26230').state='일시정지';
+DEVS[2].fault='비정상'; DEVS[9].fault='비정상'; DEVS[31].fault='비정상'; DEVS[47].fault='비정상';
+DEVS[4].op='일시정지'; DEVS[14].op='정지'; DEVS[40].op='해지';
+DEVS[5].end=addDays(TODAY,-9); DEVS[20].end=addDays(TODAY,-3);
+DEVS[1].end=addDays(TODAY,12); DEVS[11].end=addDays(TODAY,21); DEVS[33].end=addDays(TODAY,6);
+DEVS[3].cnt.week=0; DEVS[3].cnt.day=0; DEVS[3].cnt.m10=0; DEVS[25].cnt.week=0; DEVS[25].cnt.day=0; DEVS[25].cnt.m10=0;
+
+const TICKETS=[
+ {id:'AS-0418',vid:DEVS[2].id,at:addDays(TODAY,-1),type:'측정이 자주 실패함',text:'오전부터 측정을 시작하면 "센서 신호가 약함" 안내가 반복해서 뜹니다. 손을 다시 올려도 세 번 중 두 번은 실패합니다. 유리 덮개를 닦아도 같습니다.',step:0,owner:'SUPERVISOR',action:'',eta:''},
+ {id:'AS-0415',vid:DEVS[9].id,at:addDays(TODAY,-3),type:'화면이 켜지지 않음',text:'전원 버튼을 눌러도 화면이 켜지지 않습니다. 전원선은 다시 꽂아 보았습니다.',step:1,owner:'SUPERVISOR',action:'출장 수리',eta:'2026.10.14'},
+ {id:'AS-0409',vid:DEVS[31].id,at:addDays(TODAY,-6),type:'결과지가 인쇄되지 않음',text:'측정은 끝나는데 결과지가 나오지 않습니다. 용지는 새로 넣었습니다.',step:2,owner:'SUPERALL',action:'기기 교체',eta:'2026.10.13'},
+ {id:'AS-0397',vid:DEVS[47].id,at:addDays(TODAY,-8),type:'기타',text:'센서 부분이 평소보다 뜨겁게 느껴진다는 이용자 의견이 두 번 있었습니다.',step:1,owner:'SUPERALL',action:'원격 안내',eta:'2026.10.12'},
+ {id:'AS-0380',vid:DEVS[7].id,at:addDays(TODAY,-15),type:'측정이 자주 실패함',text:'손 위치 안내가 화면과 맞지 않았습니다.',step:3,owner:'SUPERVISOR',action:'원격 안내',eta:'2026.09.29'}
+];
+const LOGS=[];
+(function(){const r=rng(77);let t=new Date(TODAY);
+  for(let i=0;i<260;i++){t=new Date(t-Math.floor(40+r()*900)*1000);const d=DEVS[Math.floor(r()*DEVS.length)];
+    const f=r()<d.fail*.6+({'2.4.0':.05,'2.3.7':.11}[d.fw]||0);const e=f?ERR[Math.floor(r()*r()*ERR.length*1.6)%ERR.length]:null;
+    LOGS.push({t,vid:d.id,ok:!f,err:e,sec:f?Math.floor(6+r()*20):Math.floor(28+r()*9),fw:d.fw});}})();
+
+/* ============ 상태 계산 ============ */
+const S={role:'superall',page:'dash',period:'day',logFilter:null,logTab:'list',logRes:'all',q:''};
+const ME={supervisor:'SV-KR-11410',visor:DEVS[0].id};
+const expired = d => d.end < TODAY;
+function opOf(d){const sv=svById(d.sv); if(d.op==='해지')return'해지'; if(sv.state!=='정상')return sv.state+' (상위)'; if(d.op!=='정상')return d.op; if(expired(d))return'계약 만료'; return'정상';}
+const kind = d => d.fault==='비정상'?'bad':opOf(d)==='정상'?'ok':'off';
+const scopeDevs = () => S.role==='superall'?DEVS:S.role==='supervisor'?DEVS.filter(d=>d.sv===ME.supervisor):DEVS.filter(d=>d.id===ME.visor);
+const scopeSvs = () => S.role==='superall'?SVS:SVS.filter(s=>s.id===ME.supervisor);
+const scopeTickets = () => {const ids=new Set(scopeDevs().map(d=>d.id));return TICKETS.filter(t=>ids.has(t.vid))};
+const scopeLogs = () => {const ids=new Set(scopeDevs().map(d=>d.id));return LOGS.filter(l=>ids.has(l.vid))};
+const svDevs = id => DEVS.filter(d=>d.sv===id);
+const sum = (a,f)=>a.reduce((s,x)=>s+f(x),0);
+
+/* ============ 표기 규칙 ============ */
+const n0 = n => Math.round(n).toLocaleString('ko-KR');
+const won = n => '₩'+n0(n);
+function short(n){ if(n>=1e8)return[(n/1e8).toFixed(n>=1e9?0:1),'억']; if(n>=1e4)return[(n/1e4).toFixed(n>=1e6?0:1),'만']; return[n0(n),''] }
+const wonShort = n => {const[a,u]=short(n);return `₩${a}<small>${u}</small>`};
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const q = t => `<button class="q" type="button" data-tip="${esc(t)}" aria-label="설명 보기">?</button>`;
+const TIP={
+  rev:'측정 1회당 이용 요금을 모두 더한 금액입니다. 실패한 측정은 요금이 붙지 않습니다.',
+  fw:'기기 안에서 센서를 움직이는 내장 프로그램입니다. 버전이 낮으면 측정 실패가 늘 수 있습니다.',
+  sw:'기기 화면에 보이는 측정 안내 프로그램의 버전입니다.',
+  serial:'기기마다 하나뿐인 번호입니다. 출고할 때 국가와 지역이 번호 안에 함께 새겨집니다.',
+  idle:'최근 7일 동안 측정이 한 번도 없던 기기입니다. 전원이 꺼져 있거나 눈에 띄지 않는 곳에 놓였을 수 있습니다.',
+  succ:'전체 측정 중 결과가 정상으로 나온 비율입니다.',
+  need:'고장 신고가 들어왔거나, 계약이 끝나 측정이 막힌 기기의 수입니다.',
+  op:'요금 미납이나 계약 종료처럼 운영상의 이유로 측정을 막았는지 나타냅니다. 고장 여부와는 따로 관리합니다.',
+  fault:'기기가 고장 났는지를 나타냅니다. VISOR가 직접 바꿀 수 있고, 비정상으로 바꾸면 상위 계정에 알림이 갑니다.',
+  acct:'이 SUPERVISOR 아래에 등록된 VISOR 계정의 수입니다. VISOR 하나가 기기 한 대입니다.',
+  rank:'고른 기간 동안 측정이 가장 많이 일어난 설치 장소입니다.',
+  fwrate:`가장 새 버전(${LATEST_FW})을 쓰는 기기의 비율입니다.`,
+  soon:'계약 종료일까지 30일이 남지 않은 기기입니다.'
+};
+const opBadge = s => `<span class="badge ${s==='정상'?'b-ok':s.startsWith('일시정지')||s==='계약 만료'?'b-warn':'b-off'}">${s}</span>`;
+const faultBadge = s => `<span class="badge ${s==='정상'?'b-ok':'b-bad'}">${s}</span>`;
+const PERIODS=[['m10','최근 10분'],['day','하루'],['week','일주일'],['month','한 달'],['all','전체'],['custom','기간 설정']];
+const pLabel = k => PERIODS.find(p=>p[0]===k)[1];
+const cntOf = (d,k) => k==='custom'?Math.floor(d.cnt.month*.55):d.cnt[k];
+
+/* ============ 틀 ============ */
+const $ = s => document.querySelector(s);
+const NAV={superall:[['dash','대시보드'],['logs','측정기록'],['svs','SUPERVISOR 관리'],['visors','VISOR 관리'],['as','고장·A/S']],
+  supervisor:[['dash','대시보드'],['logs','측정기록'],['visors','VISOR 관리'],['as','고장·A/S']],
+  visor:[['dash','내 기기'],['logs','측정기록'],['as','고장 신고']]};
+function frame(){
+  document.querySelectorAll('#roleSeg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.role===S.role));
+  const open=scopeTickets().filter(t=>t.step<3).length;
+  $('#nav').innerHTML=NAV[S.role].map(([k,l])=>`<button data-page="${k}" ${S.page===k?'aria-current="page"':''}>${l}${k==='as'&&open?`<span class="cnt">${open}</span>`:''}</button>`).join('');
+  const sv=svById(ME.supervisor), dv=byId(ME.visor);
+  $('#who').innerHTML=S.role==='superall'?`<div class="tier">SUPERALL</div><div class="nm">본사 운영팀</div><div class="sc">전 세계 ${SVS.length}개 지역 · 기기 ${DEVS.length}대</div>`
+    :S.role==='supervisor'?`<div class="tier">SUPERVISOR</div><div class="nm" title="${sv.nick}">${sv.nick}</div><div class="sc">${sv.region} ${sv.district} · 기기 ${svDevs(sv.id).length}대</div>`
+    :`<div class="tier">VISOR</div><div class="nm" title="${dv.nick}">${dv.nick}</div><div class="sc">기기 1대</div>`;
+}
+function go(page){S.page=page;render()}
+function render(){frame();({dash:S.role==='visor'?pageMine:pageDash,logs:pageLogs,svs:pageSvs,visors:pageVisors,as:pageAs}[S.page])();$('#main').scrollTop=0}
+document.getElementById('roleSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.role=b.dataset.role;S.page='dash';S.logFilter=null;S.q='';render()};
+document.getElementById('nav').onclick=e=>{const b=e.target.closest('button');if(b){if(b.dataset.page==='logs')S.logFilter=null;S.q='';go(b.dataset.page)}};
+function head(t,p,right=''){return `<div class="head"><div><h1>${t}</h1><p>${p}</p></div><div class="sp">${right}</div></div>`}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2600)}
+
+/* ============ 대시보드 (SUPERALL · SUPERVISOR) ============ */
+const W=1280,H=540,PANEL=340,CX=(W-PANEL)/2,TH=[1,12,200,2500,9000];
+let proj,zoomB,curT=d3.zoomIdentity,WORLD=null;
+function pageDash(){
+  const ds=scopeDevs(), today=sum(ds,d=>d.cnt.day), need=ds.filter(d=>d.fault==='비정상'||expired(d)).length;
+  const [tv,tu]=short(today*PRICE);
+  $('#main').innerHTML=head('대시보드',S.role==='superall'?'전 세계에 설치된 기기를 지도에서 확인합니다.':`${svById(ME.supervisor).district}에 설치된 기기를 지도에서 확인합니다.`)+`
+  <div class="kpis">
+    <div class="card kpi"><div class="l">설치된 기기</div><div class="v">${n0(ds.length)}<small>대</small></div></div>
+    <div class="card kpi"><div class="l">오늘 측정</div><div class="v">${n0(today)}<small>회</small></div></div>
+    <div class="card kpi"><div class="l">오늘 매출 ${q(TIP.rev)}</div><div class="v" data-tip="${won(today*PRICE)}">₩${tv}<small>${tu}</small></div></div>
+    <div class="card kpi ${need?'alert':''}"><div class="l">확인이 필요한 기기 ${q(TIP.need)}</div><div class="v">${need}<small>대</small></div></div>
+  </div>
+  <div class="card mapcard">
+    <div class="maptop"><div class="crumb" id="crumb"></div>
+      <div class="legend"><span style="--c:var(--ok)">정상</span><span style="--c:var(--bad)">고장</span><span style="--c:#B4BBC7">측정 막힘</span></div></div>
+    <svg id="map" viewBox="0 0 ${W} ${H}" role="img" aria-label="기기 설치 지도"><g id="land"></g><g id="bub"></g></svg>
+    <div class="zoomctl"><button id="zin" aria-label="확대">+</button><button id="zout" aria-label="축소">−</button></div>
+    <div class="maphint">원을 누르면 더 작은 지역으로 나뉩니다</div>
+    <div id="hov"></div>
+    <section class="rank" id="rank"></section>
+  </div>`;
+  initMap(); drawRank();
+}
+function initMap(){
+  const svg=d3.select('#map');
+  proj=d3.geoNaturalEarth1().fitExtent([[8,8],[W-PANEL,H-8]],{type:'Sphere'});
+  zoomB=d3.zoom().scaleExtent([1,TH[4]]).translateExtent([[0,0],[W,H]]).on('zoom',e=>{curT=e.transform;d3.select('#land').attr('transform',curT);drawBubbles()});
+  svg.call(zoomB).on('dblclick.zoom',null);
+  const land=()=>d3.select('#land').selectAll('path').data(topojson.feature(WORLD,WORLD.objects.countries).features).join('path').attr('d',d3.geoPath(proj));
+  if(WORLD)land(); else fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json').then(r=>r.json()).then(t=>{WORLD=t;if($('#land'))land()}).catch(()=>{});
+  $('#zin').onclick=()=>svg.transition().duration(300).call(zoomB.scaleBy,2.4);
+  $('#zout').onclick=()=>svg.transition().duration(300).call(zoomB.scaleBy,1/2.4);
+  curT=d3.zoomIdentity;
+  if(S.role==='supervisor')fit(scopeDevs().map(d=>d.ll),3,0); else svg.call(zoomB.transform,d3.zoomIdentity);
+  $('#bub').onclick=e=>{const g=e.target.closest('.bub');if(!g)return;
+    if(g.dataset.dev)return openVisor(g.dataset.dev);
+    const lv=+g.dataset.lv, ds=scopeDevs().filter(d=>keyOf(d,lv)===g.dataset.key);
+    fit(childPts(ds,lv+1),lv+1,650)};
+  $('#crumb').onclick=e=>{const b=e.target.closest('button');if(!b)return;const lv=+b.dataset.lv;
+    if(lv===0&&S.role==='superall')return svg.transition().duration(650).call(zoomB.transform,d3.zoomIdentity);
+    const ds=scopeDevs().filter(d=>keyOf(d,lv-1)===b.dataset.key);fit(childPts(ds,lv),lv,650)};
+}
+const keyOf=(d,lv)=>[d.c,d.c+'/'+d.region,d.sv,d.id][lv];
+const llOf=(d,lv)=>{const s=svById(d.sv);return[s.cll,s.rll,s.ll,d.ll][lv]};
+const nameOf=(d,lv)=>[d.country,d.region,d.district,d.nick][lv];
+function childPts(ds,lv){const m=new Map();ds.forEach(d=>m.set(keyOf(d,lv),llOf(d,lv)));return[...m.values()]}
+function fit(lls,lv,dur){
+  const ps=lls.map(l=>proj(l)),xs=d3.extent(ps,p=>p[0]),ys=d3.extent(ps,p=>p[1]);
+  let k=Math.min(.5*W/Math.max(xs[1]-xs[0],1e-9),.42*H/Math.max(ys[1]-ys[0],1e-9));
+  k=Math.max(TH[lv]*1.15,Math.min(k,TH[lv+1]*.9));
+  const t=d3.zoomIdentity.translate(CX-k*(xs[0]+xs[1])/2,H/2-k*(ys[0]+ys[1])/2).scale(k);
+  const svg=d3.select('#map');(dur?svg.transition().duration(dur):svg).call(zoomB.transform,t);
+}
+function drawBubbles(){
+  const k=curT.k, lv=k<TH[1]?0:k<TH[2]?1:k<TH[3]?2:3, ds=scopeDevs(), g=new Map();
+  ds.forEach(d=>{const key=keyOf(d,lv);if(!g.has(key))g.set(key,{key,ll:llOf(d,lv),name:nameOf(d,lv),ok:0,bad:0,off:0,n:0,d});const o=g.get(key);o[kind(d)]++;o.n++});
+  let html='';const items=[...g.values()].map(o=>{o.p=curT.apply(proj(o.ll));o.r=lv===3?14:Math.min(44,18+Math.sqrt(o.n)*3.4);return o});
+  /* 겹치는 원은 서로 밀어내 숫자가 가려지지 않게 한다 */
+  for(let it=0;it<8;it++)for(let i=0;i<items.length;i++)for(let j=i+1;j<items.length;j++){const a=items[i],b=items[j],dx=b.p[0]-a.p[0]||.01,dy=b.p[1]-a.p[1],ds2=Math.hypot(dx,dy),min=a.r+b.r+(lv===3?44:10);
+    if(ds2<min){const m=(min-ds2)/2/ds2;a.p[0]-=dx*m;a.p[1]-=dy*m;b.p[0]+=dx*m;b.p[1]+=dy*m}}
+  items.forEach(o=>{const p=o.p;if(p[0]<-60||p[0]>W+60||p[1]<-60||p[1]>H+60)return;
+    if(lv===3){const c={ok:'var(--ok)',bad:'var(--bad)',off:'#B4BBC7'}[kind(o.d)];
+      html+=`<g class="bub" data-dev="${o.d.id}" transform="translate(${p[0].toFixed(1)},${p[1].toFixed(1)})"><circle class="core" r="12" fill="#fff" stroke="${c}" stroke-width="5"/><text class="lb" y="31">${esc(o.name.length>13?o.name.slice(0,12)+'…':o.name)}</text></g>`;return}
+    const r=o.r,C=2*Math.PI*r;let off=0,arcs='';
+    [['ok','var(--ok)'],['bad','var(--bad)'],['off','#B4BBC7']].forEach(([s,c])=>{if(!o[s])return;const len=C*o[s]/o.n;
+      arcs+=`<circle r="${r}" fill="none" stroke="${c}" stroke-width="5" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" transform="rotate(-90)"/>`;off+=len});
+    html+=`<g class="bub" data-key="${o.key}" data-lv="${lv}" transform="translate(${p[0].toFixed(1)},${p[1].toFixed(1)})"><circle class="core" r="${r}" fill="#fff"/>${arcs}<text class="n" y="${r>22?6:5}" font-size="${r>22?19:16}">${o.n}</text><text class="lb" y="${r+19}">${o.name}</text></g>`});
+  $('#bub').innerHTML=html;
+  /* 현재 위치: 화면 가운데에서 가장 가까운 지역 */
+  const c=proj.invert(curT.invert([CX,H/2])),near=l=>ds.reduce((b,d)=>{const ll=llOf(d,l),v=(ll[0]-c[0])**2+(ll[1]-c[1])**2;return v<b[0]?[v,d]:b},[Infinity,null])[1];
+  let cr=S.role==='superall'?`<button data-lv="0">전 세계</button>`:'';
+  for(let l=S.role==='superall'?0:2;l<lv;l++){const d=near(l);cr+=`${cr?'<i>›</i>':''}<button data-lv="${l+1}" data-key="${keyOf(d,l)}">${nameOf(d,l)}</button>`}
+  $('#crumb').innerHTML=cr;
+}
+function drawRank(){
+  const k=S.period, list=scopeDevs().map(d=>[d,cntOf(d,k)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  $('#rank').innerHTML=`<h3>측정이 많은 곳 ${q(TIP.rank)}</h3>
+   <div class="seg">${PERIODS.map(([p,l])=>`<button data-p="${p}" aria-pressed="${p===k}">${l}</button>`).join('')}</div>
+   ${k==='custom'?`<div class="range"><input type="date" value="2026-09-21" aria-label="시작일"><span>~</span><input type="date" value="2026-10-05" aria-label="종료일"></div>`:''}
+   ${list.length?`<ol>${list.map(([d,c],i)=>`<li><button data-id="${d.id}"><span class="rk">${i+1}</span><span style="min-width:0"><span class="nm ell" style="display:block">${d.nick}</span><span class="sub ell" style="display:block">${d.country} · ${d.region} ${d.district}</span></span><span class="ct">${n0(c)}<small>회</small></span></button></li>`).join('')}</ol>`
+     :`<div class="empty">${pLabel(k)} 동안 측정이 없습니다.</div>`}`;
+  const el=$('#rank');
+  el.querySelector('.seg').onclick=e=>{const b=e.target.closest('button');if(b){S.period=b.dataset.p;drawRank()}};
+  el.querySelectorAll('li button').forEach(b=>{
+    const show=()=>{const d=byId(b.dataset.id),c=cntOf(d,k),h=$('#hov');
+      h.innerHTML=`<div class="t">${d.nick}</div><div class="sub">${d.addr}</div><dl><dt>고유번호</dt><dd class="mono">${d.serial}</dd><dt>펌웨어</dt><dd class="mono">${d.fw}</dd><dt>측정</dt><dd>${n0(c)}회</dd><dt>매출</dt><dd>${won(c*(1-d.fail)*PRICE)}</dd><dt>상태</dt><dd>${d.fault==='비정상'?faultBadge('비정상'):opBadge(opOf(d))}</dd></dl>`;
+      h.style.display='block';const cr=$('.mapcard').getBoundingClientRect(),br=b.getBoundingClientRect(),rr=el.getBoundingClientRect();
+      h.style.left=Math.max(8,rr.left-cr.left-258)+'px';h.style.top=Math.max(8,Math.min(br.top-cr.top-40,cr.height-h.offsetHeight-8))+'px'};
+    b.onmouseenter=show;b.onfocus=show;b.onmouseleave=b.onblur=()=>$('#hov').style.display='none';
+    b.onclick=()=>{S.logFilter={vid:b.dataset.id,period:k};S.logTab='list';go('logs')}});
+}
+
+/* ============ 내 기기 (VISOR) ============ */
+function pageMine(){
+  const d=byId(ME.visor),op=opOf(d),bad=d.fault==='비정상',okAll=!bad&&op==='정상';
+  const left=Math.ceil((d.end-TODAY)/864e5),pct=Math.max(0,Math.min(100,(TODAY-d.start)/(d.end-d.start)*100));
+  const wk=[.8,1.1,.9,1.2,1,.6,d.cnt.day/(d.cnt.week/7||1)].map(x=>Math.round(d.cnt.week/7*x));
+  const tk=TICKETS.find(t=>t.vid===d.id&&t.step<3);
+  $('#main').innerHTML=head('내 기기',`${d.nick}에 설치된 기기의 상태와 측정 현황입니다.`)+`
+  <div class="mine">
+   <div class="card">
+    <div class="big-state"><div class="dot" style="background:${bad?'var(--bad-weak)':'var(--ok-weak)'};color:${bad?'var(--bad)':'var(--ok)'}">${bad?'!':'✓'}</div>
+      <div><h2>${bad?'고장 신고가 접수된 상태입니다':op==='정상'?'정상적으로 측정할 수 있습니다':'지금은 측정할 수 없습니다 · '+op}</h2>
+      <div class="sub">${bad&&tk?(tk.action?`${tk.owner} 조치 예정: ${tk.action} · ${tk.eta}`:'담당 SUPERVISOR가 확인하고 있습니다'):'문제가 생기면 아래에서 바로 신고할 수 있습니다'}</div></div></div>
+    <div class="acts"><button class="btn ${bad?'':'danger'}" id="rep">${bad?'정상으로 바꾸기':'고장 신고하기'}</button>${bad?`<button class="btn" data-go="as">신고 진행 상황 보기</button>`:''}</div>
+    <div class="blk" style="margin-top:22px"><h3>기기 정보</h3>${devInfo(d)}</div>
+    <div class="blk"><h3>계약 기간</h3><div>${ymd(d.start)} ~ ${ymd(d.end)}</div><div class="prog"><i style="width:${pct}%"></i></div>
+      <div class="sub">${left>0?`종료까지 ${left}일 남았습니다. 종료일이 지나면 측정이 자동으로 막힙니다.`:'계약이 종료되어 측정이 막혀 있습니다.'}</div></div>
+   </div>
+   <div class="card">
+    <div class="tiles">
+      <div class="tile"><div class="l">오늘 측정</div><div class="v">${n0(d.cnt.day)}<small>회</small></div></div>
+      <div class="tile"><div class="l">이번 달 측정</div><div class="v">${n0(d.cnt.month)}<small>회</small></div></div>
+      <div class="tile"><div class="l">성공률 ${q(TIP.succ)}</div><div class="v">${((1-d.fail)*100).toFixed(1)}<small>%</small></div></div>
+    </div>
+    <div class="blk"><h3>최근 7일 측정 횟수</h3><div class="bars">${wk.map(v=>`<div style="height:${v/Math.max(...wk)*100}%" data-tip="${n0(v)}회"></div>`).join('')}</div>
+      <div class="barlb">${[6,5,4,3,2,1,0].map(i=>`<span>${i?addDays(TODAY,-i).getDate()+'일':'오늘'}</span>`).join('')}</div></div>
+    <div class="blk"><h3>누적</h3><dl class="info"><dt>측정 횟수</dt><dd>${n0(d.cnt.all)}회</dd><dt>측정 매출 ${q(TIP.rev)}</dt><dd>${won(d.cnt.all*(1-d.fail)*PRICE)}</dd></dl></div>
+   </div>
+  </div>`;
+  $('#rep').onclick=()=>bad?setFault(d,'정상'):openReport(d);
+  const g=$('[data-go]');if(g)g.onclick=()=>go('as');
+}
+function devInfo(d){const p=d.serial.split('-');return `<dl class="info">
+  <dt>고유번호 ${q(TIP.serial)}</dt><dd><span class="mono">${d.serial}</span>
+    <div class="serial"><div><b>${p[0]}</b><span>제품</span></div><div><b>${p[1]}</b><span>국가</span></div><div><b>${p[2]}</b><span>지역</span></div><div><b>${p[3]}</b><span>출고 연도</span></div><div><b>${p[4]}</b><span>일련번호</span></div></div></dd>
+  <dt>펌웨어 ${q(TIP.fw)}</dt><dd><span class="mono">${d.fw}</span> ${d.fw===LATEST_FW?'<span class="sub">최신</span>':'<span class="badge b-warn">업데이트 필요</span>'}</dd>
+  <dt>SW 버전 ${q(TIP.sw)}</dt><dd class="mono">${d.sw}</dd>
+  <dt>설치 주소</dt><dd>${d.addr}</dd></dl>`}
+
+/* ============ 측정기록 ============ */
+function pageLogs(){
+  let rows=scopeLogs();const f=S.logFilter;
+  if(f)rows=rows.filter(l=>l.vid===f.vid);
+  if(S.logRes!=='all')rows=rows.filter(l=>S.logRes==='ok'?l.ok:!l.ok);
+  if(S.q)rows=rows.filter(l=>{const d=byId(l.vid);return(d.nick+d.serial).toLowerCase().includes(S.q.toLowerCase())});
+  const fails=rows.filter(l=>!l.ok);
+  let body;
+  if(S.logTab==='list'){
+    body=`<div class="twrap notrow"><table><colgroup><col style="width:150px"><col><col style="width:210px"><col style="width:250px"><col style="width:90px"><col style="width:90px"></colgroup>
+     <thead><tr><th>측정 시각</th><th>설치 장소</th><th>기기 고유번호 ${q(TIP.serial)}</th><th>결과</th><th class="num">걸린 시간</th><th class="num">요금</th></tr></thead>
+     <tbody>${rows.slice(0,60).map(l=>{const d=byId(l.vid);return `<tr><td class="num" style="text-align:left">${ymd(l.t).slice(5)} ${pad(l.t.getHours(),2)}:${pad(l.t.getMinutes(),2)}:${pad(l.t.getSeconds(),2)}</td>
+      <td><div class="ell" style="font-weight:600">${d.nick}</div><div class="sub ell">${d.country} · ${d.region} ${d.district}</div></td><td class="mono">${d.serial}</td>
+      <td>${l.ok?'<span class="badge b-ok">성공</span>':`<span class="badge b-bad">실패</span> <span class="sub ell" style="display:inline-block;max-width:150px;vertical-align:middle"><span class="mono">${l.err[0]}</span> ${l.err[1]}</span>`}</td>
+      <td class="num">${l.sec}초</td><td class="num">${l.ok?won(PRICE):'<span class="muted">—</span>'}</td></tr>`}).join('')}</tbody></table>
+     ${rows.length?'':`<div class="empty-t">조건에 맞는 측정기록이 없습니다. 기간이나 결과 조건을 바꿔 보세요.</div>`}</div>`;
+  }else{
+    const by=ERR.map(e=>[e,fails.filter(l=>l.err[0]===e[0]).length]).sort((a,b)=>b[1]-a[1]),mx=Math.max(1,...by.map(x=>x[1]));
+    const fw=['2.4.1','2.4.0','2.3.7'].map(v=>{const a=rows.filter(l=>l.fw===v);return[v,a.length,a.length?a.filter(l=>!l.ok).length/a.length:0]});
+    body=`<div class="cols" style="padding:16px;border-top:1px solid var(--line2)">
+     <div class="blk"><h3>실패 원인별 횟수</h3>${by.map(([e,c])=>`<div class="hb wide"><span class="ell"><span class="mono">${e[0]}</span> ${e[1]}</span><div class="tr"><i class="r" style="width:${c/mx*100}%"></i></div><span class="num">${c}회</span></div>`).join('')}
+       <p class="sub" style="margin-top:10px">실패 기록은 측정 알고리즘 개선에 쓰도록 원인 코드와 펌웨어 버전을 함께 남깁니다.</p></div>
+     <div class="blk" style="margin-top:0"><h3>펌웨어 버전별 실패 비율 ${q(TIP.fw)}</h3>${fw.map(([v,n,r])=>`<div class="hb"><span><span class="mono">${v}</span> <span class="sub">${n0(n)}회 중</span></span><div class="tr"><i class="r" style="width:${r*400}%"></i></div><span class="num">${(r*100).toFixed(1)}%</span></div>`).join('')}
+       <div class="tiles" style="margin-top:14px"><div class="tile"><div class="l">전체 측정</div><div class="v">${n0(rows.length)}<small>회</small></div></div><div class="tile"><div class="l">실패</div><div class="v">${n0(fails.length)}<small>회</small></div></div><div class="tile"><div class="l">성공률 ${q(TIP.succ)}</div><div class="v">${rows.length?((1-fails.length/rows.length)*100).toFixed(1):'—'}<small>%</small></div></div></div></div></div>`;
+  }
+  $('#main').innerHTML=head('측정기록','기기에서 일어난 측정을 한 건씩 확인합니다. 이용자의 혈당 수치는 운영 화면에 표시하지 않습니다.',`<button class="btn" id="exp">파일로 내려받기</button>`)+`
+  <div class="card"><div class="tools">
+    <div class="seg" id="ltab"><button data-t="list" aria-pressed="${S.logTab==='list'}">기록</button><button data-t="err" aria-pressed="${S.logTab==='err'}">실패 통계</button></div>
+    ${f?`<span class="chip"><span>${byId(f.vid).nick} · ${pLabel(f.period)}</span><button aria-label="조건 지우기" id="clr">×</button></span>`:''}
+    <select id="lres" aria-label="결과"><option value="all">결과 전체</option><option value="ok">성공만</option><option value="fail">실패만</option></select>
+    ${S.role==='visor'?'':`<input type="search" id="lq" placeholder="설치 장소나 고유번호 검색" value="${esc(S.q)}">`}
+    <span class="res">${n0(rows.length)}건${rows.length>60&&S.logTab==='list'?' 중 최근 60건 표시':''}</span></div>${body}</div>`;
+  $('#lres').value=S.logRes;$('#lres').onchange=e=>{S.logRes=e.target.value;pageLogs()};
+  $('#ltab').onclick=e=>{const b=e.target.closest('button');if(b){S.logTab=b.dataset.t;pageLogs()}};
+  if($('#clr'))$('#clr').onclick=()=>{S.logFilter=null;pageLogs()};
+  if($('#lq'))$('#lq').onchange=e=>{S.q=e.target.value;pageLogs()};
+  $('#exp').onclick=()=>toast(`지금 조건의 기록 ${n0(rows.length)}건을 파일로 내려받습니다.`);
+}
+
+/* ============ SUPERVISOR 관리 ============ */
+function pageSvs(){
+  const rows=SVS.filter(s=>!S.q||(s.nick+s.id+s.country+s.region+s.district).toLowerCase().includes(S.q.toLowerCase()));
+  $('#main').innerHTML=head('SUPERVISOR 관리','지역을 맡은 SUPERVISOR 계정을 등록하고 관리합니다.',`<button class="btn pri" id="add">SUPERVISOR 추가</button>`)+`
+  <div class="card"><div class="tools"><input type="search" id="sq" placeholder="이름, ID, 지역 검색" value="${esc(S.q)}"><span class="res">${rows.length}개 계정</span></div>
+  <div class="twrap"><table><colgroup><col style="width:92px"><col style="width:150px"><col style="width:140px"><col><col style="width:104px"><col style="width:104px"><col style="width:112px"><col style="width:128px"><col style="width:96px"></colgroup>
+   <thead><tr><th>국가</th><th>지역</th><th>SUPERVISOR ID</th><th>NICKNAME</th><th>서비스 시작일</th><th class="num">관리 계정 ${q(TIP.acct)}</th><th class="num">누적 측정</th><th class="num">누적 매출 ${q(TIP.rev)}</th><th>상태</th></tr></thead>
+   <tbody>${rows.map(s=>{const ds=svDevs(s.id),c=sum(ds,d=>d.cnt.all);return `<tr data-id="${s.id}" tabindex="0"><td class="ell">${s.country}</td><td class="ell">${s.region} ${s.district}</td><td class="mono">${s.id}</td><td class="ell" style="font-weight:600">${esc(s.nick)}</td>
+     <td>${ymd(s.start)}</td><td class="num">${ds.length}</td><td class="num">${n0(c)}회</td><td class="num">${won(c*.88*PRICE)}</td><td>${opBadge(s.state)}</td></tr>`}).join('')}</tbody></table>
+   ${rows.length?'':'<div class="empty-t">검색한 조건에 맞는 SUPERVISOR가 없습니다.</div>'}</div></div>`;
+  rowClick(openSv);$('#sq').onchange=e=>{S.q=e.target.value;pageSvs()};$('#add').onclick=()=>openAdd('sv');
+}
+function rowClick(fn){document.querySelectorAll('tbody tr[data-id]').forEach(tr=>{tr.onclick=()=>fn(tr.dataset.id);tr.onkeydown=e=>{if(e.key==='Enter')fn(tr.dataset.id)}})}
+function openSv(id){
+  const s=svById(id),ds=svDevs(id),c=sum(ds,d=>d.cnt.all),top=[...ds].sort((a,b)=>b.cnt.month-a.cnt.month),mx=Math.max(1,top[0]?.cnt.month||1);
+  const st={ok:ds.filter(d=>kind(d)==='ok').length,bad:ds.filter(d=>d.fault==='비정상').length};
+  const wk=[.82,.9,.86,1,.95,1.08,1.12].map(x=>Math.round(sum(ds,d=>d.cnt.week)*x));
+  modal(`<header><div><h2>${esc(s.nick)}</h2><div class="sub"><span class="mono">${s.id}</span> · ${s.country} ${s.region} ${s.district}</div></div>${opBadge(s.state)}<button class="x" aria-label="닫기">×</button></header>
+  <div class="body"><div class="cols">
+   <div>
+    <div class="blk"><h3>계정 정보</h3><dl class="info"><dt>NICKNAME</dt><dd><input id="nk" value="${esc(s.nick)}" maxlength="24" style="border:1px solid var(--line);border-radius:6px;padding:4px 8px;width:100%"></dd>
+      <dt>담당자</dt><dd>${s.mgr}</dd><dt>담당자 번호</dt><dd class="mono">${s.tel}</dd><dt>서비스 시작일</dt><dd>${ymd(s.start)}</dd><dt>관리 계정</dt><dd>VISOR ${ds.length}개</dd>
+      <dt>누적 측정</dt><dd>${n0(c)}회</dd><dt>누적 매출</dt><dd>${won(c*.88*PRICE)}</dd></dl></div>
+    <div class="blk"><h3>권한 설정</h3><div class="acts">
+      ${s.state==='정상'?`<button class="btn" data-act="pause">권한 일시 중지</button>`:`<button class="btn pri" data-act="resume">일시 중지 풀기</button>`}
+      <button class="btn danger" data-act="end">SUPERVISOR 해지</button></div>
+      ${s.state!=='정상'?`<div class="callout">일시 중지 상태입니다. 이 SUPERVISOR 아래 기기 ${ds.length}대의 측정이 함께 막혀 있습니다.</div>`
+        :`<p class="sub" style="margin-top:8px">일시 중지는 사용료 미납처럼 바로 막아야 할 때 씁니다. 아래 기기의 측정이 함께 막히고, 풀면 바로 돌아옵니다.</p>`}</div>
+   </div>
+   <div>
+    <div class="blk"><h3>이 지역의 운영 현황</h3><div class="tiles">
+      <div class="tile"><div class="l">정상 기기</div><div class="v">${st.ok}<small>/ ${ds.length}대</small></div></div>
+      <div class="tile"><div class="l">고장</div><div class="v" style="${st.bad?'color:var(--bad)':''}">${st.bad}<small>대</small></div></div>
+      <div class="tile"><div class="l">쓰지 않는 기기 ${q(TIP.idle)}</div><div class="v">${ds.filter(d=>!d.cnt.week).length}<small>대</small></div></div>
+      <div class="tile"><div class="l">계약 종료 임박 ${q(TIP.soon)}</div><div class="v">${ds.filter(d=>!expired(d)&&(d.end-TODAY)/864e5<30).length}<small>대</small></div></div>
+      <div class="tile"><div class="l">최신 펌웨어 ${q(TIP.fwrate)}</div><div class="v">${Math.round(ds.filter(d=>d.fw===LATEST_FW).length/ds.length*100)}<small>%</small></div></div>
+      <div class="tile"><div class="l">성공률 ${q(TIP.succ)}</div><div class="v">${((1-sum(ds,d=>d.fail)/ds.length)*100).toFixed(1)}<small>%</small></div></div></div></div>
+    <div class="blk"><h3>주별 측정 횟수 (최근 7주)</h3><div class="bars">${wk.map(v=>`<div style="height:${v/Math.max(...wk)*100}%" data-tip="${n0(v)}회"></div>`).join('')}</div></div>
+    <div class="blk"><h3>이번 달 측정이 많은 곳</h3>${top.slice(0,4).map(d=>`<div class="hb"><span class="ell">${d.nick}</span><div class="tr"><i style="width:${d.cnt.month/mx*100}%"></i></div><span class="num">${n0(d.cnt.month)}회</span></div>`).join('')}</div>
+   </div></div>
+   <div class="blk"><h3>관리하는 VISOR ${ds.length}개</h3><div class="twrap" style="border:1px solid var(--line2);border-radius:8px"><table style="min-width:720px"><colgroup><col><col style="width:176px"><col style="width:80px"><col style="width:104px"><col style="width:120px"><col style="width:92px"></colgroup>
+     <thead><tr><th>NICKNAME</th><th>VISOR ID</th><th>펌웨어</th><th class="num">누적 측정</th><th>운영 상태</th><th>기기 상태</th></tr></thead>
+     <tbody>${ds.map(d=>`<tr data-id="${d.id}" tabindex="0"><td class="ell" style="font-weight:600">${d.nick}</td><td class="mono">${d.id}</td><td class="mono">${d.fw}</td><td class="num">${n0(d.cnt.all)}회</td><td>${opBadge(opOf(d))}</td><td>${faultBadge(d.fault)}</td></tr>`).join('')}</tbody></table></div></div>
+  </div>
+  <footer><button class="btn" data-close>닫기</button><button class="btn pri" id="sv-save">저장</button></footer>`);
+  const m=$('#modal');rowClickIn(m,openVisor);
+  m.querySelector('#sv-save').onclick=()=>{s.nick=m.querySelector('#nk').value.trim()||s.nick;closeModal();render();toast('저장했습니다.')};
+  m.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{const a=b.dataset.act;
+    if(a==='pause')confirmBox(`${s.nick}의 권한을 일시 중지할까요?`,`아래 기기 ${ds.length}대의 측정이 바로 막힙니다. 측정 중인 건은 끝까지 진행됩니다. 기록과 매출은 그대로 남습니다.`,'일시 중지',()=>{s.state='일시정지';render();openSv(id);toast('권한을 일시 중지했습니다.')});
+    if(a==='resume'){s.state='정상';render();openSv(id);toast('일시 중지를 풀었습니다.')}
+    if(a==='end')confirmBox(`${s.nick}을(를) 해지할까요?`,ds.length?`아래에 VISOR ${ds.length}개가 남아 있어 해지할 수 없습니다. 먼저 다른 SUPERVISOR로 옮기거나 함께 해지해 주세요.`:'해지하면 이 계정으로 로그인할 수 없습니다. 측정기록과 매출은 보관됩니다.',ds.length?null:'해지',()=>{})});
+}
+function rowClickIn(root,fn){root.querySelectorAll('tbody tr[data-id]').forEach(tr=>{tr.onclick=()=>fn(tr.dataset.id);tr.onkeydown=e=>{if(e.key==='Enter')fn(tr.dataset.id)}})}
+
+/* ============ VISOR 관리 ============ */
+function pageVisors(){
+  const all=scopeDevs(),rows=all.filter(d=>!S.q||(d.nick+d.id+d.serial+d.country+d.region+d.district).toLowerCase().includes(S.q.toLowerCase()));
+  $('#main').innerHTML=head('VISOR 관리',S.role==='superall'?'기기 한 대에 연결된 VISOR 계정을 등록하고 관리합니다.':'내가 관리하는 VISOR 계정과 기기를 확인합니다.',`<button class="btn pri" id="add">VISOR 추가</button>`)+`
+  <div class="card"><div class="tools"><input type="search" id="sq" placeholder="이름, ID, 고유번호 검색" value="${esc(S.q)}"><span class="res">${rows.length}개 계정</span></div>
+  <div class="twrap"><table style="min-width:1180px"><colgroup><col style="width:88px"><col style="width:140px"><col style="width:168px"><col><col style="width:136px"><col style="width:100px"><col style="width:104px"><col style="width:120px"><col style="width:128px"><col style="width:92px"></colgroup>
+   <thead><tr><th>국가</th><th>지역</th><th>VISOR ID</th><th>NICKNAME</th><th>소속 SUPERVISOR</th><th>서비스 시작일</th><th class="num">누적 측정</th><th class="num">누적 매출 ${q(TIP.rev)}</th><th>운영 상태 ${q(TIP.op)}</th><th>기기 상태 ${q(TIP.fault)}</th></tr></thead>
+   <tbody>${rows.map(d=>`<tr data-id="${d.id}" tabindex="0"><td class="ell">${d.country}</td><td class="ell">${d.region} ${d.district}</td><td class="mono">${d.id}</td><td class="ell" style="font-weight:600">${esc(d.nick)}</td><td class="mono">${d.sv}</td>
+     <td>${ymd(d.start)}</td><td class="num">${n0(d.cnt.all)}회</td><td class="num">${won(d.cnt.all*(1-d.fail)*PRICE)}</td><td>${opBadge(opOf(d))}</td><td>${faultBadge(d.fault)}</td></tr>`).join('')}</tbody></table>
+   ${rows.length?'':'<div class="empty-t">검색한 조건에 맞는 VISOR가 없습니다.</div>'}</div></div>`;
+  rowClick(openVisor);$('#sq').onchange=e=>{S.q=e.target.value;pageVisors()};$('#add').onclick=()=>openAdd('visor');
+}
+function openVisor(id){
+  const d=byId(id),sv=svById(d.sv),op=opOf(d),left=Math.ceil((d.end-TODAY)/864e5),pct=Math.max(0,Math.min(100,(TODAY-d.start)/(d.end-d.start)*100));
+  const tks=TICKETS.filter(t=>t.vid===id),locked=sv.state!=='정상';
+  modal(`<header><div><h2>${esc(d.nick)}</h2><div class="sub"><span class="mono">${d.id}</span> · 소속 <span class="mono">${d.sv}</span></div></div>${opBadge(op)} ${faultBadge(d.fault)}<button class="x" aria-label="닫기">×</button></header>
+  <div class="body"><div class="cols">
+   <div>
+    <div class="blk"><h3>기기 정보</h3>${devInfo(d)}</div>
+    <div class="blk"><h3>계약 기간</h3><div>${ymd(d.start)} ~ ${ymd(d.end)}</div><div class="prog"><i style="width:${pct}%;${left<=0?'background:var(--off)':left<30?'background:var(--warn)':''}"></i></div>
+      <div class="sub">${left>0?`종료까지 ${left}일 · 종료일이 지나면 측정이 자동으로 막힙니다.`:`종료 후 ${-left}일 지났습니다. 측정이 막혀 있습니다.`}</div>
+      <div class="acts" style="margin-top:8px"><button class="btn sm" data-act="extend">계약 1년 연장</button></div></div>
+   </div>
+   <div>
+    <div class="blk"><h3>운영 상태 ${q(TIP.op)}</h3>
+      ${locked?`<div class="callout">소속 SUPERVISOR가 일시 중지 상태라 이 기기도 함께 막혀 있습니다. SUPERVISOR 관리에서 풀 수 있습니다.`+`</div>`
+      :`<div class="seg" id="opseg">${['정상','일시정지','정지','해지'].map(o=>`<button data-o="${o}" aria-pressed="${d.op===o}">${o}</button>`).join('')}</div>
+        <p class="sub" style="margin-top:8px">일시정지는 바로 풀 수 있고, 정지는 상위 계정이 풀어야 합니다. 해지하면 계정이 닫히고 기록은 보관됩니다.</p>`}</div>
+    <div class="blk"><h3>기기 상태 ${q(TIP.fault)}</h3><div class="seg" id="ftseg">${['정상','비정상'].map(o=>`<button data-o="${o}" aria-pressed="${d.fault===o}">${o}</button>`).join('')}</div></div>
+    <div class="blk"><h3>측정 현황</h3><div class="tiles"><div class="tile"><div class="l">오늘</div><div class="v">${n0(d.cnt.day)}<small>회</small></div></div><div class="tile"><div class="l">누적</div><div class="v">${n0(d.cnt.all)}<small>회</small></div></div><div class="tile"><div class="l">성공률 ${q(TIP.succ)}</div><div class="v">${((1-d.fail)*100).toFixed(1)}<small>%</small></div></div></div>
+      <dl class="info" style="margin-top:10px"><dt>누적 매출 ${q(TIP.rev)}</dt><dd>${won(d.cnt.all*(1-d.fail)*PRICE)}</dd></dl></div>
+    <div class="blk"><h3>고장 신고 이력</h3>${tks.length?tks.map(t=>`<div class="hb" style="grid-template-columns:76px minmax(0,1fr) auto"><span class="mono">${t.id}</span><span class="ell">${t.type}</span>${stepBadge(t)}</div>`).join(''):'<div class="sub">신고된 고장이 없습니다.</div>'}</div>
+   </div></div></div>
+  <footer><button class="btn" data-close>닫기</button><button class="btn" id="tolog">이 기기의 측정기록 보기</button></footer>`);
+  const m=$('#modal');
+  m.querySelector('#tolog').onclick=()=>{closeModal();S.logFilter={vid:id,period:'all'};S.logTab='list';go('logs')};
+  m.querySelector('[data-act=extend]').onclick=()=>{d.end=addDays(d.end<TODAY?TODAY:d.end,365);render();openVisor(id);toast('계약 종료일을 1년 뒤로 옮겼습니다.')};
+  const os=m.querySelector('#opseg');if(os)os.onclick=e=>{const b=e.target.closest('button');if(!b||b.dataset.o===d.op)return;const o=b.dataset.o;
+    const go2=()=>{d.op=o;render();openVisor(id);toast(`운영 상태를 "${o}"(으)로 바꿨습니다.`)};
+    o==='정상'?go2():confirmBox(`${d.nick}을(를) ${o} 처리할까요?`,o==='해지'?'계정이 닫히고 이 기기로는 측정할 수 없게 됩니다. 측정기록과 매출은 보관됩니다.':'이 기기의 측정이 바로 막힙니다. 측정 중인 건은 끝까지 진행됩니다.',o,go2)};
+  m.querySelector('#ftseg').onclick=e=>{const b=e.target.closest('button');if(!b||b.dataset.o===d.fault)return;b.dataset.o==='비정상'?openReport(d):setFault(d,'정상',()=>openVisor(id))};
+}
+function setFault(d,v,after){d.fault=v;if(v==='정상')TICKETS.filter(t=>t.vid===d.id&&t.step<3).forEach(t=>t.step=3);render();after&&after();toast(v==='정상'?'기기 상태를 정상으로 바꿨습니다. 진행 중이던 신고는 완료 처리됩니다.':'')}
+
+/* ============ 고장·A/S ============ */
+const STEPS=['신고 접수','조치 예정 안내','조치 중','완료'];
+const stepBadge=t=>`<span class="badge ${t.step===3?'b-ok':t.step===0?'b-bad':'b-warn'}">${STEPS[t.step]}</span>`;
+function pageAs(){
+  const rows=scopeTickets(),v=S.role==='visor';
+  $('#main').innerHTML=head(v?'고장 신고':'고장·A/S',v?'기기에 문제가 생기면 여기서 신고하고 진행 상황을 확인합니다.':'VISOR가 신고한 고장을 확인하고 조치 계획을 보냅니다. SUPERVISOR가 먼저 처리하고, 어려우면 SUPERALL로 넘깁니다.',v?`<button class="btn pri" id="newrep">고장 신고하기</button>`:'')+`
+  <div class="card"><div class="twrap" style="border-top:0;border-radius:var(--r)"><table><colgroup><col style="width:92px"><col style="width:96px"><col style="width:200px"><col><col style="width:128px"><col style="width:150px"><col style="width:112px"></colgroup>
+   <thead><tr><th>신고 번호</th><th>접수일</th><th>설치 장소</th><th>문제 내용</th><th>진행 단계</th><th>조치 계획</th><th>담당</th></tr></thead>
+   <tbody>${rows.map(t=>{const d=byId(t.vid);return `<tr data-id="${t.id}" tabindex="0"><td class="mono">${t.id}</td><td>${ymd(t.at).slice(5)}</td><td><div class="ell" style="font-weight:600">${d.nick}</div><div class="sub ell">${d.region} ${d.district}</div></td>
+     <td><div style="font-weight:600" class="ell">${t.type}</div><div class="sub clamp2">${esc(t.text)}</div></td><td>${stepBadge(t)}</td><td>${t.action?`<div class="ell">${t.action}</div><div class="sub">${t.eta} 예정</div>`:'<span class="muted">정해지지 않음</span>'}</td><td>${t.owner}</td></tr>`}).join('')}</tbody></table>
+   ${rows.length?'':`<div class="empty-t">신고된 고장이 없습니다.${v?' 문제가 생기면 오른쪽 위에서 신고해 주세요.':''}</div>`}</div></div>`;
+  rowClick(openTicket);const nb=$('#newrep');if(nb)nb.onclick=()=>openReport(byId(ME.visor));
+}
+function openTicket(id){
+  const t=TICKETS.find(x=>x.id===id),d=byId(t.vid),v=S.role==='visor',canAct=!v&&t.step<3&&(S.role==='superall'||t.owner==='SUPERVISOR');
+  modal(`<header><div><h2>${t.type}</h2><div class="sub"><span class="mono">${t.id}</span> · ${d.nick} · ${ymd(t.at)} 접수</div></div>${stepBadge(t)}<button class="x" aria-label="닫기">×</button></header>
+  <div class="body">
+   <div class="steps">${STEPS.map((s,i)=>`<div class="${i<=t.step?'done':''}">${s}</div>`).join('')}</div>
+   <div class="blk"><h3>VISOR가 적은 문제 내용</h3><div class="quote">${esc(t.text)}</div></div>
+   <div class="blk"><h3>기기</h3><dl class="info"><dt>고유번호</dt><dd class="mono">${d.serial}</dd><dt>펌웨어</dt><dd class="mono">${d.fw}</dd><dt>계약 기간</dt><dd>${ymd(d.start)} ~ ${ymd(d.end)}</dd><dt>담당</dt><dd>${t.owner}${t.owner==='SUPERALL'?' <span class="sub">(SUPERVISOR가 넘김)</span>':''}</dd></dl></div>
+   ${canAct?`<div class="blk"><h3>조치 계획</h3><div class="form">
+     <div class="radios">${[['원격 안내','전화나 화면 안내로 해결합니다.'],['출장 수리','담당자가 설치 장소에 방문합니다.'],['기기 교체','새 기기를 보내고 기존 기기를 회수합니다.']].map(([a,s])=>`<label><input type="radio" name="act" value="${a}" ${t.action===a?'checked':''}><span>${a}<small>${s}</small></span></label>`).join('')}</div>
+     <label>조치 예정일<input type="date" id="eta" value="${t.eta?t.eta.replace(/\./g,'-'):'2026-10-14'}"></label></div></div>`
+   :t.action?`<div class="blk"><h3>조치 계획</h3><dl class="info"><dt>방법</dt><dd>${t.action}</dd><dt>예정일</dt><dd>${t.eta}</dd></dl></div>`:`<div class="blk"><div class="callout">${v?'담당 SUPERVISOR가 내용을 확인하고 있습니다. 조치 계획이 정해지면 여기에 표시됩니다.':'SUPERALL이 맡아 처리하고 있는 건입니다.'}</div></div>`}
+  </div>
+  <footer>${canAct&&S.role==='supervisor'?`<button class="btn" id="esc" style="margin-right:auto">SUPERALL로 넘기기</button>`:''}<button class="btn" data-close>닫기</button>
+   ${canAct?(t.step===0?`<button class="btn pri" id="send">VISOR에게 조치 계획 보내기</button>`:t.step===1?`<button class="btn pri" id="next">조치 시작</button>`:`<button class="btn pri" id="next">조치 완료</button>`):''}</footer>`,true);
+  const m=$('#modal'),rd=()=>{const a=m.querySelector('[name=act]:checked');if(!a){toast('조치 방법을 골라 주세요.');return false}t.action=a.value;t.eta=m.querySelector('#eta').value.replace(/-/g,'.');return true};
+  const b1=m.querySelector('#send');if(b1)b1.onclick=()=>{if(!rd())return;t.step=1;closeModal();render();toast(`${d.nick}에 조치 계획을 보냈습니다.`)};
+  const b2=m.querySelector('#next');if(b2)b2.onclick=()=>{if(!rd())return;t.step++;if(t.step===3)d.fault='정상';closeModal();render();toast(t.step===3?'조치를 완료하고 기기 상태를 정상으로 바꿨습니다.':'조치를 시작했습니다.')};
+  const b3=m.querySelector('#esc');if(b3)b3.onclick=()=>{t.owner='SUPERALL';closeModal();render();toast('SUPERALL로 넘겼습니다. 이후 처리는 본사에서 맡습니다.')};
+}
+function openReport(d){
+  modal(`<header><div><h2>고장 신고</h2><div class="sub">${d.nick} · <span class="mono">${d.serial}</span></div></div><button class="x" aria-label="닫기">×</button></header>
+  <div class="body"><div class="form">
+   <label>어떤 문제인가요?<select id="rt"><option>측정이 자주 실패함</option><option>화면이 켜지지 않음</option><option>결과지가 인쇄되지 않음</option><option>기기가 뜨거움</option><option>기타</option></select></label>
+   <label>문제 내용<span class="hint">언제부터, 어떤 상황에서 생기는지 적어 주세요. 적은 내용은 SUPERVISOR와 SUPERALL에게 전달됩니다.</span>
+     <textarea id="rx" maxlength="500" placeholder="예) 오늘 오전부터 손을 올려도 측정이 시작되지 않습니다."></textarea><span class="cnt"><span id="rc">0</span> / 500자</span></label>
+   <div class="callout red">신고하면 기기 상태가 "비정상"으로 바뀌고, 조치가 끝날 때까지 지도에 고장으로 표시됩니다.</div></div></div>
+  <footer><button class="btn" data-close>취소</button><button class="btn pri" id="rs">신고하기</button></footer>`,true);
+  const m=$('#modal'),x=m.querySelector('#rx');x.oninput=()=>m.querySelector('#rc').textContent=x.value.length;x.focus();
+  m.querySelector('#rs').onclick=()=>{if(x.value.trim().length<5){toast('문제 내용을 5자 이상 적어 주세요.');x.focus();return}
+    TICKETS.unshift({id:'AS-'+pad(419+TICKETS.length,4),vid:d.id,at:new Date(TODAY),type:m.querySelector('#rt').value,text:x.value.trim(),step:0,owner:'SUPERVISOR',action:'',eta:''});
+    d.fault='비정상';closeModal();render();toast('고장을 신고했습니다. SUPERVISOR와 SUPERALL에게 알림을 보냈습니다.')};
+}
+
+/* ============ 등록 팝업 ============ */
+function openAdd(kind){
+  const sv=kind==='sv',mine=svById(ME.supervisor);
+  modal(`<header><div><h2>${sv?'SUPERVISOR':'VISOR'} 추가</h2><div class="sub">${sv?'새 지역을 맡을 계정을 만듭니다.':'기기 한 대에 연결할 계정을 만듭니다.'}</div></div><button class="x" aria-label="닫기">×</button></header>
+  <div class="body"><div class="form">
+   ${sv?`<div class="row"><label>국가<select>${GEO.map(g=>`<option>${g.name}</option>`).join('')}</select></label><label>지역<input placeholder="예) 서울 은평구"></label></div>`
+     :`<label>소속 SUPERVISOR${S.role==='supervisor'?`<input value="${mine.nick} (${mine.id})" disabled><span class="hint">내가 관리하는 지역에만 추가할 수 있습니다.</span>`:`<select>${SVS.map(s=>`<option>${s.nick} (${s.id})</option>`).join('')}</select>`}</label>
+       <label>기기 고유번호 ${''}<input class="mono" placeholder="ELX-KR-11410-24-0000"><span class="hint">기기 뒷면에 적힌 번호입니다. 번호에 들어 있는 지역이 소속 SUPERVISOR의 지역과 다르면 등록할 수 없습니다.</span></label>`}
+   <label>NICKNAME<input id="an" maxlength="24" placeholder="${sv?'예) 은평구 운영':'예) 은평구보건소'}"><span class="hint">목록과 지도에 표시되는 이름입니다. 24자까지 쓸 수 있습니다.</span></label>
+   <div class="row"><label>담당자명<input></label><label>담당자 번호<input placeholder="010-0000-0000"></label></div>
+   <div class="row"><label>서비스 시작일<input type="date" value="2026-10-12"></label>${sv?'<span></span>':'<label>계약 종료일<input type="date" value="2027-10-11"></label>'}</div>
+  </div></div>
+  <footer><button class="btn" data-close>취소</button><button class="btn pri" id="as">추가</button></footer>`,true);
+  $('#modal #as').onclick=()=>{const n=$('#modal #an');if(!n.value.trim()){toast('NICKNAME을 적어 주세요.');n.focus();return}closeModal();toast(`${n.value.trim()} 계정을 추가했습니다. (시안에서는 목록에 반영되지 않습니다)`)};
+}
+
+/* ============ 팝업 · 도움말 공통 ============ */
+function modal(html,narrow){const m=$('#modal');m.innerHTML=`<div class="dlg ${narrow?'narrow':''}">${html}</div>`;m.classList.add('on');
+  m.querySelectorAll('.x,[data-close]').forEach(b=>b.onclick=closeModal)}
+function closeModal(){$('#modal').classList.remove('on');$('#modal').innerHTML=''}
+$('#modal').addEventListener('mousedown',e=>{if(e.target.id==='modal')closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+function confirmBox(title,desc,okLabel,fn){modal(`<header><h2>${title}</h2><button class="x" aria-label="닫기">×</button></header><div class="body"><p>${desc}</p></div>
+  <footer><button class="btn" data-close>${okLabel?'취소':'확인'}</button>${okLabel?`<button class="btn pri" id="cok">${okLabel}</button>`:''}</footer>`,true);
+  const b=$('#modal #cok');if(b)b.onclick=()=>{closeModal();fn()}}
+const tip=$('#tip');
+function showTip(el){let t=el.dataset.tip;if(!t&&el.classList.contains('ell')&&el.scrollWidth>el.clientWidth)t=el.textContent;if(!t)return;
+  tip.textContent=t;tip.classList.add('on');const r=el.getBoundingClientRect(),tw=tip.offsetWidth,th=tip.offsetHeight;
+  tip.style.left=Math.max(8,Math.min(r.left+r.width/2-tw/2,innerWidth-tw-8))+'px';tip.style.top=(r.top-th-8<8?r.bottom+8:r.top-th-8)+'px'}
+document.addEventListener('mouseover',e=>{const el=e.target.closest('[data-tip],.ell');el?showTip(el):tip.classList.remove('on')});
+document.addEventListener('focusin',e=>{const el=e.target.closest('[data-tip]');if(el)showTip(el)});
+document.addEventListener('focusout',()=>tip.classList.remove('on'));
+window.addEventListener('scroll',()=>tip.classList.remove('on'),true);
+
+render();
+</script>
+</body>
+</html>

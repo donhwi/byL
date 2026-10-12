@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>플로우 도식 — 한전 VR 관제 허브 · 헬로플래닛</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --bg:#F5F6F8; --surface:#fff; --line:#E3E6EC; --line2:#EEF0F4;
+  --ink:#141922; --ink2:#566070; --ink3:#8A93A2;
+  --accent:#2F3FA8; --accent-weak:#EEF0FB;
+  --teal:#0E7C86; --teal-weak:#E4F4F5;
+  --warm:#B86E00; --warm-weak:#FDF3E1;
+  --sans:"Pretendard Variable",Pretendard,-apple-system,"Malgun Gothic",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p,dl,dd{margin:0}
+.wrap{max-width:1280px;margin:0 auto;padding:40px 24px 80px}
+.proj+.proj{margin-top:72px}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.12em;color:var(--accent)}
+.proj h1{font-size:30px;font-weight:750;letter-spacing:-.02em;margin:6px 0 10px}
+.lead{max-width:760px;color:var(--ink2);font-size:16px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 28px;margin:18px 0 0;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.meta div{min-width:0}
+.meta dt{font-size:12px;color:var(--ink3)}
+.meta dd{font-weight:600;font-size:14px}
+.fig{margin-top:28px}
+.fig h2{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.fig h2 span{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ink3);margin-right:8px;letter-spacing:.06em}
+.fig>p{color:var(--ink2);max-width:760px;margin-top:4px;font-size:14.5px}
+.canvas{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow-x:auto}
+.canvas svg{display:block;width:100%;height:auto;font-family:var(--sans)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 20px;padding:10px 16px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink2)}
+.legend span{display:flex;align-items:center;gap:7px}
+.legend i{width:26px;height:0;border-top:2px solid var(--c);flex:none}
+.legend i.dash{border-top-style:dashed}
+.nd{display:flex;align-items:center;justify-content:center;text-align:center;height:100%;padding:0 8px;font-size:12.5px;line-height:1.35;font-weight:600;color:var(--ink)}
+.scope{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.scope div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.scope h3{font-size:14px;font-weight:700;display:flex;align-items:baseline;gap:8px}
+.scope h3 b{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.scope ul{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.scope li{background:var(--bg);border-radius:99px;padding:3px 11px;font-size:13px;font-weight:550}
+.scope p{font-size:13px;color:var(--ink2);margin-top:8px}
+.chain{display:flex;align-items:stretch;gap:0;margin-top:14px;flex-wrap:wrap}
+.chain div{flex:1 1 220px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0}
+.chain b{display:block;font-size:14.5px}
+.chain span{font-size:13px;color:var(--ink2)}
+.chain i{flex:none;width:34px;display:grid;place-items:center;color:var(--ink3);font-style:normal;font-size:18px}
+@media (max-width:760px){
+  .wrap{padding:24px 16px 56px} .proj h1{font-size:24px}
+  .scope{grid-template-columns:1fr} .chain i{width:100%;height:24px;transform:rotate(90deg)}
+  .canvas svg{min-width:920px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section class="proj">
+  <div class="eyebrow">KEPCO · VR CONTROL HUB</div>
+  <h1>한전 VR 안전교육 관제 허브</h1>
+  <p class="lead">강사 한 명이 VR 실습 기기 최대 20대를 한 화면에서 보고 제어하는 관제 콘솔입니다. 외부에서 만든 VR 콘텐츠 20종을 런처 하나로 묶고, 한전이 발급한 ID로만 들어오게 했습니다.</p>
+  <dl class="meta">
+    <div><dt>기간</dt><dd>2023.08 ~ 2023.12</dd></div>
+    <div><dt>소속 · 팀</dt><dd>㈜예쉬컴퍼니 · 5인</dd></div>
+    <div><dt>역할</dt><dd>기획 · PM (관제 콘솔, 통합 런처, ID 접근 제어)</dd></div>
+    <div><dt>결과</dt><dd>한전교육원 납품 · 운영 14대, 예비 6대</dd></div>
+  </dl>
+
+  <div class="fig">
+    <h2><span>FIG 1</span>누가 무엇을 다루는가</h2>
+    <p>강사의 콘솔에서 명령이 나가고, 기기에서는 상태와 화면이 돌아옵니다. 콘텐츠는 기기마다 깔린 통합 런처가 대신 실행합니다.</p>
+    <div class="canvas"><div id="kepco-arch"></div>
+      <div class="legend"><span><i style="--c:var(--accent)"></i>명령 (강사 → 기기)</span><span><i class="dash" style="--c:var(--teal)"></i>상태 · 화면 (기기 → 강사)</span></div></div>
+  </div>
+
+  <div class="fig">
+    <h2><span>FIG 2</span>수업 한 번이 흘러가는 순서</h2>
+    <p>위에서 아래로 내려가는 선은 강사의 명령, 아래에서 위로 올라오는 선은 기기가 보내는 상태입니다. 수업 중에는 확인과 조치가 끝날 때까지 되풀이됩니다.</p>
+    <div class="canvas"><div id="kepco-flow"></div>
+      <div class="legend"><span><i style="--c:var(--ink)"></i>진행 순서</span><span><i style="--c:var(--accent)"></i>명령</span><span><i class="dash" style="--c:var(--teal)"></i>상태 · 화면</span></div></div>
+  </div>
+
+  <div class="fig">
+    <h2><span>FIG 3</span>한꺼번에 하는 일, 한 대만 하는 일</h2>
+    <div class="scope">
+      <div><h3><b>1 : N</b>전체 기기에 한 번에</h3><ul><li>전원 켜기 · 끄기</li><li>실습 콘텐츠 지정 실행</li><li>일괄 종료</li></ul><p>수업의 시작과 끝을 강사 한 명이 한 번의 조작으로 맞춥니다.</p></div>
+      <div><h3><b>1 : 1</b>고른 기기 한 대에만</h3><ul><li>VR 화면 미러링</li><li>프로그램 제어</li><li>전원 제어</li></ul><p>문제가 생긴 수강생 한 명 때문에 수업 전체가 멈추지 않게 합니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="proj">
+  <div class="eyebrow">ALPHA STUDIO · HELLO PLANET</div>
+  <h1>헬로플래닛</h1>
+  <p class="lead">보호자의 핸드폰을 쓰는 미취학 아동을 위한 사용 습관 교육 앱입니다. 아이가 쓸 시간을 스스로 정하고, 그 시간 동안은 보호자가 허용한 앱만 씁니다. 약속한 시간이 끝나면 핸드폰이 잠기고 아이는 보상을 받습니다.</p>
+  <dl class="meta">
+    <div><dt>기간</dt><dd>2021.04 ~ 2021.11</dd></div>
+    <div><dt>소속 · 팀</dt><dd>㈜알파스튜디오 · 4인</dd></div>
+    <div><dt>역할</dt><dd>콘텐츠 기획 (보상 시스템, 잠금 기능, GA4 이벤트)</dd></div>
+  </dl>
+
+  <div class="fig">
+    <h2><span>FIG 4</span>핸드폰 한 대, 사용자 두 명</h2>
+    <p>설정하는 사람은 보호자이고 쓰는 사람은 아이입니다. 한 대의 핸드폰이 두 사람 사이를 오가는 동안 앱이 무엇을 하는지 순서대로 그렸습니다.</p>
+    <div class="canvas"><div id="hp-flow"></div>
+      <div class="legend"><span><i style="--c:var(--ink)"></i>진행 순서</span><span><i style="--c:var(--accent)"></i>사용자의 조작</span><span><i class="dash" style="--c:var(--teal)"></i>앱이 돌려주는 결과</span></div></div>
+  </div>
+
+  <div class="fig">
+    <h2><span>FIG 5</span>잠금 기능: OS마다 달라진 적용 범위</h2>
+    <p>약속 시간이 끝났을 때 핸드폰을 잠그는 기능은 OS 정책에 따라 갈렸습니다. Android는 권한 접근으로 구현했고, iOS는 앱이 화면 잠금을 제어할 수 없다는 것을 확인한 뒤 적용 범위를 조정했습니다.</p>
+    <div class="canvas"><div id="hp-os"></div></div>
+  </div>
+
+  <div class="fig">
+    <h2><span>FIG 6</span>보상을 다시 설계한 근거</h2>
+    <div class="chain">
+      <div><b>GA4 이벤트 스키마 설계</b><span>사용 흐름을 구간별로 볼 수 있게 이벤트를 정의</span></div><i>→</i>
+      <div><b>이탈 구간 분석</b><span>초반 구간에서 사용이 끊기는 지점을 확인</span></div><i>→</i>
+      <div><b>초반 보상 상향</b><span>이탈이 몰린 초반 구간의 보상을 올리도록 제안하고 설계</span></div>
+    </div>
+  </div>
+</section>
+
+</div>
+<script>
+const C={ink:'#141922',ink2:'#566070',ink3:'#8A93A2',line:'#E3E6EC',line2:'#EEF0F4',accent:'#2F3FA8',accentW:'#EEF0FB',teal:'#0E7C86',tealW:'#E4F4F5',warm:'#B86E00',warmW:'#FDF3E1'};
+let uid=0;
+function markers(p){return ['ink','accent','teal'].map(k=>`<marker id="${p}${k}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="${C[k]}"/></marker>`).join('')}
+const EK={flow:['ink',''],cmd:['accent',''],data:['teal','5 4']};
+
+/* 레인(가로줄) × 단계(세로줄) 격자에 노드를 놓고 선을 자동으로 잇는다 */
+function flow(id,{lanes,cols,phases=[],nodes,edges}){
+  const LW=124,CW=158,NW=134,NH=58,LH=108,TOP=phases.length?70:44,p='m'+(uid++);
+  const W=LW+cols.length*CW+14,H=TOP+lanes.length*LH+10;
+  const P=n=>({x:LW+n.c*CW+CW/2,y:TOP+n.l*LH+LH/2});
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" style="max-width:${W}px;min-width:${Math.min(W,920)}px"><defs>${markers(p)}</defs>`;
+  phases.forEach(ph=>{const x=LW+ph.from*CW+6,w=(ph.to-ph.from+1)*CW-12;
+    s+=`<rect x="${x}" y="10" width="${w}" height="22" rx="11" fill="${C.line2}"/><text x="${x+w/2}" y="25" text-anchor="middle" font-size="11.5" font-weight="650" fill="${C.ink2}">${ph.name}</text>`});
+  cols.forEach((c,i)=>{const x=LW+i*CW+CW/2,y=TOP-16;
+    s+=`<circle cx="${x-NW/2+9}" cy="${y-4}" r="9" fill="${C.ink}"/><text x="${x-NW/2+9}" y="${y}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">${i+1}</text><text x="${x-NW/2+24}" y="${y}" font-size="12.5" font-weight="700" fill="${C.ink}">${c}</text>`});
+  lanes.forEach((l,i)=>{const y=TOP+i*LH;
+    s+=`<rect x="8" y="${y+4}" width="${W-16}" height="${LH-8}" rx="10" fill="${i%2?'#fff':'#FAFBFC'}" stroke="${C.line2}"/><rect x="8" y="${y+4}" width="4" height="${LH-8}" rx="2" fill="${l.color}"/>
+     <text x="24" y="${y+LH/2-(l.sub?3:-4)}" font-size="13.5" font-weight="700" fill="${C.ink}">${l.name}</text>${l.sub?`<text x="24" y="${y+LH/2+14}" font-size="11" fill="${C.ink3}">${l.sub}</text>`:''}`});
+  let es='',ls='';
+  edges.forEach(([a,b,k='flow',label,route])=>{const A=P(nodes[a]),B=P(nodes[b]),[col,dash]=EK[k];let d,lx,ly,anchor='start';
+    if(route==='above'){const y0=TOP+nodes[a].l*LH+13;d=`M${A.x},${A.y-NH/2} V${y0} H${B.x} V${B.y-NH/2-2}`;lx=(A.x+B.x)/2;ly=y0+4;anchor='middle'}
+    else if(route==='below'){const yb=TOP+lanes.length*LH-13,xl=B.x-NW/2-12;d=`M${A.x},${A.y+NH/2} V${yb} H${xl} V${B.y} H${B.x-NW/2-2}`;lx=(A.x+xl)/2;ly=yb+4;anchor='middle'}
+    else if(nodes[a].c===nodes[b].c){const dir=Math.sign(B.y-A.y);d=`M${A.x},${A.y+dir*NH/2} V${B.y-dir*(NH/2+2)}`;lx=A.x+8;ly=(A.y+B.y)/2+4}
+    else if(nodes[a].l===nodes[b].l){d=`M${A.x+NW/2},${A.y} H${B.x-NW/2-2}`;lx=(A.x+B.x)/2;ly=A.y-7;anchor='middle'}
+    else{const xm=B.x-NW/2-12;d=`M${A.x+NW/2},${A.y} H${xm} V${B.y} H${B.x-NW/2-2}`;lx=xm+7;ly=(A.y+B.y)/2+4}
+    es+=`<path d="${d}" fill="none" stroke="${C[col]}" stroke-width="1.7" stroke-linejoin="round" ${dash?`stroke-dasharray="${dash}"`:''} marker-end="url(#${p}${col})"/>`;
+    if(label)ls+=`<text x="${lx}" y="${ly}" text-anchor="${anchor}" font-size="11" font-weight="600" fill="${C[col]}" stroke="#fff" stroke-width="4" paint-order="stroke">${label}</text>`});
+  let ns='';
+  Object.values(nodes).forEach(n=>{const {x,y}=P(n),l=lanes[n.l],x0=x-NW/2,y0=y-NH/2;
+    ns+=n.kind==='dec'?`<polygon points="${x0},${y} ${x0+16},${y0} ${x0+NW-16},${y0} ${x0+NW},${y} ${x0+NW-16},${y0+NH} ${x0+16},${y0+NH}" fill="#fff" stroke="${C.ink}" stroke-width="1.5"/>`
+      :`<rect x="${x0}" y="${y0}" width="${NW}" height="${NH}" rx="9" fill="${l.weak}" stroke="${l.color}" stroke-width="1.5"/>`;
+    ns+=`<foreignObject x="${x0}" y="${y0}" width="${NW}" height="${NH}"><div xmlns="http://www.w3.org/1999/xhtml" class="nd">${n.t}</div></foreignObject>`});
+  document.getElementById(id).innerHTML=s+es+ns+ls+'</svg>';
+}
+
+/* ---------- FIG 1 · 한전 구성도 ---------- */
+(function(){
+  const p='k',W=1240,H=384;let s=`<svg viewBox="0 0 ${W} ${H}" role="img"><defs>${markers(p)}</defs>`;
+  // 강사 + 콘솔
+  s+=`<rect x="24" y="58" width="300" height="300" rx="14" fill="#fff" stroke="${C.ink}" stroke-width="1.5"/>
+   <circle cx="56" cy="92" r="11" fill="none" stroke="${C.ink}" stroke-width="1.7"/><path d="M38,128 a18,16 0 0 1 36,0" fill="none" stroke="${C.ink}" stroke-width="1.7"/>
+   <text x="88" y="96" font-size="15" font-weight="700" fill="${C.ink}">강사 1명</text><text x="88" y="116" font-size="12" fill="${C.ink2}">관제 콘솔 한 화면으로 전체를 봄</text>
+   <text x="44" y="162" font-size="11" font-weight="700" fill="${C.ink3}" letter-spacing="1.2">관제 콘솔</text>`;
+  [['실시간 세션 모니터링','PC · 수강생 · 콘텐츠 현황'],['개별 VR 화면 미러링','고른 기기의 화면을 그대로 봄'],['전원 · 프로그램 원격 제어','켜기, 실행, 일괄 종료']].forEach(([a,b],i)=>{const y=174+i*58;
+    s+=`<rect x="40" y="${y}" width="268" height="48" rx="9" fill="${C.accentW}"/><text x="54" y="${y+21}" font-size="13.5" font-weight="700" fill="${C.ink}">${a}</text><text x="54" y="${y+38}" font-size="11.5" fill="${C.ink2}">${b}</text>`});
+  // ID 게이트
+  s+=`<rect x="24" y="14" width="300" height="30" rx="15" fill="${C.ink}"/><text x="174" y="34" text-anchor="middle" font-size="12.5" font-weight="650" fill="#fff">한전이 발급한 ID로만 접속</text>
+   <path d="M174,44 V56" stroke="${C.ink}" stroke-width="1.7" marker-end="url(#${p}ink)"/>`;
+  // 가운데 선
+  s+=`<path d="M324,170 H498" fill="none" stroke="${C.accent}" stroke-width="1.8" marker-end="url(#${p}accent)"/><text x="411" y="160" text-anchor="middle" font-size="12" font-weight="650" fill="${C.accent}">전원 · 실행 · 종료</text>
+   <path d="M500,246 H326" fill="none" stroke="${C.teal}" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#${p}teal)"/><text x="411" y="266" text-anchor="middle" font-size="12" font-weight="650" fill="${C.teal}">세션 상태 · VR 화면</text>`;
+  // 실습실
+  s+=`<rect x="500" y="14" width="716" height="356" rx="14" fill="#FAFBFC" stroke="${C.line}"/>
+   <text x="522" y="44" font-size="15" font-weight="700" fill="${C.ink}">VR 실습실 · 기기 20대</text><text x="1194" y="44" text-anchor="end" font-size="12" fill="${C.ink2}">기기 1대 = PC + VR 헤드셋 · 최대 20명 동시 교육</text>`;
+  const T=52,G=8,x0=522,y0=64;
+  for(let i=0;i<20;i++){const run=i<14,k=run?i:i-14,cols=run?7:3,cx=(run?x0:x0+7*(T+G)+62)+(k%cols)*(T+G),cy=y0+Math.floor(k/cols)*(T+G);
+    s+=`<rect x="${cx}" y="${cy}" width="${T}" height="${T}" rx="9" fill="${run?C.tealW:'#fff'}" stroke="${run?C.teal:C.ink3}" stroke-width="1.4" ${run?'':'stroke-dasharray="4 3"'}/>
+     <text x="${cx+T/2}" y="${cy+T/2+5}" text-anchor="middle" font-size="13" font-weight="650" font-family="JetBrains Mono,monospace" fill="${run?C.teal:C.ink3}">${String(i+1).padStart(2,'0')}</text>`}
+  const bw=7*(T+G)-G,ex=x0+7*(T+G)+62,ew=3*(T+G)-G,by=y0+2*(T+G)+4;
+  s+=`<path d="M${x0},${by} v6 h${bw} v-6" fill="none" stroke="${C.teal}" stroke-width="1.4"/><text x="${x0+bw/2}" y="${by+24}" text-anchor="middle" font-size="12.5" font-weight="700" fill="${C.teal}">운영 14대</text>
+   <path d="M${ex},${by} v6 h${ew} v-6" fill="none" stroke="${C.ink3}" stroke-width="1.4"/><text x="${ex+ew/2}" y="${by+24}" text-anchor="middle" font-size="12.5" font-weight="700" fill="${C.ink2}">예비 6대</text>`;
+  // 런처 + 콘텐츠
+  const ly=by+46;
+  s+=`<rect x="522" y="${ly}" width="672" height="42" rx="9" fill="${C.accentW}" stroke="${C.accent}" stroke-width="1.4"/><text x="540" y="${ly+26}" font-size="13.5" font-weight="700" fill="${C.ink}">통합 런처</text><text x="1176" y="${ly+26}" text-anchor="end" font-size="12" fill="${C.ink2}">기기마다 설치 · 강사가 고른 콘텐츠를 대신 실행</text>
+   <path d="M858,${ly+42} V${ly+62}" stroke="${C.accent}" stroke-width="1.7" marker-end="url(#${p}accent)"/>`;
+  const cy2=ly+66;
+  for(let i=0;i<20;i++)s+=`<rect x="${522+i*33.8}" y="${cy2}" width="28" height="28" rx="6" fill="#fff" stroke="${C.line}" stroke-width="1.3"/>`;
+  s+=`<text x="522" y="${cy2+48}" font-size="12.5" font-weight="700" fill="${C.ink}">외부 제작 VR 콘텐츠 20종</text><text x="1194" y="${cy2+48}" text-anchor="end" font-size="12" fill="${C.ink2}">제작사가 달라도 실행 방식은 하나</text>`;
+  document.getElementById('kepco-arch').innerHTML=s+'</svg>';
+})();
+
+/* ---------- FIG 2 · 한전 수업 운영 ---------- */
+const INK={color:C.ink,weak:'#fff'},ACC={color:C.accent,weak:C.accentW},TEAL={color:C.teal,weak:C.tealW},WARM={color:C.warm,weak:C.warmW};
+flow('kepco-flow',{
+  lanes:[{name:'강사',sub:'관제 콘솔 조작',...INK},{name:'관제 허브',sub:'콘솔 · 런처',...ACC},{name:'수강생 기기',sub:'PC + VR · 20대',...TEAL}],
+  cols:['접속','준비','실행','관제','확인','조치','종료'],
+  phases:[{name:'수업 전',from:0,to:1},{name:'수업 중',from:2,to:5},{name:'수업 후',from:6,to:6}],
+  nodes:{
+    i1:{c:0,l:0,t:'한전 발급 ID로<br>접속'},h1:{c:0,l:1,t:'ID 확인 후<br>콘솔 열기'},
+    i2:{c:1,l:0,t:'전체 기기<br>전원 켜기'},h2:{c:1,l:1,t:'전원 명령<br>일괄 전송'},d2:{c:1,l:2,t:'PC 켜짐<br>런처 대기'},
+    i3:{c:2,l:0,t:'실습 콘텐츠 지정<br>일괄 실행'},h3:{c:2,l:1,t:'통합 런처가<br>지정 콘텐츠 실행'},d3:{c:2,l:2,t:'VR 실습 시작'},
+    i4:{c:3,l:0,t:'전체 현황을<br>한 화면에서 확인'},h4:{c:3,l:1,t:'세션 현황 집계<br>PC · 수강생 · 콘텐츠'},d4:{c:3,l:2,t:'세션 상태 전송'},
+    i5:{c:4,l:0,t:'살펴볼 기기를 골라<br>화면 미러링'},h5:{c:4,l:1,t:'고른 기기의<br>VR 화면 중계'},d5:{c:4,l:2,t:'VR 화면 송출'},
+    i6:{c:5,l:0,t:'문제가 생긴 기기만<br>개별 제어'},h6:{c:5,l:1,t:'해당 기기에만<br>명령 전송'},d6:{c:5,l:2,t:'프로그램 · 전원<br>다시 실행'},
+    i7:{c:6,l:0,t:'일괄 종료'},h7:{c:6,l:1,t:'종료 명령<br>일괄 전송'},d7:{c:6,l:2,t:'프로그램 · 전원<br>종료'}},
+  edges:[['i1','i2'],['i2','i3'],['i3','i4'],['i4','i5'],['i5','i6'],['i6','i7'],['i6','i4','flow','수업이 끝날 때까지 반복','above'],
+    ['i1','h1','cmd'],['i2','h2','cmd'],['h2','d2','cmd'],['i3','h3','cmd'],['h3','d3','cmd'],
+    ['d4','h4','data'],['h4','i4','data'],['i5','h5','cmd'],['d5','h5','data'],['i6','h6','cmd'],['h6','d6','cmd'],['i7','h7','cmd'],['h7','d7','cmd']]
+});
+
+/* ---------- FIG 4 · 헬로플래닛 이중 사용자 ---------- */
+flow('hp-flow',{
+  lanes:[{name:'보호자',sub:'설정하는 사람',...INK},{name:'헬로플래닛',sub:'앱',...ACC},{name:'아이',sub:'쓰는 사람',...WARM}],
+  cols:['준비','건네기','약속','사용','종료','보상'],
+  nodes:{
+    p1:{c:0,l:0,t:'아이에게 허용할<br>앱 등록'},a1:{c:0,l:1,t:'허용 앱 목록 저장'},
+    p2:{c:1,l:0,t:'앱을 켜서<br>아이에게 건넴'},
+    k3:{c:2,l:2,t:'사용할 시간을<br>직접 설정'},a3:{c:2,l:1,t:'약속 시간<br>타이머 시작'},
+    a4:{c:3,l:1,t:'허용 앱만 열림<br>나머지는 잠금'},k4:{c:3,l:2,t:'허용 앱 사용'},
+    a5:{c:4,l:1,t:'약속 시간 종료<br>핸드폰 잠금'},k5:{c:4,l:2,t:'사용을 멈춤'},
+    a6:{c:5,l:1,t:'보상 지급'},k6:{c:5,l:2,t:'보상 획득'}},
+  edges:[['p1','p2'],['p2','k3'],['a3','a4'],['a4','a5'],['a5','a6'],
+    ['p1','a1','cmd'],['k3','a3','cmd'],['a4','k4','data'],['a5','k5','data'],['a6','k6','data'],
+    ['k6','p2','flow','다음에 쓸 때 다시 약속부터','below']]
+});
+
+/* ---------- FIG 5 · OS 분기 ---------- */
+flow('hp-os',{
+  lanes:[{name:'Android',...TEAL},{name:'공통',...INK},{name:'iOS',...WARM}],
+  cols:['시간 종료','OS 확인','기술 검토','적용'],
+  nodes:{
+    c0:{c:0,l:1,t:'약속 시간 종료'},c1:{c:1,l:1,t:'어떤 OS인가',kind:'dec'},
+    x2:{c:2,l:0,t:'잠금 권한 접근<br>구현'},x3:{c:3,l:0,t:'앱이 화면을 잠금'},
+    y2:{c:2,l:2,t:'OS 정책 확인<br>화면 잠금 제어 불가'},y3:{c:3,l:2,t:'잠금 기능<br>적용 범위 조정'}},
+  edges:[['c0','c1'],['c1','x2','flow','Android'],['c1','y2','flow','iOS'],['x2','x3'],['y2','y3']]
+});
+</script>
+</body>
+</html>
