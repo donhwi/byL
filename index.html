@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" data-root="." data-page="home">
+<html lang="ko" data-root=".">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,12 +11,13 @@
 <body>
 <main class="wrap">
 
-<header class="cover">
+<!-- ====================== 표지 ====================== -->
+<header class="cover" id="top">
   <div>
     <div class="eyebrow">서비스 기획 포트폴리오 · 이돈휘</div>
     <h1>현장 업무를<br><em>화면과 정책</em>으로<br>구조화합니다.</h1>
-    <p class="lead">비침습 혈당 측정 서비스의 ADMIN, VR 교육장의 관제 콘솔, 아동 핸드폰 사용 습관 교육 앱을 기획했습니다. 화면 설계와 함께 상태값, 권한, 예외 처리를 정책 문서로 정리해 전달합니다.</p>
-    <div class="acts"><a class="btn pri" href="#projects">프로젝트 보기</a><a class="btn" href="work/">일하는 방식 보기</a></div>
+    <p class="lead">화면 설계와 함께 상태값 · 권한 · 예외 처리를 정책 문서로 정리해 전달합니다.</p>
+    <div class="acts"><a class="btn pri" href="#elixir">프로젝트 보기</a><a class="btn" href="#work">일하는 방식 보기</a></div>
   </div>
   <div class="sheet">
     <h2>경력</h2>
@@ -32,98 +33,482 @@
   </div>
 </header>
 
-<section class="sec" id="fit" data-nav="직무 관련 경험">
+<section class="sec" id="fit">
   <h2 data-k="지원 직무와의 연결">AI 헬스케어 서비스 기획 관련 경험</h2>
   <div class="grid g3">
-    <div class="card"><h3>화면별 상태값 · 권한 · 예외 처리 정의</h3><p>엘릭서 ADMIN에서 계정 3단계의 권한, 운영 상태와 기기 상태의 구분, 기능 제한 시 화면 내 안내 문구를 정의했습니다.</p><a class="doclink" href="elixir/#policy">엘릭서 정책 보기</a></div>
-    <div class="card"><h3>현장 업무 프로세스의 플로우 설계</h3><p>강사 1명이 기기 20대를 운영하는 수업, 고장 신고가 본사까지 이관되는 과정을 사용자별 플로우로 설계했습니다.</p><a class="doclink" href="kepco/">한전 관제 플로우 보기</a></div>
-    <div class="card"><h3>건강 데이터 서비스의 운영 구조 기획</h3><p>비침습 혈당 측정 기기의 측정기록, 실패 원인, 기기 상태를 본사 · 지역 · 현장이 각자의 권한 범위에서 조회하는 구조를 기획했습니다.</p><a class="doclink" href="elixir/#roles">권한 구조 보기</a></div>
+    <div class="card"><h3>상태값 · 권한 · 예외 처리 정의</h3><p>엘릭서 ADMIN의 계정 3단계 권한과 상태값, 제한 시 안내 문구를 정의했습니다.</p><a class="doclink" href="#policy">엘릭서 정책</a></div>
+    <div class="card"><h3>현장 업무의 플로우 설계</h3><p>강사 1명의 기기 20대 운영, 고장 신고의 본사 이관을 사용자별 플로우로 설계했습니다.</p><a class="doclink" href="#kepco">한전 관제 플로우</a></div>
+    <div class="card"><h3>건강 데이터 서비스의 운영 구조</h3><p>측정기록, 실패 원인, 기기 상태를 본사 · 지역 · 현장이 권한 범위 안에서 조회합니다.</p><a class="doclink" href="#roles">권한 구조</a></div>
   </div>
 </section>
 
-<section class="sec" id="projects" data-nav="프로젝트">
-  <h2 data-k="프로젝트">기획한 서비스</h2>
-  <div class="grid g2">
-    <a class="pcard main" href="elixir/">
-      <div>
-        <div class="row"><span class="more">대표 프로젝트 · 자세히 보기 ›</span></div>
-        <div class="sub">㈜바이오팝코리아 · 비침습 혈당 측정 서비스</div>
-        <h3>엘릭서 ADMIN 기획</h3>
-        <p>비침습 혈당 측정 기기의 앱과 B2B · B2C ADMIN을 기획했습니다. 권한 구조, 상태값, 예외 처리, 고장 신고부터 조치까지의 플로우를 조작 가능한 시안과 정책 문서로 정리했습니다.</p>
-        <div class="when">2024.07 ~ 2025.11 · PM · 9인 4파트</div>
+<!-- ====================== 엘릭서 ====================== -->
+<article class="chap" id="elixir" data-nav="엘릭서">
+<header class="page-h">
+  <div class="eyebrow">㈜바이오팝코리아 · 대표 프로젝트</div>
+  <h2 class="ch-t">엘릭서: 비침습 혈당 측정 서비스 ADMIN 기획</h2>
+  <p class="lead">비침습 혈당 측정 기기를 여러 국가에 설치해 운영하기 위한 ADMIN의 화면, 권한, 상태값, 예외 처리를 기획했습니다.</p>
+  <dl class="meta">
+    <div><dt>기간</dt><dd>2024.07 ~ 2025.11</dd></div>
+    <div><dt>소속 · 팀</dt><dd>㈜바이오팝코리아 · 9인 4파트 (기획 · SW · HW · 그래픽)</dd></div>
+    <div><dt>역할</dt><dd>PM · 전략기획 · 서비스 기획</dd></div>
+    <div><dt>기획 범위</dt><dd>앱 UI, B2B · B2C ADMIN 설계와 UI, 운영 정책</dd></div>
+  </dl>
+</header>
+
+<section class="sec" id="intro">
+  <h2>서비스와 기기</h2>
+  <p>근적외선(NIR) 센서로 채혈 없이 혈당을 측정하는 기기와 소프트웨어입니다. 이용자는 앱으로 결과를 확인하고, 설치 기관은 ADMIN에서 기기와 계정을 관리합니다.</p>
+  <div class="split">
+    <div class="grid" style="margin-top:0">
+      <div class="stats">
+        <div><b>24,000건+</b><span>수집한 임상 데이터 (유효 11,000건+)</span></div>
+        <div><b>약 970명</b><span>CES 2025 부스에서 응대한 방문객</span></div>
+        <div><b>B2C</b><span>CES 행사용 SW · HW 개발 완료</span></div>
+        <div><b>B2B</b><span>남미 수출 대상 SW · HW 개발 완료</span></div>
       </div>
-      <div id="mini-tree" aria-hidden="true"></div>
-    </a>
-    <a class="pcard" href="kepco/">
-      <div class="row"><span class="more">자세히 보기 ›</span><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span></div>
-      <div class="sub">㈜예쉬컴퍼니 · 한전교육원 납품</div>
-      <h3>한전 VR 관제 허브</h3>
-      <p>강사 1명이 VR 실습 기기 20대를 한 화면에서 확인하고 제어하는 관제 콘솔과, 외부 콘텐츠 20종을 통합하는 런처를 기획했습니다.</p>
-      <div class="when">2023.08 ~ 2023.12 · 기획 · PM · 5인</div>
-    </a>
-    <a class="pcard" href="hello-planet/">
-      <div class="row"><span class="more">자세히 보기 ›</span><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18h2"/></svg></span></div>
-      <div class="sub">㈜알파스튜디오 · 아동 사용 습관 교육 앱</div>
-      <h3>헬로플래닛</h3>
-      <p>아이가 핸드폰 사용 시간을 직접 약속하고 지키도록 돕는 앱입니다. 보상 시스템을 재설계하고, OS 정책에 맞춰 잠금 기능의 적용 범위를 조정했습니다.</p>
-      <div class="when">2021.04 ~ 2021.11 · 콘텐츠 기획 · 4인</div>
-    </a>
+      <div class="card">
+        <h3>담당 업무</h3>
+        <ul class="list">
+          <li>앱과 B2C · B2G · B2B ADMIN 기획, 운영 정책 수립</li>
+          <li>5개년 로드맵과 2주 스프린트 운영 (Jira)</li>
+          <li>외부 임상 리소스 관리 약 3개월 (서울성모병원 연구팀, 임상 인력 3인)</li>
+        </ul>
+      </div>
+    </div>
+    <figure class="photo">
+      <img src="assets/elixir-device.jpg" alt="엘릭서 측정 기기" onerror="this.outerHTML='<div class=&quot;empty&quot;>엘릭서 기기 사진이 들어갈 자리입니다</div>'">
+    </figure>
   </div>
 </section>
 
-<section class="sec" id="career-sec" data-nav="경력 타임라인">
-  <h2 data-k="경력">재직 기간과 프로젝트</h2>
-  <div class="canvas"><div id="career"></div></div>
+<section class="sec" id="roles">
+  <h2>권한 구조</h2>
+  <p>계정은 SUPERALL(본사) · SUPERVISOR(지역) · VISOR(현장) 3단계입니다. VISOR 계정 1개는 기기 1대와 연결됩니다.</p>
+  <div class="canvas"><div id="tree"></div></div>
 </section>
 
-<section class="sec" id="how" data-nav="일하는 방식">
-  <h2 data-k="일하는 방식">정책 문서, 변경 이력, 컨펌 절차</h2>
-  <p>정책은 Markdown 문서로 작성하고, 변경 내용은 Git 이력으로 관리하며, 작업 완료는 컨펌 승인을 거치도록 절차를 설계했습니다. 도식과 시안은 AI Agent로 제작하고, 사실 확인은 직접 수행합니다.</p>
-  <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap"><a class="btn pri" href="work/">일하는 방식 보기</a><a class="btn" href="docs/README.md" data-doc="docs/README.md">정책 문서 목록</a></div>
-</section>
-
-<section class="sec" id="ai-sec" data-nav="AI 프로젝트">
-  <h2 data-k="AI 역량">AI 프로젝트</h2>
-  <div class="grid">
-    <a class="pcard" href="ai/">
-      <div class="row"><span class="more">개인 프로젝트 · 자세히 보기 ›</span><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-5 4 3 8-9"/><path d="M15 6h5v5"/></svg></span></div>
-      <div class="sub">Python · Claude · 한국투자증권 모의투자 API</div>
-      <h3>AI 자동매매 검증 시스템</h3>
-      <p>AI가 차트와 뉴스를 분석해 내린 매매 판단을 모의투자 환경에서 검증하는 시스템입니다. 기획과 개발을 단독으로 수행했으며, 검증 완료 전에는 실계좌에 적용하지 않는 것을 원칙으로 운영합니다.</p>
-      <div class="when">2025 ~ 진행 중 · 기획 · 개발 단독</div>
-    </a>
+<section class="sec" id="admin">
+  <h2>ADMIN 시안</h2>
+  <p>상단의 "로그인 계층"을 전환하면 계정 단계에 따라 메뉴와 조회 범위가 달라집니다.</p>
+  <p class="notice">대외비 이슈로 일부 기능을 포트폴리오용으로 제작한 화면입니다. 화면의 수치와 이름은 모두 예시 데이터입니다.</p>
+  <div class="frame">
+    <div class="bar"><b>Elixir Admin</b><span>지도의 지역을 선택하면 하위 지역으로 이동합니다</span><a class="btn pri" href="elixir-admin/" target="_blank" rel="noopener">새 창에서 크게 보기</a></div>
+    <iframe src="elixir-admin/" title="엘릭서 ADMIN 시안" loading="lazy"></iframe>
+  </div>
+  <div class="grid g3">
+    <div class="card"><h3>지도 기반 탐색</h3><p>전 세계 → 국가 → 지역 → 구 단위로 범위를 좁혀 기기를 조회합니다.</p></div>
+    <div class="card"><h3>긴 텍스트 · 큰 수치 처리</h3><p>이름은 최대 24자, 목록에서는 말줄임 후 마우스를 올리면 전체를 표시합니다.</p></div>
+    <div class="card"><h3>도움말 툴팁</h3><p>지표와 상태값 옆 물음표 아이콘에서 정의를 한 문장으로 표시합니다.</p></div>
   </div>
 </section>
+
+<section class="sec" id="policy">
+  <h2>정책</h2>
+  <p>화면으로 표현되지 않는 운영 규칙은 정책 문서로 분리했습니다. 아래는 요약입니다.</p>
+
+  <div class="fig">
+    <h3><span>정책 1</span>상태값: 운영 상태와 기기 상태로 구분</h3>
+    <p>측정 불가의 원인을 계약 문제와 기기 문제로 분리해, 상태값만으로 조치 주체를 판단합니다.</p>
+    <div class="twrap"><table>
+      <thead><tr><th>구분</th><th>상태값</th><th>정의</th><th>측정 가능 여부</th><th>복구 방법</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="5">운영 상태</td><td><span class="badge b-ok">정상</span></td><td>계약 기간 내이며 제한 사항 없음</td><td>가능</td><td>—</td></tr>
+        <tr><td style="font-weight:400"><span class="badge b-warn">일시정지</span></td><td>일시적으로 이용을 제한한 상태. 상위 SUPERVISOR가 일시정지되면 함께 적용</td><td>불가</td><td>즉시 해제 가능</td></tr>
+        <tr><td style="font-weight:400"><span class="badge b-off">정지</span></td><td>운영상 사유로 이용을 제한한 상태</td><td>불가</td><td>상위 계정이 해제</td></tr>
+        <tr><td style="font-weight:400"><span class="badge b-warn">계약 만료</span></td><td>계약 종료일 경과로 자동 제한</td><td>불가</td><td>계약 연장</td></tr>
+        <tr><td style="font-weight:400"><span class="badge b-off">해지</span></td><td>계정 종료. 측정기록과 매출 데이터는 보관</td><td>불가</td><td>복구 불가</td></tr>
+        <tr><td rowspan="2">기기 상태</td><td><span class="badge b-ok">정상</span></td><td>기기가 정상 동작</td><td>가능</td><td>—</td></tr>
+        <tr><td style="font-weight:400"><span class="badge b-bad">비정상</span></td><td>고장 또는 점검 필요. 상위 계정에 알림</td><td>—</td><td>조치 완료 시 정상</td></tr>
+      </tbody></table></div>
+    <p style="margin-top:18px">여러 조건에 동시에 해당하면 아래 우선순위로 하나의 상태만 표시합니다.</p>
+    <div class="chain">
+      <div><b>해지</b></div><i>→</i>
+      <div><b>상위 SUPERVISOR 일시정지</b></div><i>→</i>
+      <div><b>기기 자체 일시정지 · 정지</b></div><i>→</i>
+      <div><b>계약 만료</b></div><i>→</i>
+      <div><b>정상</b></div>
+    </div>
+    <a class="doclink" href="docs/elixir/01-states.md" data-doc="docs/elixir/01-states.md">01 상태값 정의 전문</a>
+  </div>
+
+  <div class="fig">
+    <h3><span>정책 2</span>권한: 계정 단계별 기능 범위</h3>
+    <div class="twrap"><table>
+      <thead><tr><th>기능</th><th class="c">SUPERALL</th><th class="c">SUPERVISOR</th><th class="c">VISOR</th></tr></thead>
+      <tbody>
+        <tr><td>조회 범위</td><td class="c">전체</td><td class="c">소속 지역</td><td class="c">담당 기기 1대</td></tr>
+        <tr><td>SUPERVISOR 추가 · 일시 중지 · 해지</td><td class="c yes">O</td><td class="c no">—</td><td class="c no">—</td></tr>
+        <tr><td>VISOR 추가</td><td class="c yes">O</td><td class="c yes">O <span class="no" style="font-weight:400">소속 지역만</span></td><td class="c no">—</td></tr>
+        <tr><td>VISOR 운영 상태 변경 · 계약 연장</td><td class="c yes">O</td><td class="c yes">O</td><td class="c no">—</td></tr>
+        <tr><td>기기 상태 변경 (정상 ↔ 비정상)</td><td class="c yes">O</td><td class="c yes">O</td><td class="c yes">O <span class="no" style="font-weight:400">담당 기기</span></td></tr>
+        <tr><td>고장 신고 작성</td><td class="c no">—</td><td class="c no">—</td><td class="c yes">O</td></tr>
+        <tr><td>조치 계획 등록 · 단계 진행</td><td class="c yes">O</td><td class="c yes">O <span class="no" style="font-weight:400">담당 건만</span></td><td class="c no">—</td></tr>
+        <tr><td>SUPERALL로 이관</td><td class="c no">—</td><td class="c yes">O</td><td class="c no">—</td></tr>
+      </tbody></table></div>
+    <p class="note">이용자의 혈당 수치는 ADMIN에 표시하지 않습니다.</p>
+    <a class="doclink" href="docs/elixir/02-permissions.md" data-doc="docs/elixir/02-permissions.md">02 권한 매트릭스 전문</a>
+  </div>
+
+  <div class="fig">
+    <h3><span>정책 3</span>예외 처리</h3>
+    <p>기능을 제한할 때는 제한 사유와 다음 작업을 화면에서 안내합니다.</p>
+    <div class="twrap"><table>
+      <thead><tr><th>상황</th><th>처리</th><th>화면 내 안내</th></tr></thead>
+      <tbody>
+        <tr><td>고유번호의 지역이 소속 지역과 다름</td><td>등록 불가</td><td>지역 불일치 안내</td></tr>
+        <tr><td>소속 VISOR가 있는 SUPERVISOR를 해지</td><td>해지 불가</td><td>소속 VISOR 수 표시, 이관 또는 일괄 해지 안내</td></tr>
+        <tr><td>SUPERVISOR 일시 중지</td><td>소속 기기 측정 차단</td><td>영향받는 기기 수를 확인 창에 사전 표시</td></tr>
+        <tr><td>측정 진행 중 정지 설정</td><td>진행 중인 측정은 완료</td><td>다음 측정부터 차단됨을 안내</td></tr>
+        <tr><td>계약 종료일 경과</td><td>측정 자동 차단</td><td>30일 전부터 "종료 임박" 표시</td></tr>
+        <tr><td>측정 실패</td><td>요금 미부과</td><td>실패 원인 코드와 펌웨어 버전을 기록</td></tr>
+      </tbody></table></div>
+    <a class="doclink" href="docs/elixir/03-exceptions.md" data-doc="docs/elixir/03-exceptions.md">03 입력 규칙 · 예외 처리 전문</a>
+  </div>
+</section>
+
+<section class="sec" id="fault">
+  <h2>고장 신고 → 조치</h2>
+  <p>VISOR가 신고하면 SUPERVISOR가 1차 접수하고, 지역에서 해결할 수 없는 건은 SUPERALL로 이관합니다.</p>
+  <div class="canvas"><div id="fault-flow"></div>
+    <div class="legend"><span><i style="--c:var(--ink)"></i>진행 순서</span><span><i style="--c:var(--accent)"></i>신고 · 이관</span><span><i class="dash" style="--c:var(--teal)"></i>현장에 전달되는 안내</span></div></div>
+  <a class="doclink" href="docs/elixir/04-fault-flow.md" data-doc="docs/elixir/04-fault-flow.md">04 고장 신고 → 조치 플로우 전문</a>
+</section>
+</article>
+
+<!-- ====================== 한전 VR 관제 ====================== -->
+<article class="chap" id="kepco" data-nav="한전 VR 관제">
+<header class="page-h">
+  <div class="eyebrow">㈜예쉬컴퍼니 · 한전교육원 납품</div>
+  <h2 class="ch-t">한전 VR 안전교육 관제 허브</h2>
+  <p class="lead">강사 1명이 VR 실습 기기 20대를 한 화면에서 확인하고 제어하는 관제 콘솔을 기획했습니다.</p>
+  <dl class="meta">
+    <div><dt>기간</dt><dd>2023.08 ~ 2023.12</dd></div>
+    <div><dt>소속 · 팀</dt><dd>㈜예쉬컴퍼니 · 5인</dd></div>
+    <div><dt>역할</dt><dd>기획 · PM (관제 콘솔, 통합 런처, ID 접근 제어)</dd></div>
+    <div><dt>결과</dt><dd>한전교육원 납품 · 운영 14대, 예비 6대</dd></div>
+  </dl>
+</header>
+
+<section class="sec" id="design">
+  <h2>교육 현장 업무의 화면 설계</h2>
+  <p>수강생이 헤드셋을 착용하면 강사는 수강생의 화면을 볼 수 없습니다. 강사의 업무를 전체 기기 일괄 제어와 선택 기기 개별 제어로 나눠 하나의 콘솔에 구성했습니다.</p>
+
+  <div class="fig">
+    <h3>사용자와 시스템 구성</h3>
+    <div class="canvas"><div id="kepco-arch"></div>
+      <div class="legend"><span><i style="--c:var(--accent)"></i>명령 (강사 → 기기)</span><span><i class="dash" style="--c:var(--teal)"></i>상태 · 화면 (기기 → 강사)</span></div></div>
+  </div>
+
+  <div class="fig">
+    <h3>수업 1회 운영 플로우</h3>
+    <div class="canvas"><div id="kepco-flow"></div>
+      <div class="legend"><span><i style="--c:var(--ink)"></i>진행 순서</span><span><i style="--c:var(--accent)"></i>명령</span><span><i class="dash" style="--c:var(--teal)"></i>상태 · 화면</span></div></div>
+  </div>
+
+  <div class="fig">
+    <h3>일괄 제어와 개별 제어</h3>
+    <div class="grid g2">
+      <div class="card"><h4><b>1 : N</b>전체 기기 일괄 제어</h4><ul class="pills"><li>전원 켜기 · 끄기</li><li>실습 콘텐츠 지정 실행</li><li>일괄 종료</li></ul><p>수업 시작과 종료를 한 번의 조작으로 처리합니다.</p></div>
+      <div class="card"><h4><b>1 : 1</b>선택 기기 개별 제어</h4><ul class="pills"><li>VR 화면 미러링</li><li>프로그램 제어</li><li>전원 제어</li></ul><p>문제가 발생한 기기만 조치하고 수업은 계속합니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="result">
+  <h2>기획 범위와 결과</h2>
+  <div class="grid g3">
+    <div class="card"><h3>강사용 관제 콘솔</h3><p>세션 모니터링, VR 화면 미러링, 전원 · 프로그램 원격 제어를 한 화면에 구성</p></div>
+    <div class="card"><h3>통합 런처</h3><p>제작사가 다른 외부 VR 콘텐츠 20종을 동일한 방식으로 실행</p></div>
+    <div class="card"><h3>ID 접근 제어</h3><p>한전이 발급한 ID로만 콘솔에 접속</p></div>
+  </div>
+  <div class="stats" style="margin-top:12px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))">
+    <div><b>20대</b><span>납품 기기 (운영 14, 예비 6)</span></div>
+    <div><b>20명</b><span>최대 동시 교육 인원</span></div>
+    <div><b>20종</b><span>런처로 통합한 외부 VR 콘텐츠</span></div>
+    <div><b>1명</b><span>전체 기기를 관제하는 강사</span></div>
+  </div>
+</section>
+</article>
+
+<!-- ====================== 헬로플래닛 ====================== -->
+<article class="chap" id="hello" data-nav="헬로플래닛">
+<header class="page-h">
+  <div class="eyebrow">㈜알파스튜디오 · 습관 교육 앱</div>
+  <h2 class="ch-t">헬로플래닛</h2>
+  <p class="lead">보호자의 핸드폰을 사용하는 미취학 아동이 사용 시간을 직접 약속하고 지키도록 돕는 앱입니다.</p>
+  <dl class="meta">
+    <div><dt>기간</dt><dd>2021.04 ~ 2021.11</dd></div>
+    <div><dt>소속 · 팀</dt><dd>㈜알파스튜디오 · 4인</dd></div>
+    <div><dt>역할</dt><dd>콘텐츠 기획 (보상 시스템, 잠금 기능, GA4 이벤트)</dd></div>
+  </dl>
+</header>
+
+<section class="sec" id="users">
+  <h2>보호자와 아이, 두 사용자 구조</h2>
+  <p>설정하는 사용자(보호자)와 사용하는 사용자(아이)가 다릅니다. 두 사용자의 사용 순서와 앱이 개입하는 시점을 하나의 플로우로 정의했습니다.</p>
+  <div class="canvas"><div id="hp-flow"></div>
+    <div class="legend"><span><i style="--c:var(--ink)"></i>진행 순서</span><span><i style="--c:var(--accent)"></i>사용자의 조작</span><span><i class="dash" style="--c:var(--teal)"></i>앱의 처리 결과</span></div></div>
+</section>
+
+<section class="sec" id="scope">
+  <h2>기술 제약에 따른 기능 범위 조정</h2>
+
+  <div class="fig" style="margin-top:20px">
+    <h3>잠금 기능: OS별 적용 범위</h3>
+    <p>Android는 권한 접근 방식으로 구현했고, iOS는 앱에서 화면 잠금을 제어할 수 없어 적용 범위를 조정했습니다.</p>
+    <div class="canvas"><div id="hp-os"></div></div>
+  </div>
+
+  <div class="fig">
+    <h3>보상 시스템 재설계</h3>
+    <div class="chain">
+      <div><b>GA4 이벤트 스키마 설계</b><span>사용 흐름을 구간별로 분석</span></div><i>→</i>
+      <div><b>이탈 구간 분석</b><span>초반 구간의 이탈 지점 확인</span></div><i>→</i>
+      <div><b>초반 보상 상향</b><span>이탈이 집중된 구간의 보상을 상향</span></div>
+    </div>
+  </div>
+</section>
+</article>
+
+<!-- ====================== 일하는 방식 ====================== -->
+<article class="chap" id="work" data-nav="일하는 방식">
+<header class="page-h">
+  <div class="eyebrow">문서 · 절차 · 도구</div>
+  <h2 class="ch-t">일하는 방식</h2>
+  <p class="lead">정책은 문서로 분리해 변경 이력을 남기고, 작업 완료는 컨펌 절차로 확인합니다.</p>
+</header>
+
+<section class="sec" id="docs">
+  <h2>정책 문서와 변경 이력 관리</h2>
+  <p>상태값, 권한, 예외 처리는 화면과 분리된 Markdown 문서로 작성하고, 변경 내용은 Git 커밋으로 관리합니다. 엘릭서에서는 앱 버전별 사양을 Git으로 관리했습니다.</p>
+  <div class="twrap"><table>
+    <thead><tr><th>문서</th><th>다루는 내용</th><th></th></tr></thead>
+    <tbody>
+      <tr><td>01 상태값 정의</td><td>상태값의 종류와 정의, 표시 우선순위</td><td><a class="doclink" style="margin:0" href="docs/elixir/01-states.md" data-doc="docs/elixir/01-states.md">열기</a></td></tr>
+      <tr><td>02 권한 매트릭스</td><td>계정 단계별 조회 범위와 기능 권한</td><td><a class="doclink" style="margin:0" href="docs/elixir/02-permissions.md" data-doc="docs/elixir/02-permissions.md">열기</a></td></tr>
+      <tr><td>03 입력 규칙 · 예외 처리</td><td>입력 조건, 제한 상황별 처리와 안내</td><td><a class="doclink" style="margin:0" href="docs/elixir/03-exceptions.md" data-doc="docs/elixir/03-exceptions.md">열기</a></td></tr>
+      <tr><td>04 고장 신고 → 조치</td><td>단계별 담당자와 처리 절차</td><td><a class="doclink" style="margin:0" href="docs/elixir/04-fault-flow.md" data-doc="docs/elixir/04-fault-flow.md">열기</a></td></tr>
+      <tr><td>변경 이력</td><td>변경 일자, 내용, 사유</td><td><a class="doclink" style="margin:0" href="docs/CHANGELOG.md" data-doc="docs/CHANGELOG.md">열기</a></td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="sec" id="confirm">
+  <h2>컨펌 절차 설계 (Jira)</h2>
+  <p>기획 · SW · HW · 그래픽 4개 파트가 하나의 Jira를 사용했습니다. "완료" 전환 경로를 컨펌 승인 하나로 제한하고 전후 단계를 자동화했습니다.</p>
+  <div class="canvas"><div id="jira"></div>
+    <div class="legend"><span><i style="--c:var(--ink)"></i>작업 상태 전환</span><span><i style="--c:var(--accent)"></i>사용자 조작</span><span><i class="dash" style="--c:var(--teal)"></i>자동 처리</span></div></div>
+  <div class="grid g3">
+    <div class="card"><h3>완료 경로 단일화</h3><p>"완료"는 컨펌 승인으로만 전환. 반려 시 사유 작성 필수</p></div>
+    <div class="card"><h3>상태 전환 자동화</h3><p>PR 생성 시 컨펌 대기로 전환, 담당자 알림, PR 링크 댓글 등록</p></div>
+    <div class="card"><h3>단계적 적용</h3><p>1개 스프린트에 먼저 적용하고 회고 후 4개 파트로 확대</p></div>
+  </div>
+</section>
+
+<section class="sec" id="work-ai">
+  <h2>AI Agent 활용</h2>
+  <p>제작 대상과 사실 여부는 직접 판단하고, 제작 속도를 AI Agent로 높입니다. 아래는 이 포트폴리오의 제작 과정입니다.</p>
+  <div class="card" style="margin-top:16px">
+    <ol class="steps">
+      <li><b>사실 정리</b><span>프로젝트별 기간, 역할, 결과를 지식베이스에서 확인</span></li>
+      <li><b>구조 결정</b><span>전달할 내용과 도식 형태를 직접 결정</span></li>
+      <li><b>제작</b><span>도식과 ADMIN 시안을 Claude Code로 제작</span></li>
+      <li><b>검토</b><span>출처에 없는 내용과 추정은 삭제하거나 수정</span></li>
+    </ol>
+  </div>
+</section>
+</article>
+
+<!-- ====================== AI 프로젝트 ====================== -->
+<article class="chap" id="ai" data-nav="AI 프로젝트">
+<header class="page-h">
+  <div class="eyebrow">개인 프로젝트 · AI 역량</div>
+  <h2 class="ch-t">AI 자동매매 검증 시스템</h2>
+  <p class="lead">AI가 차트와 뉴스를 분석해 내린 매매 판단을 모의투자 환경에서 검증합니다. 검증 완료 전에는 실계좌에 적용하지 않습니다.</p>
+  <dl class="meta">
+    <div><dt>기간</dt><dd>2025 ~ 진행 중</dd></div>
+    <div><dt>구분</dt><dd>개인 프로젝트 · 기획 및 개발 단독 수행</dd></div>
+    <div><dt>사용 기술</dt><dd>Python · Claude · 한국투자증권 모의투자 API</dd></div>
+  </dl>
+</header>
+
+<section class="sec" id="bot-screen">
+  <h2>운영 화면</h2>
+  <figure class="photo shot">
+    <img src="assets/ai-bot.png" alt="AI 자동매매 검증 시스템 운영 화면" onerror="this.outerHTML='<div class=&quot;empty&quot;>운영 화면 캡처가 들어갈 자리입니다</div>'">
+  </figure>
+</section>
+
+<section class="sec" id="flow">
+  <h2>운영 플로우</h2>
+  <p>15분 단위로 차트와 뉴스를 분석하고, 매매 조건에 해당할 때만 모의투자 계좌로 주문합니다.</p>
+  <div class="canvas"><div id="bot-flow"></div>
+    <div class="legend"><span><i style="--c:var(--ink)"></i>진행 순서</span><span><i style="--c:var(--accent)"></i>분석 요청 · 주문</span><span><i class="dash" style="--c:var(--teal)"></i>주문 결과</span></div></div>
+  <div class="stats" style="margin-top:16px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))">
+    <div><b>15분</b><span>매매 전략의 판단 주기</span></div>
+    <div><b>약 20회</b><span>세션당 차트 · 뉴스 분석 횟수</span></div>
+    <div><b>평균 1.3회</b><span>세션당 매수 · 매도 횟수</span></div>
+    <div><b>3개월째</b><span>모의투자 환경 검증 기간</span></div>
+  </div>
+  <p class="note">투자 수익률은 검증이 완료되지 않아 기재하지 않았습니다.</p>
+</section>
+
+<section class="sec" id="tools">
+  <h2>그 외 AI 도구</h2>
+  <div class="grid g2">
+    <div class="card"><h3>LLM 지식베이스</h3><p>경력과 프로젝트 기록을 Obsidian 문서로 축적하고, Claude Code와 MCP로 연결해 조회합니다. 이 포트폴리오의 사실 확인에 사용했습니다.</p><ul class="pills"><li>Claude Code</li><li>MCP</li><li>Obsidian</li></ul></div>
+    <div class="card"><h3>화면 캡처 텍스트 추출 도구</h3><p>화면을 캡처해 텍스트를 추출하고, 추출한 값으로 공개 정보를 조회해 결과를 표시합니다.</p><ul class="pills"><li>C#</li><li>.NET</li></ul></div>
+  </div>
+</section>
+</article>
 
 </main>
 <script src="assets/site.js"></script>
 <script>
-/* 대표 카드의 작은 권한 구조 그림 */
+/* ---------- 엘릭서 · 권한 구조 ---------- */
 (function(){
-  const W=520,H=200;let s=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;font-family:var(--sans)">`;
-  const pill=(x,y,w,t,fill,stroke,col)=>`<rect x="${x}" y="${y}" width="${w}" height="34" rx="17" fill="${fill}" stroke="${stroke}" stroke-width="1.4"/><text x="${x+w/2}" y="${y+22}" text-anchor="middle" font-size="12" font-weight="700" fill="${col}">${t}</text>`;
-  const ln=(x1,y1,x2,y2)=>`<path d="M${x1},${y1} V${(y1+y2)/2} H${x2} V${y2}" fill="none" stroke="${C.ink3}" stroke-width="1.2"/>`;
-  [130,390].forEach(x=>s+=ln(260,42,x,84));
-  [[60,130],[130,130],[200,130],[340,390],[440,390]].forEach(([x,p])=>s+=ln(p,118,x,160));
-  s+=pill(190,8,140,'SUPERALL',C.ink,C.ink,'#fff')+pill(60,84,140,'SUPERVISOR','#FF9520','#FF9520','#fff')+pill(320,84,140,'SUPERVISOR','#FF9520','#FF9520','#fff');
-  [[32,'V01'],[102,'V02'],[172,'V03'],[312,'V04'],[412,'V05']].forEach(([x,t])=>s+=`<rect x="${x}" y="160" width="56" height="30" rx="15" fill="${C.accentW}" stroke="${C.accent}" stroke-width="1.3"/><text x="${x+28}" y="180" text-anchor="middle" font-size="11" font-weight="700" fill="#B45A00">${t}</text>`);
-  document.getElementById('mini-tree').innerHTML=s+'</svg>';
+  const W=1180,H=392;let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="SUPERALL, SUPERVISOR, VISOR 세 단계 권한 구조" style="max-width:${W}px;min-width:920px"><defs>${markers('t')}</defs>`;
+  const rows=[['SUPERALL','본사',30],['SUPERVISOR','지역',154],['VISOR','현장 · 기기 1대',278]];
+  rows.forEach(([n,sub,y],i)=>{s+=`<rect x="8" y="${y-12}" width="${W-16}" height="112" rx="10" fill="${i%2?'#fff':'#FAF9F8'}" stroke="${C.line2}"/>
+    <text x="26" y="${y+38}" font-size="14" font-weight="750" fill="${C.ink}">${n}</text><text x="26" y="${y+58}" font-size="12" fill="${C.ink3}">${sub}</text>`});
+  const box=(x,y,w,t,sub,fill,stroke,dash)=>`<rect x="${x}" y="${y}" width="${w}" height="64" rx="9" fill="${fill}" stroke="${stroke}" stroke-width="1.5" ${dash?'stroke-dasharray="4 3"':''}/><text x="${x+w/2}" y="${y+28}" text-anchor="middle" font-size="13.5" font-weight="700" fill="${C.ink}">${t}</text><text x="${x+w/2}" y="${y+47}" text-anchor="middle" font-size="11.5" fill="${C.ink2}">${sub}</text>`;
+  const line=(x1,y1,x2,y2)=>`<path d="M${x1},${y1} V${(y1+y2)/2} H${x2} V${y2-2}" fill="none" stroke="${C.ink}" stroke-width="1.5" marker-end="url(#tink)"/>`;
+  s+=box(330,42,200,'본사 운영팀','전체 지역 · 전체 기기','#fff',C.ink);
+  const sv=[[190,'지역 A'],[350,'지역 B'],[510,'지역 C']];
+  sv.forEach(([x,t],i)=>{s+=line(430,106,x+70,166)+box(x,166,140,t,i===2?'추가 가능':'소속 지역의 기기',C.accentW,C.accent,i===2)});
+  [[160,260,0],[240,260,0],[320,260,0],[400,420,1],[480,420,1]].forEach(([x,px,k],i)=>{
+    s+=`<path d="M${px},230 V260 H${x+30} V288" fill="none" stroke="${C.ink}" stroke-width="1.3" marker-end="url(#tink)"/>
+     <rect x="${x}" y="290" width="60" height="64" rx="9" fill="${C.tealW}" stroke="${C.teal}" stroke-width="1.5"/>
+     <rect x="${x+20}" y="302" width="20" height="26" rx="4" fill="#fff" stroke="${C.teal}" stroke-width="1.3"/><circle cx="${x+30}" cy="315" r="3.5" fill="${C.teal}"/>
+     <text x="${x+30}" y="346" text-anchor="middle" font-size="10.5" font-weight="650" fill="${C.teal}">V${String(i+1).padStart(2,'0')}</text>`});
+  s+=`<text x="556" y="326" font-size="12" fill="${C.ink2}">VISOR 1 = 기기 1</text>`;
+  const X=720;
+  s+=`<path d="M${X-24},18 V${H-18}" stroke="${C.line}" stroke-width="1"/>`;
+  [['조회 범위: 전체 지역, 전체 기기','SUPERVISOR · VISOR 계정 생성, 일시 중지, 해지','이관받은 고장 신고 처리'],
+   ['조회 범위: 소속 지역의 기기','소속 지역의 VISOR 추가, 운영 상태 변경','고장 신고 1차 접수, 해결 불가 시 SUPERALL로 이관'],
+   ['조회 범위: 담당 기기 1대','기기 상태 변경, 고장 신고 작성','담당 기기의 측정기록 조회']].forEach((ls,i)=>{const y=rows[i][2];
+    ls.forEach((t,j)=>{s+=`<circle cx="${X}" cy="${y+18+j*24}" r="2.5" fill="${j?C.ink3:C.accent}"/><text x="${X+12}" y="${y+22+j*24}" font-size="13" font-weight="${j?500:700}" fill="${j?C.ink2:C.ink}">${t}</text>`})});
+  document.getElementById('tree').innerHTML=s+'</svg>';
 })();
 
-/* 경력 타임라인: 월 단위 위치 */
+/* ---------- 엘릭서 · 고장 신고 → 조치 ---------- */
+flow('fault-flow',{
+  lanes:[{name:'VISOR',sub:'현장',...TEAL},{name:'SUPERVISOR',sub:'지역',...ACC},{name:'SUPERALL',sub:'본사',...INK}],
+  cols:['신고','접수','판단','조치 안내','조치','완료','복귀'],
+  nodes:{
+    v1:{c:0,l:0,t:'유형 선택<br>문제 내용 작성'},v2:{c:1,l:0,t:'기기 상태<br>비정상으로 전환'},
+    s1:{c:1,l:1,t:'신고 확인'},a1:{c:1,l:2,t:'알림 수신'},
+    s2:{c:2,l:1,t:'지역에서<br>해결 가능한가',kind:'dec'},
+    s3:{c:3,l:1,t:'조치 방법 · 예정일<br>등록'},v3:{c:3,l:0,t:'조치 방법 · 예정일<br>확인'},a3:{c:3,l:2,t:'이관 접수<br>조치 방법 · 예정일 등록'},
+    s4:{c:4,l:1,t:'조치 진행'},a4:{c:4,l:2,t:'조치 진행'},
+    s5:{c:5,l:1,t:'완료 처리'},a5:{c:5,l:2,t:'완료 처리'},
+    v6:{c:6,l:0,t:'기기 상태<br>정상으로 복귀'}},
+  edges:[['v1','v2'],['v1','s1','cmd','신고'],['s1','a1','cmd','알림'],['s1','s2'],['s2','s3','flow','예'],['s2','a3','cmd','이관'],
+    ['s3','v3','data'],['s3','s4'],['s4','s5'],['a3','a4'],['a4','a5'],['s5','v6','data'],['a5','v6','data']]
+});
+
+/* ---------- 한전 · 구성도 ---------- */
 (function(){
-  const W=1180,H=150,x0=40,x1=W-40,from=2021,to=2026,X=(y,m)=>x0+((y-from)*12+(m-1))/((to-from)*12)*(x1-x0);
-  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="2021년부터 2025년까지의 경력" style="max-width:${W}px;min-width:920px">`;
-  for(let y=from;y<=to;y++)s+=`<path d="M${X(y,1)},30 V118" stroke="${C.line2}"/><text x="${X(y,1)}" y="138" text-anchor="middle" font-size="11.5" fill="${C.ink3}">${y}</text>`;
-  [[2021,4,2022,6,'㈜알파스튜디오','헬로플래닛',C.warm,C.warmW,[2021,4,2021,12]],
-   [2023,1,2024,6,'㈜예쉬컴퍼니','한전 VR 관제 허브',C.teal,C.tealW,[2023,8,2024,1]],
-   [2024,7,2025,12,'㈜바이오팝코리아','엘릭서',C.accent,C.accentW,[2024,7,2025,12]]].forEach(([ys,ms,ye,me,co,pj,col,weak,[a,b,c,d]])=>{
-    const xa=X(ys,ms),xb=X(ye,me),pa=X(a,b),pb=X(c,d);
-    s+=`<rect x="${xa}" y="46" width="${xb-xa}" height="54" rx="12" fill="${weak}"/><rect x="${pa}" y="46" width="${pb-pa}" height="54" rx="12" fill="none" stroke="${col}" stroke-width="1.8"/>
-     <text x="${xa+14}" y="68" font-size="13" font-weight="700" fill="${C.ink}">${co}</text><text x="${xa+14}" y="88" font-size="12" font-weight="650" fill="${C.ink2}">${pj}</text>`});
-  s+=`<text x="${x0}" y="20" font-size="11.5" fill="${C.ink3}">면은 재직 기간, 테두리는 이 포트폴리오에 수록한 프로젝트 기간</text>`;
-  document.getElementById('career').innerHTML=s+'</svg>';
+  const p='k',W=1240,H=384;let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="강사 콘솔과 VR 실습 기기 20대의 구성" style="min-width:920px"><defs>${markers(p)}</defs>`;
+  s+=`<rect x="24" y="58" width="300" height="300" rx="14" fill="#fff" stroke="${C.ink}" stroke-width="1.5"/>
+   <circle cx="56" cy="92" r="11" fill="none" stroke="${C.ink}" stroke-width="1.7"/><path d="M38,128 a18,16 0 0 1 36,0" fill="none" stroke="${C.ink}" stroke-width="1.7"/>
+   <text x="88" y="96" font-size="15" font-weight="700" fill="${C.ink}">강사 1명</text><text x="88" y="116" font-size="12" fill="${C.ink2}">관제 콘솔 한 화면에서 전체 기기 확인</text>
+   <text x="44" y="162" font-size="11" font-weight="700" fill="${C.ink3}" letter-spacing="1.2">관제 콘솔</text>`;
+  [['실시간 세션 모니터링','PC · 수강생 · 콘텐츠 현황'],['개별 VR 화면 미러링','선택한 기기의 화면을 실시간 확인'],['전원 · 프로그램 원격 제어','켜기, 실행, 일괄 종료']].forEach(([a,b],i)=>{const y=174+i*58;
+    s+=`<rect x="40" y="${y}" width="268" height="48" rx="9" fill="${C.accentW}"/><text x="54" y="${y+21}" font-size="13.5" font-weight="700" fill="${C.ink}">${a}</text><text x="54" y="${y+38}" font-size="11.5" fill="${C.ink2}">${b}</text>`});
+  s+=`<rect x="24" y="14" width="300" height="30" rx="15" fill="${C.ink}"/><text x="174" y="34" text-anchor="middle" font-size="12.5" font-weight="650" fill="#fff">한전이 발급한 ID로만 접속</text>
+   <path d="M174,44 V56" stroke="${C.ink}" stroke-width="1.7" marker-end="url(#${p}ink)"/>`;
+  s+=`<path d="M324,170 H498" fill="none" stroke="${C.accent}" stroke-width="1.8" marker-end="url(#${p}accent)"/><text x="411" y="160" text-anchor="middle" font-size="12" font-weight="650" fill="${C.accent}">전원 · 실행 · 종료</text>
+   <path d="M500,246 H326" fill="none" stroke="${C.teal}" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#${p}teal)"/><text x="411" y="266" text-anchor="middle" font-size="12" font-weight="650" fill="${C.teal}">세션 상태 · VR 화면</text>`;
+  s+=`<rect x="500" y="14" width="716" height="356" rx="14" fill="#FAF9F8" stroke="${C.line}"/>
+   <text x="522" y="44" font-size="15" font-weight="700" fill="${C.ink}">VR 실습실 · 기기 20대</text><text x="1194" y="44" text-anchor="end" font-size="12" fill="${C.ink2}">기기 1대 = PC + VR 헤드셋 · 최대 20명 동시 교육</text>`;
+  const T=52,G=8,x0=522,y0=64;
+  for(let i=0;i<20;i++){const run=i<14,k=run?i:i-14,cols=run?7:3,cx=(run?x0:x0+7*(T+G)+62)+(k%cols)*(T+G),cy=y0+Math.floor(k/cols)*(T+G);
+    s+=`<rect x="${cx}" y="${cy}" width="${T}" height="${T}" rx="9" fill="${run?C.tealW:'#fff'}" stroke="${run?C.teal:C.ink3}" stroke-width="1.4" ${run?'':'stroke-dasharray="4 3"'}/>
+     <text x="${cx+T/2}" y="${cy+T/2+5}" text-anchor="middle" font-size="13" font-weight="650" fill="${run?C.teal:C.ink3}">${String(i+1).padStart(2,'0')}</text>`}
+  const bw=7*(T+G)-G,ex=x0+7*(T+G)+62,ew=3*(T+G)-G,by=y0+2*(T+G)+4;
+  s+=`<path d="M${x0},${by} v6 h${bw} v-6" fill="none" stroke="${C.teal}" stroke-width="1.4"/><text x="${x0+bw/2}" y="${by+24}" text-anchor="middle" font-size="12.5" font-weight="700" fill="${C.teal}">운영 14대</text>
+   <path d="M${ex},${by} v6 h${ew} v-6" fill="none" stroke="${C.ink3}" stroke-width="1.4"/><text x="${ex+ew/2}" y="${by+24}" text-anchor="middle" font-size="12.5" font-weight="700" fill="${C.ink2}">예비 6대</text>`;
+  const ly=by+46;
+  s+=`<rect x="522" y="${ly}" width="672" height="42" rx="9" fill="${C.accentW}" stroke="${C.accent}" stroke-width="1.4"/><text x="540" y="${ly+26}" font-size="13.5" font-weight="700" fill="${C.ink}">통합 런처</text><text x="1176" y="${ly+26}" text-anchor="end" font-size="12" fill="${C.ink2}">기기별 설치 · 강사가 지정한 콘텐츠를 실행</text>
+   <path d="M858,${ly+42} V${ly+62}" stroke="${C.accent}" stroke-width="1.7" marker-end="url(#${p}accent)"/>`;
+  const cy2=ly+66;
+  for(let i=0;i<20;i++)s+=`<rect x="${522+i*33.8}" y="${cy2}" width="28" height="28" rx="6" fill="#fff" stroke="${C.line}" stroke-width="1.3"/>`;
+  s+=`<text x="522" y="${cy2+48}" font-size="12.5" font-weight="700" fill="${C.ink}">외부 제작 VR 콘텐츠 20종</text><text x="1194" y="${cy2+48}" text-anchor="end" font-size="12" fill="${C.ink2}">제작사와 무관하게 동일한 방식으로 실행</text>`;
+  document.getElementById('kepco-arch').innerHTML=s+'</svg>';
 })();
+
+/* ---------- 한전 · 수업 운영 ---------- */
+flow('kepco-flow',{
+  lanes:[{name:'강사',sub:'관제 콘솔 조작',...INK},{name:'관제 허브',sub:'콘솔 · 런처',...ACC},{name:'수강생 기기',sub:'PC + VR · 20대',...TEAL}],
+  cols:['접속','준비','실행','관제','확인','조치','종료'],
+  phases:[{name:'수업 전',from:0,to:1},{name:'수업 중',from:2,to:5},{name:'수업 후',from:6,to:6}],
+  nodes:{
+    i1:{c:0,l:0,t:'한전 발급 ID로<br>접속'},h1:{c:0,l:1,t:'ID 확인 후<br>콘솔 열기'},
+    i2:{c:1,l:0,t:'전체 기기<br>전원 켜기'},h2:{c:1,l:1,t:'전원 명령<br>일괄 전송'},d2:{c:1,l:2,t:'PC 켜짐<br>런처 대기'},
+    i3:{c:2,l:0,t:'실습 콘텐츠 지정<br>일괄 실행'},h3:{c:2,l:1,t:'통합 런처가<br>지정 콘텐츠 실행'},d3:{c:2,l:2,t:'VR 실습 시작'},
+    i4:{c:3,l:0,t:'전체 현황을<br>한 화면에서 확인'},h4:{c:3,l:1,t:'세션 현황 집계<br>PC · 수강생 · 콘텐츠'},d4:{c:3,l:2,t:'세션 상태 전송'},
+    i5:{c:4,l:0,t:'확인할 기기 선택<br>화면 미러링'},h5:{c:4,l:1,t:'선택 기기의<br>VR 화면 중계'},d5:{c:4,l:2,t:'VR 화면 송출'},
+    i6:{c:5,l:0,t:'문제 발생 기기만<br>개별 제어'},h6:{c:5,l:1,t:'해당 기기에만<br>명령 전송'},d6:{c:5,l:2,t:'프로그램 · 전원<br>다시 실행'},
+    i7:{c:6,l:0,t:'일괄 종료'},h7:{c:6,l:1,t:'종료 명령<br>일괄 전송'},d7:{c:6,l:2,t:'프로그램 · 전원<br>종료'}},
+  edges:[['i1','i2'],['i2','i3'],['i3','i4'],['i4','i5'],['i5','i6'],['i6','i7'],['i6','i4','flow','수업 종료 시까지 반복','above'],
+    ['i1','h1','cmd'],['i2','h2','cmd'],['h2','d2','cmd'],['i3','h3','cmd'],['h3','d3','cmd'],
+    ['d4','h4','data'],['h4','i4','data'],['i5','h5','cmd'],['d5','h5','data'],['i6','h6','cmd'],['h6','d6','cmd'],['i7','h7','cmd'],['h7','d7','cmd']]
+});
+
+/* ---------- 헬로플래닛 ---------- */
+flow('hp-flow',{
+  lanes:[{name:'보호자',sub:'설정 담당',...INK},{name:'헬로플래닛',sub:'앱',...ACC},{name:'아이',sub:'실사용자',...WARM}],
+  cols:['준비','전달','약속','사용','종료','보상'],
+  nodes:{
+    p1:{c:0,l:0,t:'아이에게 허용할<br>앱 등록'},a1:{c:0,l:1,t:'허용 앱 목록 저장'},
+    p2:{c:1,l:0,t:'앱 실행 후<br>아이에게 전달'},
+    k3:{c:2,l:2,t:'사용할 시간을<br>직접 설정'},a3:{c:2,l:1,t:'약속 시간<br>타이머 시작'},
+    a4:{c:3,l:1,t:'허용 앱만 열림<br>나머지는 잠금'},k4:{c:3,l:2,t:'허용 앱 사용'},
+    a5:{c:4,l:1,t:'약속 시간 종료<br>핸드폰 잠금'},k5:{c:4,l:2,t:'사용 종료'},
+    a6:{c:5,l:1,t:'보상 지급'},k6:{c:5,l:2,t:'보상 획득'}},
+  edges:[['p1','p2'],['p2','k3'],['a3','a4'],['a4','a5'],['a5','a6'],
+    ['p1','a1','cmd'],['k3','a3','cmd'],['a4','k4','data'],['a5','k5','data'],['a6','k6','data'],
+    ['k6','p2','flow','다음 사용 시 약속 단계부터 반복','below']]
+});
+flow('hp-os',{
+  lanes:[{name:'Android',...TEAL},{name:'공통',...INK},{name:'iOS',...WARM}],
+  cols:['시간 종료','OS 확인','기술 검토','적용'],
+  nodes:{
+    c0:{c:0,l:1,t:'약속 시간 종료'},c1:{c:1,l:1,t:'어떤 OS인가',kind:'dec'},
+    x2:{c:2,l:0,t:'잠금 권한 접근<br>구현'},x3:{c:3,l:0,t:'앱이 화면을 잠금'},
+    y2:{c:2,l:2,t:'OS 정책 확인<br>화면 잠금 제어 불가'},y3:{c:3,l:2,t:'잠금 기능<br>적용 범위 조정'}},
+  edges:[['c0','c1'],['c1','x2','flow','Android'],['c1','y2','flow','iOS'],['x2','x3'],['y2','y3']]
+});
+
+/* ---------- 일하는 방식 · 컨펌 절차 ---------- */
+flow('jira',{
+  lanes:[{name:'담당자',sub:'각 파트',...INK},{name:'Jira',sub:'상태 · 자동화',...ACC},{name:'PM',sub:'컨펌',...WARM}],
+  cols:['시작','작업','제출','검토','결과'],
+  nodes:{
+    w1:{c:0,l:0,t:'작업 시작'},j1:{c:0,l:1,t:'진행중<br>시작일 자동 기록'},
+    w2:{c:1,l:0,t:'작업 · 재작업'},
+    w3:{c:2,l:0,t:'Git PR 생성'},j3:{c:2,l:1,t:'컨펌대기로 전환<br>PR 링크 댓글'},p3:{c:2,l:2,t:'호출 알림 수신'},
+    p4:{c:3,l:2,t:'승인 여부',kind:'dec'},
+    j5:{c:4,l:1,t:'완료'},p5:{c:4,l:2,t:'반려<br>사유 작성 필수'}},
+  edges:[['w1','w2'],['w2','w3'],['w1','j1','data'],['w3','j3','data'],['j3','p3','data'],['p3','p4'],
+    ['p4','j5','cmd','승인'],['p4','p5','flow','반려'],['p5','w2','flow','반려 통지 → 재작업 → 재컨펌','below']]
+});
+
+/* ---------- AI 자동매매 검증 ---------- */
+flow('bot-flow',{
+  lanes:[{name:'자동매매 시스템',sub:'Python',...INK},{name:'Claude',sub:'분석 · 판단',...ACC},{name:'증권사 API',sub:'한국투자증권 모의투자',...TEAL}],
+  cols:['주기 시작','수집','분석','판단','주문','기록'],
+  nodes:{
+    t1:{c:0,l:0,t:'15분 주기<br>실행'},
+    t2:{c:1,l:0,t:'차트 · 뉴스<br>수집'},
+    c3:{c:2,l:1,t:'차트 · 뉴스 분석'},
+    c4:{c:3,l:1,t:'매매 조건에<br>해당하는가',kind:'dec'},
+    t5:{c:4,l:0,t:'관망<br>주문 없음'},a5:{c:4,l:2,t:'모의투자 계좌<br>매수 · 매도 주문'},
+    t6:{c:5,l:0,t:'판단 · 결과 기록'}},
+  edges:[['t1','t2'],['t2','c3','cmd'],['c3','c4'],['c4','t5','flow','아니오'],['c4','a5','cmd','예'],
+    ['t5','t6'],['a5','t6','data'],['t6','t1','flow','다음 주기에 반복','above']]
+});
 </script>
 </body>
 </html>

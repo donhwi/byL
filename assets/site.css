@@ -27,7 +27,7 @@ a{color:inherit}
 .top nav{margin-left:auto;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
 .top nav a{text-decoration:none;font-size:15.5px;font-weight:700;color:var(--ink);padding:0 11px;white-space:nowrap;display:flex;align-items:center;border-bottom:3px solid transparent;border-top:3px solid transparent}
 .top nav a:hover{color:var(--accent-ink)}
-.top nav a[aria-current=page]{color:var(--accent);border-bottom-color:var(--ink)}
+.top nav a.cur{color:var(--accent);border-bottom-color:var(--ink)}
 .wrap{max-width:1200px;margin:0 auto;padding:44px 24px 96px}
 .foot{background:#fff;color:var(--ink2);font-size:14px}
 .foot .in{max-width:1200px;margin:0 auto;padding:26px 24px 44px;display:flex;flex-wrap:wrap;gap:6px 24px}
@@ -35,7 +35,7 @@ a{color:inherit}
 
 /* ---------- 글 ---------- */
 .eyebrow{font-size:14.5px;font-weight:700;color:var(--accent-ink)}
-.page-h h1{font-size:38px;font-weight:800;letter-spacing:-.03em;line-height:1.25;margin:6px 0 14px}
+.page-h h1,.page-h .ch-t{font-size:38px;font-weight:800;letter-spacing:-.03em;line-height:1.25;margin:6px 0 14px}
 .lead{max-width:800px;color:var(--ink2);font-size:18px}
 .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;margin-top:26px;background:var(--line2);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
 .meta div{background:#fff;padding:14px 20px}
@@ -54,6 +54,14 @@ a{color:inherit}
 .fig>p{font-size:15.5px;margin-top:6px}
 .note{font-size:14px;color:var(--ink3);margin-top:12px;max-width:800px}
 .note a{color:var(--accent-ink);font-weight:700}
+
+/* ---------- 장 구분 · 안내 ---------- */
+.chap{margin-top:112px;padding-top:64px;border-top:2px solid var(--line)}
+.sec>p.notice,.notice{display:flex;gap:10px;align-items:flex-start;max-width:none;margin-top:14px;background:var(--accent-weak);color:var(--accent-ink);font-weight:650;font-size:15px;border-radius:14px;padding:12px 18px}
+.notice::before{content:"!";flex:none;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:800;display:grid;place-items:center;margin-top:3px}
+.photo.shot{margin-top:16px;min-height:0}
+.photo.shot img{height:auto;object-fit:contain}
+.photo.shot .empty{min-height:240px}
 
 /* ---------- 도식 판 ---------- */
 .canvas{margin-top:16px;background:var(--surface);border-radius:24px;overflow-x:auto;box-shadow:var(--shadow)}
@@ -80,6 +88,7 @@ a{color:inherit}
 .list li+li{margin-top:5px}
 .chain{display:flex;align-items:stretch;margin-top:16px;flex-wrap:wrap}
 .chain div{flex:1 1 200px;background:var(--surface);border-radius:20px;padding:16px 18px;min-width:0;box-shadow:var(--shadow)}
+.chain div{display:flex;flex-direction:column;justify-content:center}
 .chain b{display:block;font-size:16px}
 .chain span{font-size:14px;color:var(--ink2)}
 .chain i{flex:none;width:34px;display:grid;place-items:center;color:var(--accent);font-style:normal;font-size:20px;font-weight:800}
@@ -166,7 +175,7 @@ td.c,th.c{text-align:center}
   .steps li{flex-wrap:wrap} .steps li span{margin-left:0;text-align:left;flex-basis:100%;padding-left:36px}
   .wrap{padding:24px 16px 72px} .top .in{padding:0 16px;gap:10px} .top .me small{display:none}
   .top nav a{font-size:14.5px;padding:0 8px}
-  .page-h h1{font-size:28px} .lead{font-size:16.5px} .sec{margin-top:56px} .sec>h2{font-size:23px}
+  .page-h h1,.page-h .ch-t{font-size:28px} .lead{font-size:16.5px} .sec{margin-top:56px} .chap{margin-top:72px;padding-top:44px} .sec>h2{font-size:23px}
   .g2,.g3{grid-template-columns:1fr}
   .chain i{width:100%;height:26px;transform:rotate(90deg)}
   .canvas svg{min-width:920px}
@@ -187,8 +196,8 @@ td.c,th.c{text-align:center}
   .top nav{margin-left:0;flex-direction:column;gap:4px;overflow:visible}
   .top nav a{padding:11px 14px;border:0;border-radius:12px;font-size:16px}
   .top nav a:hover{background:var(--soft)}
-  .top nav a[aria-current=page]{background:var(--accent-weak);color:var(--accent-ink);box-shadow:inset 4px 0 0 var(--accent)}
-  .top .subs{display:flex;flex-direction:column;gap:0;margin:2px 0 8px 18px;border-left:2px solid var(--line2)}
+  .top nav a.cur{background:var(--accent-weak);color:var(--accent-ink);box-shadow:inset 4px 0 0 var(--accent)}
+  .top nav a.cur+.subs{display:flex;flex-direction:column;gap:0;margin:2px 0 8px 18px;border-left:2px solid var(--line2)}
   .top nav .subs a{font-size:14.5px;font-weight:550;color:var(--ink2);padding:6px 14px;border-radius:0 8px 8px 0}
   .top nav .subs a.on{color:var(--accent-ink);font-weight:750;box-shadow:-2px 0 0 var(--accent)}
   .page-h .toc{display:none}

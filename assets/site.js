@@ -3,20 +3,19 @@ const C={ink:'#373330',ink2:'#615E5B',ink3:'#857F7A',line:'#E7E4E1',line2:'#F1EF
 const INK={color:C.ink,weak:'#fff'},ACC={color:C.accent,weak:C.accentW},TEAL={color:C.teal,weak:C.tealW},WARM={color:C.warm,weak:C.warmW};
 
 (function(){
-  const root=document.documentElement.dataset.root||'.',here=document.documentElement.dataset.page;
-  const NAV=[['home','소개',''],['elixir','엘릭서','elixir/'],['kepco','한전 VR 관제','kepco/'],['hello','헬로플래닛','hello-planet/'],['work','일하는 방식','work/'],['ai','AI 프로젝트','ai/']];
+  /* 한 문서 안의 장(章) 목록으로 메뉴를 만들고, 보고 있는 장과 구간을 표시한다 */
+  const chaps=[...document.querySelectorAll('main .chap[id]')];
   const top=document.createElement('header');top.className='top';
-  top.innerHTML=`<div class="in"><a class="me" href="${root}/">이돈휘<small>서비스 기획</small></a><nav>${NAV.map(([k,l,h])=>`<a href="${root}/${h}" ${k===here?'aria-current="page"':''}>${l}</a>`).join('')}</nav></div>`;
+  const item=c=>`<a href="#${c.id}">${c.dataset.nav}</a><div class="subs">${[...c.querySelectorAll('.sec[id]')].map(x=>`<a href="#${x.id}">${x.dataset.nav||x.querySelector('h2').textContent}</a>`).join('')}</div>`;
+  top.innerHTML=`<div class="in"><a class="me" href="#top">이돈휘<small>서비스 기획</small></a><nav><a href="#top">소개</a>${chaps.map(item).join('')}</nav></div>`;
   document.body.prepend(top);
-  /* 현재 페이지의 구간 목록을 메뉴 아래에 붙이고, 보고 있는 구간을 표시한다 */
-  const secs=[...document.querySelectorAll('main .sec[id]')].filter(x=>x.querySelector('h2'));
-  if(secs.length>1){
-    const subs=document.createElement('div');subs.className='subs';
-    subs.innerHTML=secs.map(x=>`<a href="#${x.id}">${x.dataset.nav||x.querySelector('h2').textContent}</a>`).join('');
-    top.querySelector('[aria-current]').after(subs);
-    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)subs.querySelectorAll('a').forEach(l=>l.classList.toggle('on',l.hash==='#'+e.target.id))}),{rootMargin:'-20% 0px -70% 0px'});
-    secs.forEach(x=>io.observe(x));
-  }
+  const links=[...top.querySelectorAll('nav>a')],subs=[...top.querySelectorAll('.subs a')],secs=[...document.querySelectorAll('main .chap .sec[id]')];
+  const last=(els,y)=>els.filter(e=>e.getBoundingClientRect().top<=y).pop();
+  let tick=0;
+  const mark=()=>{tick=0;const y=innerHeight*.3,c=last(chaps,y),x=last(secs,y);
+    links.forEach(l=>l.classList.toggle('cur',l.hash==='#'+(c?c.id:'top')));
+    subs.forEach(l=>l.classList.toggle('on',!!x&&l.hash==='#'+x.id))};
+  addEventListener('scroll',()=>{if(!tick)tick=requestAnimationFrame(mark)},{passive:true});mark();
   const foot=document.createElement('footer');foot.className='foot';
   foot.innerHTML=`<div class="in"><span>이돈휘 · 서비스 기획</span><a href="mailto:lee_don@naver.com">lee_don@naver.com</a><span>화면의 수치와 이름은 모두 예시 데이터이며, 실제 화면이 아니라 기획 구조를 다시 그린 것입니다.</span></div>`;
   document.body.append(foot);

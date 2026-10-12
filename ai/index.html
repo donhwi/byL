@@ -1,79 +1,10 @@
 <!doctype html>
-<html lang="ko" data-root=".." data-page="ai">
+<html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI 프로젝트 — AI 자동매매 검증 시스템 · 이돈휘</title>
-<meta name="description" content="AI의 매매 판단을 모의투자 환경에서 검증하는 개인 프로젝트와, 직접 제작해 운영하는 AI 도구를 정리했습니다.">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
-<link rel="stylesheet" href="../assets/site.css">
+<title>이돈휘 · 서비스 기획 포트폴리오</title>
+<meta http-equiv="refresh" content="0;url=../#ai">
+<link rel="canonical" href="../#ai">
 </head>
-<body>
-<main class="wrap">
-
-<header class="page-h">
-  <div class="eyebrow">개인 프로젝트 · AI 역량</div>
-  <h1>AI 자동매매 검증 시스템</h1>
-  <p class="lead">AI가 차트와 뉴스를 분석해 내린 매매 판단을 모의투자 환경에서 검증하는 시스템입니다. 기획부터 개발까지 전 과정을 단독으로 수행했으며, 검증이 완료되기 전에는 실계좌에 적용하지 않는 것을 원칙으로 운영하고 있습니다.</p>
-  <dl class="meta">
-    <div><dt>기간</dt><dd>2025 ~ 진행 중</dd></div>
-    <div><dt>구분</dt><dd>개인 프로젝트 · 기획 및 개발 단독 수행</dd></div>
-    <div><dt>사용 기술</dt><dd>Python · Claude · 한국투자증권 모의투자 API</dd></div>
-    <div><dt>검증 대상</dt><dd>15분 단위 매매 전략</dd></div>
-  </dl>
-  <nav class="toc" aria-label="이 페이지의 순서"><a href="#flow">운영 플로우</a><a href="#rule">검증 원칙</a><a href="#tools">그 외 AI 도구</a></nav>
-</header>
-
-<section class="sec" id="flow">
-  <h2>운영 플로우</h2>
-  <p>15분 단위로 차트와 뉴스를 분석하고, 매매 조건에 해당할 때만 모의투자 계좌로 주문합니다. 한 세션에서 분석은 약 20회 수행되지만 실제 매수 · 매도는 평균 1.3회입니다.</p>
-  <div class="canvas"><div id="bot-flow"></div>
-    <div class="legend"><span><i style="--c:var(--ink)"></i>진행 순서</span><span><i style="--c:var(--accent)"></i>분석 요청 · 주문</span><span><i class="dash" style="--c:var(--teal)"></i>주문 결과</span></div></div>
-  <div class="stats" style="margin-top:16px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
-    <div><b>15분</b><span>매매 전략의 판단 주기</span></div>
-    <div><b>약 20회</b><span>세션당 차트 · 뉴스 분석 횟수</span></div>
-    <div><b>평균 1.3회</b><span>세션당 매수 · 매도 횟수</span></div>
-    <div><b>3개월째</b><span>모의투자 환경 검증 기간</span></div>
-  </div>
-  <p class="note">투자 수익률은 검증이 완료되지 않아 기재하지 않았습니다.</p>
-</section>
-
-<section class="sec" id="rule">
-  <h2>검증 원칙</h2>
-  <p>AI의 판단 결과를 실제 환경에 적용하기 전에 검증 범위와 적용 기준을 먼저 정했습니다.</p>
-  <div class="grid g3">
-    <div class="card"><h3>모의투자 환경에서 검증</h3><p>한국투자증권 모의투자 API를 연동해, 실제 자금을 사용하지 않고 매매 전략을 검증합니다.</p></div>
-    <div class="card"><h3>검증 완료 전 실계좌 미적용</h3><p>검증이 완료되기 전에는 실계좌에 적용하지 않는 것을 원칙으로 정하고 유지하고 있습니다.</p></div>
-    <div class="card"><h3>외부 제약 사전 확인</h3><p>연동 대상의 제약 사항을 먼저 확인한 뒤 구현 범위를 정하는 방식으로 진행했습니다.</p></div>
-  </div>
-</section>
-
-<section class="sec" id="tools">
-  <h2>그 외 AI 도구</h2>
-  <p>업무와 개인 용도로 필요한 도구를 직접 기획하고 제작해 운영하고 있습니다.</p>
-  <div class="grid g2">
-    <div class="card"><h3>LLM 지식베이스</h3><p>경력과 프로젝트 기록을 Obsidian 문서로 축적하고, Claude Code와 MCP로 연결해 필요한 정보를 조회하도록 구성했습니다. Jira도 MCP로 연동했습니다. 이 포트폴리오의 사실 확인에도 사용했습니다.</p><ul class="pills"><li>Claude Code</li><li>MCP</li><li>Obsidian</li></ul></div>
-    <div class="card"><h3>아이온2 PVP 승률 분석 도구</h3><p>화면에 표시된 상대 아이디를 인식해 공개 전적을 조회하고, 클래스 상성과 승률을 표시합니다. 운영 정책을 확인한 뒤 게임 클라이언트에 접근하지 않고 공개 정보 범위 안에서만 동작하도록 설계했습니다.</p><ul class="pills"><li>C#</li><li>.NET</li></ul></div>
-  </div>
-  <p class="note">AI Agent를 활용한 문서 · 시안 제작 방식은 <a href="../work/#ai">일하는 방식</a>에 정리했습니다.</p>
-</section>
-
-</main>
-<script src="../assets/site.js"></script>
-<script>
-flow('bot-flow',{
-  lanes:[{name:'자동매매 시스템',sub:'Python',...INK},{name:'Claude',sub:'분석 · 판단',...ACC},{name:'증권사 API',sub:'한국투자증권 모의투자',...TEAL}],
-  cols:['주기 시작','수집','분석','판단','주문','기록'],
-  nodes:{
-    t1:{c:0,l:0,t:'15분 주기<br>실행'},
-    t2:{c:1,l:0,t:'차트 · 뉴스<br>수집'},
-    c3:{c:2,l:1,t:'차트 · 뉴스 분석'},
-    c4:{c:3,l:1,t:'매매 조건에<br>해당하는가',kind:'dec'},
-    t5:{c:4,l:0,t:'관망<br>주문 없음'},a5:{c:4,l:2,t:'모의투자 계좌<br>매수 · 매도 주문'},
-    t6:{c:5,l:0,t:'판단 · 결과 기록'}},
-  edges:[['t1','t2'],['t2','c3','cmd'],['c3','c4'],['c4','t5','flow','아니오'],['c4','a5','cmd','예'],
-    ['t5','t6'],['a5','t6','data'],['t6','t1','flow','다음 주기에 반복','above']]
-});
-</script>
-</body>
+<body><a href="../#ai">AI 프로젝트(으)로 이동</a></body>
 </html>
