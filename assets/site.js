@@ -8,6 +8,15 @@ const INK={color:C.ink,weak:'#fff'},ACC={color:C.accent,weak:C.accentW},TEAL={co
   const top=document.createElement('header');top.className='top';
   top.innerHTML=`<div class="in"><a class="me" href="${root}/">이돈휘<small>서비스 기획</small></a><nav>${NAV.map(([k,l,h])=>`<a href="${root}/${h}" ${k===here?'aria-current="page"':''}>${l}</a>`).join('')}</nav></div>`;
   document.body.prepend(top);
+  /* 현재 페이지의 구간 목록을 메뉴 아래에 붙이고, 보고 있는 구간을 표시한다 */
+  const secs=[...document.querySelectorAll('main .sec[id]')].filter(x=>x.querySelector('h2'));
+  if(secs.length>1){
+    const subs=document.createElement('div');subs.className='subs';
+    subs.innerHTML=secs.map(x=>`<a href="#${x.id}">${x.dataset.nav||x.querySelector('h2').textContent}</a>`).join('');
+    top.querySelector('[aria-current]').after(subs);
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)subs.querySelectorAll('a').forEach(l=>l.classList.toggle('on',l.hash==='#'+e.target.id))}),{rootMargin:'-20% 0px -70% 0px'});
+    secs.forEach(x=>io.observe(x));
+  }
   const foot=document.createElement('footer');foot.className='foot';
   foot.innerHTML=`<div class="in"><span>이돈휘 · 서비스 기획</span><a href="mailto:lee_don@naver.com">lee_don@naver.com</a><span>화면의 수치와 이름은 모두 예시 데이터이며, 실제 화면이 아니라 기획 구조를 다시 그린 것입니다.</span></div>`;
   document.body.append(foot);
