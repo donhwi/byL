@@ -598,9 +598,10 @@
 <div><span class="mono" style="color: #962315">반려</span><i>→</i>반려 통지<i>→</i>재작업<i>→</i>재컨펌</div>
 </div>
 <div class="lg"><span><i></i>진행 순서 (단계별로 재생)</span><span>점선 화살표: 다음 처리로 이어지는 순서</span><span>색 배지는 작업 상태 전환</span></div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 28px 32px; margin-top: 28px">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 28px 32px; margin-top: 28px">
 <div class="card"><h3>완료 경로 단일화</h3><p>"완료"는 컨펌 승인으로만 전환. 반려 시 사유 작성 필수</p></div>
 <div class="card"><h3>상태 전환 자동화</h3><p>PR 생성 시 컨펌 대기로 전환, 담당자 알림, PR 링크 댓글 등록</p></div>
+<div class="card"><h3>Claude MCP 연동</h3><p>Claude에 Jira를 MCP로 연결하고, Git PR 생성까지 연동해 사용</p></div>
 <div class="card"><h3>단계적 적용</h3><p>1개 스프린트에 먼저 적용하고 회고 후 4개 파트로 확대</p></div>
 </div>
 </div>
@@ -710,7 +711,6 @@
 </div>
 <div class="wide rv" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 28px 32px">
 <div class="card"><h3>LLM 지식베이스</h3><p>경력과 프로젝트 기록을 Obsidian 문서로 축적하고, Claude Code와 MCP로 연결해 조회합니다.</p><ul class="pills"><li>Claude Code</li><li>MCP</li><li>Obsidian</li></ul></div>
-<div class="card"><h3>Jira · Git 연동</h3><p>Claude에 Jira를 MCP로 연결하고, Git PR 생성까지 연동해 사용했습니다.</p><ul class="pills"><li>Claude</li><li>MCP</li><li>Jira</li><li>Git</li></ul></div>
 <div class="card"><h3>화면 캡처 텍스트 추출 도구</h3><p>화면을 캡처해 텍스트를 추출하고, 추출한 값으로 공개 정보를 조회해 결과를 표시합니다.</p><ul class="pills"><li>C#</li><li>.NET</li></ul></div>
 </div>
 </section>
